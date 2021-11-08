@@ -387,10 +387,16 @@ namespace Trivial
                     ConectadosGridView.ColumnHeadersVisible = false;
                     ConectadosGridView.RowHeadersVisible = false;
                     ConectadosGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                    ConectadosGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; 
 
-                        //Introduccion de los datos
+                    //Introduccion de los datos
                     for (int i=0; i<conectados.Length; i++)
+                    {
                         ConectadosGridView.Rows[i].Cells[0].Value = conectados[i];
+                        
+                    }
+
+                    ConectadosGridView.Show();
 
                 }
 

@@ -40,3 +40,13 @@ C:\Users\bielg\OneDrive\Escriptori\3A\SO\ProyectoSO\Cliente_Trivial\obj\Debug\Tr
 C:\Users\bielg\OneDrive\Escriptori\3A\SO\ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.csproj.CoreCompileInputs.cache
 C:\Users\bielg\OneDrive\Escriptori\3A\SO\ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.exe
 C:\Users\bielg\OneDrive\Escriptori\3A\SO\ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.pdb
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\bin\Debug\Trivial.exe.config
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\bin\Debug\Trivial.exe
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\bin\Debug\Trivial.pdb
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.csprojAssemblyReference.cache
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.Acceso.resources
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.Properties.Resources.resources
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.csproj.GenerateResource.cache
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.csproj.CoreCompileInputs.cache
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.exe
+C:\Users\Laia\Documents\UNI\3A\SO\TRIVIAL\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.pdb
