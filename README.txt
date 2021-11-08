@@ -12,3 +12,4 @@ Concurrencia y autoexclusión
 	Manager: Biel Gómez
 	Verificador: Maria Ubiergo
 	Comunicador: Laia Costa
+URL: https://drive.google.com/drive/folders/1--QJ76HBz05wQNCdk-BXKvInKBu2iLxd?usp=sharing

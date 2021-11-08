@@ -62,7 +62,7 @@ namespace Trivial
             if (c == 0)
             {
                 IPAddress direc = IPAddress.Parse("192.168.56.102");
-                IPEndPoint ipep = new IPEndPoint(direc, 9080);
+                IPEndPoint ipep = new IPEndPoint(direc, 9070);
 
                 //Creamos el socket 
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
