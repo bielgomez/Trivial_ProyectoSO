@@ -54,7 +54,6 @@
             this.dado = new System.Windows.Forms.PictureBox();
             this.consultasButton = new System.Windows.Forms.Button();
             this.dadolbl = new System.Windows.Forms.Label();
-            this.DameConectados = new System.Windows.Forms.Button();
             this.ConectadosGridView = new System.Windows.Forms.DataGridView();
             this.labelConectados = new System.Windows.Forms.Label();
             this.accederBox.SuspendLayout();
@@ -360,24 +359,13 @@
             this.dadolbl.TabIndex = 14;
             this.dadolbl.Text = "Lanza el dado";
             // 
-            // DameConectados
-            // 
-            this.DameConectados.BackColor = System.Drawing.Color.Black;
-            this.DameConectados.Location = new System.Drawing.Point(12, 281);
-            this.DameConectados.Name = "DameConectados";
-            this.DameConectados.Size = new System.Drawing.Size(156, 32);
-            this.DameConectados.TabIndex = 15;
-            this.DameConectados.Text = "Dame Conectados";
-            this.DameConectados.UseVisualStyleBackColor = false;
-            this.DameConectados.Click += new System.EventHandler(this.button1_Click);
-            // 
             // ConectadosGridView
             // 
             this.ConectadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -389,7 +377,6 @@
             this.ConectadosGridView.RowTemplate.Height = 24;
             this.ConectadosGridView.Size = new System.Drawing.Size(230, 281);
             this.ConectadosGridView.TabIndex = 16;
-            this.ConectadosGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ConectadosGridView_CellClick);
             // 
             // labelConectados
             // 
@@ -408,7 +395,6 @@
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1398, 662);
             this.Controls.Add(this.labelConectados);
-            this.Controls.Add(this.DameConectados);
             this.Controls.Add(this.dadolbl);
             this.Controls.Add(this.consultasButton);
             this.Controls.Add(this.dado);
@@ -465,7 +451,6 @@
         private System.Windows.Forms.PictureBox dado;
         private System.Windows.Forms.Button consultasButton;
         private System.Windows.Forms.Label dadolbl;
-        private System.Windows.Forms.Button DameConectados;
         private System.Windows.Forms.DataGridView ConectadosGridView;
         private System.Windows.Forms.Label labelConectados;
     }

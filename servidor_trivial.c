@@ -19,6 +19,7 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 	//Lista de conectados (formada por usuarios)
 typedef struct{
 	char nombre[25];
+	int socket;
 }Usuario;
 
 typedef struct{
@@ -28,6 +29,10 @@ typedef struct{
 
 	//Iniciamos la lista de conectados
 ListaConectados listaC;
+
+	//Para poder notificar a todos los clientes, necesitamos que el vector de sockets sea una variable global
+int i;
+int sockets[100];
 
 
 //Funciones del servidor
@@ -202,12 +207,13 @@ int DameJugadorMasPuntos(char nombre[25]){
 }
 //Dame lista conectados --> Codigo 6
 int DameListaConectados(char lista[512]){
-	//Retorna 0 --> (+ char con la lista de conectados : user1/user2/user3/ etc) ; -1 --> Lista vacia (+ lista = '\0')
+	//Retorna 0 --> Todo OK(+ char con la lista de conectados : user1/user2/user3/ etc) ; -1 --> Lista vacia (+ lista = '\0')
+	
 	strcpy(lista,"\0");
 	if (listaC.num != 0){
 		int i;
 		for (i=0;i<listaC.num;i++)
-			sprintf(lista,"%s%s/",lista,listaC.conectados[i].nombre);
+			sprintf(lista,"%s%s*",lista,listaC.conectados[i].nombre);
 		lista[strlen(lista)-1]='\0';
 		return 0;
 	}
@@ -215,7 +221,70 @@ int DameListaConectados(char lista[512]){
 		return -1;
 	
 }
-
+//Añadir a la lista de conectados
+void AnadirAListaConectados (char nombre[25],int socket){
+	
+	if (nombre != NULL && socket != NULL){
+		//Creamos un nuevo usuario que añadir a la lista
+		Usuario nuevoUsuario;
+		strcpy(nuevoUsuario.nombre,nombre);
+		nuevoUsuario.socket = socket;
+		
+		//Lo añadimos
+		listaC.conectados[listaC.num]=nuevoUsuario;
+		listaC.num = listaC.num+1;
+	}	
+}
+//Retirar de la lista de conectados
+void RetirarDeListaConectados (char nombre[25]) {
+	
+	if (nombre != NULL){
+		int n = 0;
+		int encontrado = 0;
+		
+		while(n<listaC.num && encontrado==0){
+			if (strcmp(listaC.conectados[n].nombre,nombre)==0){
+				encontrado = 1;
+			}
+			else
+				n++;
+		}
+		if (encontrado==1){
+			while(n<listaC.num){
+				listaC.conectados[n]=listaC.conectados[n+1];
+				n++;
+			}
+			listaC.num = listaC.num-1;
+		}
+	}
+}
+//Notificar actualizacion de la lista de conectados
+void NotificarNuevaListaConectados(){
+	
+	char lista[512];
+	char notificacion[512];
+	
+	pthread_mutex_lock(&mutex);
+	int res = DameListaConectados(lista);
+	pthread_mutex_unlock(&mutex);
+	
+	printf("Notificacion de actualizacion de ListaConectados\n");
+	if (res == 0){
+		printf("Lista de conectados con nuevos datos\n");
+		sprintf(notificacion,"6/%s",lista);
+	}
+	else{
+		printf("Lista de conectados vacia\n");
+		sprintf(notificacion,"6/%d",lista);
+	}
+	
+	//Enviamos la actualizacion generada a todos los socket
+	int j;
+	for (j=0;j<i;j++){
+		write(sockets[j],notificacion,strlen(notificacion));
+	}
+	
+}
 //Atencion a los diferentes clientes (threads)
 int *AtenderCliente(void *socket){
 	
@@ -262,31 +331,14 @@ int *AtenderCliente(void *socket){
 			//Return en buff2: -
 			terminar = 1;
 			
-			//Retiramos de lista de conectados si hay algun nombre registrado
-			if (nombre != NULL){
-				int n = 0;
-				int encontrado = 0;
-				pthread_mutex_lock(&mutex);
-				while(n<listaC.num && encontrado==0){
-					if (strcmp(listaC.conectados[n].nombre,nombre)==0){
-						encontrado = 1;
-					}
-					else
-						n++;
-				}
-				if (encontrado==1){
-					while(n<listaC.num){
-						listaC.conectados[n]=listaC.conectados[n+1];
-						n++;
-					}
-					listaC.num = listaC.num-1;
-				}
-				pthread_mutex_unlock(&mutex);
-			}
+			pthread_mutex_lock(&mutex);
+			RetirarDeListaConectados(nombre);
+			pthread_mutex_unlock(&mutex);
+			
+			NotificarNuevaListaConectados();
 		}
-		
-		//Codigo 1 --> Comprovación para el Login
 		else {
+			//Codigo 1 --> Comprovación para el Login
 			if (codigo == 1){
 				//Mesnaje en buff: 1/username/contrasenya
 				//Return en buff2: 0--> Todo OK ; 1 --> Usuario no existe ; 2 --> Contrasenya no coincide ; -1 --> Error de consulta
@@ -297,17 +349,15 @@ int *AtenderCliente(void *socket){
 				strcpy(contrasenya,p);
 				
 				int res = LogIn(nombre,contrasenya);
-				sprintf(buff2,"%d", res);
+				sprintf(buff2,"1/%d", res);
 				
-				//Añadimos a la lista de conectados
+				//Añadimos a la lista de conectados si la comprovacion ha sido correcta
 				if (res == 0){
-					Usuario nuevoUsuario;
-					strcpy(nuevoUsuario.nombre,nombre);
-					
-					pthread_mutex_lock(&mutex);    //Autoexclusion
-					listaC.conectados[listaC.num]=nuevoUsuario;
-					listaC.num = listaC.num+1;
+					pthread_mutex_lock(&mutex);  //Autoexclusion
+					AnadirAListaConectados(nombre,socket);
 					pthread_mutex_unlock(&mutex);
+					
+					NotificarNuevaListaConectados();
 				}
 				
 			}
@@ -325,7 +375,7 @@ int *AtenderCliente(void *socket){
 				strcpy(mail, p);
 				
 				int res = Registro(nombre,contrasenya,mail);
-				sprintf(buff2,"%d",res);
+				sprintf(buff2,"2/%d",res);
 				
 			}
 			
@@ -340,9 +390,9 @@ int *AtenderCliente(void *socket){
 				
 				int res = RecuperarContrasenya(nombre,contrasenya);
 				if (res ==0)
-					strcpy(buff2,contrasenya);
+					sprintf(buff2,"3/%s",contrasenya);
 				else
-					sprintf(buff2,"%d",res);
+					sprintf(buff2,"3/%d",res);
 				
 			}
 			
@@ -352,7 +402,7 @@ int *AtenderCliente(void *socket){
 				//Return en buff2: idP partida mas larga --> Todo OK ; -1 --> Error de consulta ; -2 --> No hay partidas en BBDD
 				
 				int res = DamePartidaLarga();
-				sprintf(buff2,"%d",res);
+				sprintf(buff2,"4/%d",res);
 				
 			}
 			
@@ -363,25 +413,9 @@ int *AtenderCliente(void *socket){
 				
 				int res = DameJugadorMasPuntos(nombre);
 				if (res == 0)
-					strcpy(buff2,nombre);
+					sprintf(buff2,"5/%s",nombre);
 				else
-					sprintf(buff2,"%d",res);
-				
-			}
-			//Codigo 6 --> Obtener lista de conectados
-			else{
-				//Mensaje en buff: 6/
-				//Return en buff2: lista de conectados --> Todo OK ; -1 --> Lista vacia
-				
-				char lista[512];
-				pthread_mutex_lock(&mutex);
-				int res = DameListaConectados(lista);
-				pthread_mutex_unlock(&mutex);
-				
-				if (res == 0)
-					strcpy(buff2,lista);
-				else
-					sprintf(buff2,"%d",res);
+					sprintf(buff2,"5/%d",res);
 				
 			}
 			// Y lo enviamos
@@ -397,6 +431,7 @@ int *AtenderCliente(void *socket){
 	close(sock_conn);
 	pthread_exit(0);
 }
+
 
 //Programa principal del servidor
 
@@ -421,8 +456,8 @@ int main(int argc, char *argv[]) {
 	// asocia el socket a cualquiera de las IP de la maquina. 
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
-	// escucharemos en el port 9070
-	serv_adr.sin_port = htons(9080);
+	// escucharemos en el port 50051
+	serv_adr.sin_port = htons(9090);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind\n");
 	//La cola de peticiones pendientes no podr? ser superior a 4
@@ -436,14 +471,13 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 	
-	conn = mysql_real_connect(conn,"localhost","root","mysql","trivial_BBDD",0,NULL,0);
+	conn = mysql_real_connect(conn,"localhost","root","mysql","T1_BBDD",0,NULL,0);
 	if (conn==NULL){
 		printf("Error al crear la connexión: %u %s\n",mysql_errno(conn),mysql_error(conn));
 		exit(1);
 	}
 	
-	int i;
-	int sockets[100];
+	
 	pthread_t thread[100];
 	pthread_mutex_init(&mutex,NULL);
 	
