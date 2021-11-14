@@ -103,6 +103,8 @@ namespace Trivial
                                 MessageBox.Show("Este usuario no existe");
                             else if (mensaje == "2")
                                 MessageBox.Show("Contraseña incorrecta");
+                            else if (mensaje == "3")
+                                MessageBox.Show("Este usuario ya esta conectado");
                             else
                                 MessageBox.Show("Error de consulta. Pruebe otra vez.");
                             break;
@@ -158,7 +160,7 @@ namespace Trivial
                                 //Aplicamos el delegado para modificar el Data Grid View
                                 DelegadoParaEscribir delegado = new DelegadoParaEscribir(ListaConectadosGridView);
                                 ConectadosGridView.Invoke(delegado, new object[] { conectados });
-
+                                
                             }
                             break;
                     }
@@ -189,8 +191,9 @@ namespace Trivial
             dado.Image = Image.FromFile("dado1.png");
 
             //Se conecta al servidor solamente entrar
-            IPAddress direc = IPAddress.Parse("147.83.117.22");
-            IPEndPoint ipep = new IPEndPoint(direc, 50051);
+            IPAddress direc = IPAddress.Parse("147.83.117.22"); //@IP_Shiva1: 147.83.117.22
+                                                                 //@IP_LocalHost: 192.168.56.102
+            IPEndPoint ipep = new IPEndPoint(direc, 50051);     //@Port_Shiva1: 50051.2.3
 
             try
             {
