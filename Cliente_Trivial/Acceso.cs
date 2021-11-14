@@ -189,8 +189,8 @@ namespace Trivial
             dado.Image = Image.FromFile("dado1.png");
 
             //Se conecta al servidor solamente entrar
-            IPAddress direc = IPAddress.Parse("192.168.56.102");
-            IPEndPoint ipep = new IPEndPoint(direc, 9090);
+            IPAddress direc = IPAddress.Parse("147.83.117.22");
+            IPEndPoint ipep = new IPEndPoint(direc, 50051);
 
             try
             {
@@ -221,8 +221,8 @@ namespace Trivial
             //Caso Desconectado --> Queremos conectarnos
             if (c == 0)
             {
-                IPAddress direc = IPAddress.Parse("192.168.56.102");
-                IPEndPoint ipep = new IPEndPoint(direc, 9090);
+                IPAddress direc = IPAddress.Parse("147.83.117.22");
+                IPEndPoint ipep = new IPEndPoint(direc, 50051);
 
                 //Creamos el socket 
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
