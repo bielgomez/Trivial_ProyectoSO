@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Login = new System.Windows.Forms.Button();
             this.PasswordBox = new System.Windows.Forms.TextBox();
             this.NameBox = new System.Windows.Forms.TextBox();
@@ -56,6 +56,7 @@
             this.dadolbl = new System.Windows.Forms.Label();
             this.ConectadosGridView = new System.Windows.Forms.DataGridView();
             this.labelConectados = new System.Windows.Forms.Label();
+            this.nameUserTxt = new System.Windows.Forms.Label();
             this.accederBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoBox)).BeginInit();
             this.registroBox.SuspendLayout();
@@ -362,14 +363,14 @@
             // ConectadosGridView
             // 
             this.ConectadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle6;
             this.ConectadosGridView.GridColor = System.Drawing.SystemColors.Control;
             this.ConectadosGridView.Location = new System.Drawing.Point(12, 331);
             this.ConectadosGridView.Name = "ConectadosGridView";
@@ -387,6 +388,16 @@
             this.labelConectados.TabIndex = 17;
             this.labelConectados.Text = "Lista de Conectados";
             // 
+            // nameUserTxt
+            // 
+            this.nameUserTxt.AutoSize = true;
+            this.nameUserTxt.BackColor = System.Drawing.Color.Black;
+            this.nameUserTxt.Font = new System.Drawing.Font("Lucida Fax", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nameUserTxt.Location = new System.Drawing.Point(264, 623);
+            this.nameUserTxt.Name = "nameUserTxt";
+            this.nameUserTxt.Size = new System.Drawing.Size(0, 27);
+            this.nameUserTxt.TabIndex = 18;
+            // 
             // Acceso
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -394,6 +405,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1398, 662);
+            this.Controls.Add(this.nameUserTxt);
             this.Controls.Add(this.labelConectados);
             this.Controls.Add(this.dadolbl);
             this.Controls.Add(this.consultasButton);
@@ -453,6 +465,7 @@
         private System.Windows.Forms.Label dadolbl;
         private System.Windows.Forms.DataGridView ConectadosGridView;
         private System.Windows.Forms.Label labelConectados;
+        private System.Windows.Forms.Label nameUserTxt;
     }
 }
 

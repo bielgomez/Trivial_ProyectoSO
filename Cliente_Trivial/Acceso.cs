@@ -27,6 +27,8 @@ namespace Trivial
         int c = 0;
         int ask = 0;
 
+        string userName;
+
         delegate void DelegadoParaEscribir(string[] conectados);
 
         public Acceso()
@@ -51,6 +53,7 @@ namespace Trivial
                 ConectadosGridView.RowHeadersVisible = false;
                 ConectadosGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 ConectadosGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                ConectadosGridView.SelectAll();
 
                 //Introduccion de los datos
                 for (int i = 0; i < conectados.Length; i++)
@@ -63,9 +66,9 @@ namespace Trivial
         //Funcion que ejecutará el thread
         private void AtenderServidor()
         {
-            try
+            while (true)
             {
-                while (true)
+                try
                 {
                     //Recibimos la respuesta del servidor
                     byte[] msg2 = new byte[80];
@@ -90,6 +93,9 @@ namespace Trivial
                                 dadolbl.Visible = true;
                                 accederBox.Visible = false;
                                 registroBox.Visible = false;
+                                nameUserTxt.Visible = true;
+                                nameUserTxt.Text = "Estas jugando con: " + userName;
+                                
                             }
 
                             //Errores
@@ -157,11 +163,12 @@ namespace Trivial
                             break;
                     }
                 }
+                catch (SocketException)
+                {
+                    MessageBox.Show("Server desconectado");
+                }
             }
-            catch(SocketException)
-            {
-                MessageBox.Show("Server desconectado");
-            }
+            
         }
 
         //Iniciacion del Form 
@@ -174,12 +181,35 @@ namespace Trivial
             dadolbl.Visible = false;
             ConectadosGridView.Visible = false;
             labelConectados.Visible = false;
+            nameUserTxt.Visible = false;
 
             //Fondo
             candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
             candadoBox.SizeMode = PictureBoxSizeMode.StretchImage;
             dado.Image = Image.FromFile("dado1.png");
 
+            //Se conecta al servidor solamente entrar
+            IPAddress direc = IPAddress.Parse("192.168.56.102");
+            IPEndPoint ipep = new IPEndPoint(direc, 9090);
+
+            try
+            {
+                //Creamos el socket 
+                this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                server.Connect(ipep);
+                luz.BackColor = Color.Green;
+                conexion.Text = "Desconectar";
+                c = 1;
+
+                //Ponemos en marcha el thread que atenderá los mensajes de los clientes
+                ThreadStart ts = delegate { AtenderServidor(); };
+                atender = new Thread(ts);
+                atender.Start();
+            }
+            catch (SocketException ex)
+            {
+                            
+            }
         }
 
 
@@ -229,14 +259,14 @@ namespace Trivial
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
+                    //Detenemos el thread
+                    atender.Abort();
+
                     //Desconexión del servidor
                     server.Shutdown(SocketShutdown.Both);
                     server.Close();
                     conexion.Text = "Conectar";
                     c = 0;
-
-                    //Detenemos el thread
-                    atender.Abort();
 
                     //Cambios de color de fondos
                     this.BackColor = Color.DarkSlateGray;
@@ -251,7 +281,8 @@ namespace Trivial
                     registroBox.Visible = true;
                     ConectadosGridView.Visible = false;
                     labelConectados.Visible = false;
-
+                    nameUserTxt.Visible = false;
+                    
                     //Cambio de fondo
                     Bitmap portada = new Bitmap(Application.StartupPath + @"\portada.png");
                     this.BackgroundImage = portada;
@@ -274,6 +305,7 @@ namespace Trivial
         {
             try
             {
+                userName = NameBox.Text;
                 //Construimos el mensaje y lo enviamos (Codigo 1/ --> LogIn)
                 string mensaje = "1/" + NameBox.Text + "/" + PasswordBox.Text;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
@@ -418,17 +450,20 @@ namespace Trivial
         {
             try
             {
-                //Mensaje de desconexion
-                string mensaje = "0/";
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
+                if (c == 1) {
 
-                //Desconexión del servidor
-                server.Shutdown(SocketShutdown.Both);
-                server.Close();
+                    //Mensaje de desconexion
+                    string mensaje = "0/";
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
 
-                //Detención del thread
-                atender.Abort();
+                    //Detención del thread
+                    atender.Abort();
+
+                    //Desconexión del servidor
+                    server.Shutdown(SocketShutdown.Both);
+                    server.Close();
+                }
             }
             catch (Exception)
             {
