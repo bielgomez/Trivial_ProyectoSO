@@ -13,3 +13,10 @@ Concurrencia y autoexclusión
 	Verificador: Maria Ubiergo
 	Comunicador: Laia Costa
 URL: https://drive.google.com/drive/folders/1--QJ76HBz05wQNCdk-BXKvInKBu2iLxd?usp=sharing
+
+VERSIÓN 3:
+Lista de Conectados automatica y entorno de producción
+	Manager: Laia Costa
+	Verificador: Biel Gómez
+	Comunicador: Maria Ubiergo
+URL: https://drive.google.com/drive/folders/1gRTJbbKmVD4K7JOWYYrkuU3unJ3CfYJv?usp=sharing
