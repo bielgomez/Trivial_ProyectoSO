@@ -280,26 +280,11 @@ void NotificarNuevaListaConectados(){
 	
 	//Enviamos la actualizacion generada a todos los socket
 	int j;
-	for (j=0;j<i;j++){
-		write(sockets[j],notificacion,strlen(notificacion));
+	for (j=0;j<listaC.num;j++){
+		write(listaC.conectados[j].socket,notificacion,strlen(notificacion));
 	}
 	
 }
-//Buscar un nombre en la lista de usuarios ListaConectados
-int buscarUsuario (char nombre[25]){
-	//Retorna 0 --> No hay nadie con ese nombre conectado
-	//Retorna 1 --> Hay alguien con ese nombre conectado
-	int i = 0;
-	int encontrado = 0;
-	while ((i<listaC.num) && (encontrado==0)){
-		if (strcmp (listaC.conectados[i].nombre, nombre) == 0)
-			encontrado=1;
-		else
-			i=i+1;
-	}
-	return encontrado;
-}
-
 //Atencion a los diferentes clientes (threads)
 int *AtenderCliente(void *socket){
 	
@@ -368,18 +353,17 @@ int *AtenderCliente(void *socket){
 				int res = LogIn(nombre,contrasenya);
 				sprintf(buff2,"1/%d", res);
 				
-				int busqueda = buscarUsuario(nombre);
-				
 				//Añadimos a la lista de conectados si la comprovacion ha sido correcta
-				if ((res == 0) && (busqueda == 0)){
+				if (res == 0){
 					pthread_mutex_lock(&mutex);  //Autoexclusion
 					AnadirAListaConectados(nombre,socket);
 					NotificarNuevaListaConectados();
 					
-					pthread_mutex_unlock(&mutex);					
+					pthread_mutex_unlock(&mutex);
+					
+					
 				}
-				else if(busqueda == 1)
-					sprintf(buff2,"1/3");
+				
 			}
 			
 			//Codigo 2 --> Insert de nuevos jugadores

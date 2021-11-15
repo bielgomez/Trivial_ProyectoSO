@@ -50,6 +50,7 @@ int LogIn(char nombre[25], char contrasenya[20]){
 	strcat(consulta,nombre);
 	strcat(consulta,"'");
 	
+	
 	err=mysql_query(conn,consulta);
 	if (err != 0){
 		printf("Error al consultar la BBDD %u %s",mysql_errno(conn),mysql_error(conn));
@@ -214,7 +215,6 @@ int DameListaConectados(char lista[512]){
 		for (i=0;i<listaC.num;i++)
 			sprintf(lista,"%s%s*",lista,listaC.conectados[i].nombre);
 		lista[strlen(lista)-1]='\0';
-		
 		return 0;
 	}
 	else
@@ -277,33 +277,14 @@ void NotificarNuevaListaConectados(){
 		printf("Lista de conectados vacia\n");
 		sprintf(notificacion,"6/%s",lista);
 	}
-	//printf("%s\n", lista);
-	//printf("%s\n", notificacion);
+	
 	//Enviamos la actualizacion generada a todos los socket
 	int j;
-	for (j=0;j<i;j++){
-		write(sockets[j],notificacion,strlen(notificacion));
-		printf("%s\n", notificacion);
+	for (j=0;j<listaC.num;j++){
+		write(listaC.conectados[j].socket,notificacion,strlen(notificacion));
 	}
 	
 }
-
-//Buscar un nombre en la lista de usuarios ListaConectados
-int buscarUsuario (char nombre[25]){
-	//Retorna 0 --> No hay nadie con ese nombre conectado
-	//Retorna 1 --> Hay alguien con ese nombre conectado
-	int i = 0;
-	int encontrado = 0;
-	while ((i<listaC.num) && (encontrado==0)){
-		if (strcmp (listaC.conectados[i].nombre, nombre) == 0)
-			encontrado=1;
-		else
-			i=i+1;
-	}
-	return encontrado;
-}
-
-
 //Atencion a los diferentes clientes (threads)
 int *AtenderCliente(void *socket){
 	
@@ -362,9 +343,7 @@ int *AtenderCliente(void *socket){
 			//Codigo 1 --> Comprovación para el Login
 			if (codigo == 1){
 				//Mesnaje en buff: 1/username/contrasenya
-				//Return en buff2: 0--> Todo OK ; 1 --> Usuario no existe ; 
-				//2 --> Contrasenya no coincide ; -1 --> Error de consulta;
-				//3 --> Ya esta conectado ese usuario
+				//Return en buff2: 0--> Todo OK ; 1 --> Usuario no existe ; 2 --> Contrasenya no coincide ; -1 --> Error de consulta
 				
 				p = strtok(NULL,"/");
 				strcpy(nombre,p);
@@ -374,18 +353,17 @@ int *AtenderCliente(void *socket){
 				int res = LogIn(nombre,contrasenya);
 				sprintf(buff2,"1/%d", res);
 				
-				int busqueda = buscarUsuario(nombre);
-				
 				//Añadimos a la lista de conectados si la comprovacion ha sido correcta
-				if ((res == 0) && (busqueda == 0)){
+				if (res == 0){
 					pthread_mutex_lock(&mutex);  //Autoexclusion
 					AnadirAListaConectados(nombre,socket);
 					NotificarNuevaListaConectados();
 					
-					pthread_mutex_unlock(&mutex);					
+					pthread_mutex_unlock(&mutex);
+					
+					
 				}
-				else if(busqueda == 1)
-					sprintf(buff2,"1/3");
+				
 			}
 			
 			//Codigo 2 --> Insert de nuevos jugadores
@@ -483,7 +461,7 @@ int main(int argc, char *argv[]) {
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port 50051
-	serv_adr.sin_port = htons(9070);
+	serv_adr.sin_port = htons(9090);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind\n");
 	//La cola de peticiones pendientes no podr? ser superior a 4
