@@ -356,9 +356,8 @@ int *AtenderCliente(void *socket){
 				//Añadimos a la lista de conectados si la comprovacion ha sido correcta
 				if (res == 0){
 					pthread_mutex_lock(&mutex);  //Autoexclusion
-					AnadirAListaConectados(nombre,socket);
+					AnadirAListaConectados(nombre,sock_conn);
 					NotificarNuevaListaConectados();
-					
 					pthread_mutex_unlock(&mutex);
 					
 					
@@ -461,7 +460,7 @@ int main(int argc, char *argv[]) {
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port 50051
-	serv_adr.sin_port = htons(9090);
+	serv_adr.sin_port = htons(9060);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind\n");
 	//La cola de peticiones pendientes no podr? ser superior a 4

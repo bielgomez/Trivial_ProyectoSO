@@ -94,6 +94,8 @@ namespace Trivial
                                 accederBox.Visible = false;
                                 registroBox.Visible = false;
                                 nameUserTxt.Visible = true;
+                                ConectadosGridView.Visible = true;
+                                labelConectados.Visible = true;
                                 nameUserTxt.Text = "Estas jugando con: " + userName;
                                 
                             }
@@ -154,6 +156,7 @@ namespace Trivial
                                 MessageBox.Show("No hay usuarios conectados.");
                             else
                             {
+                                MessageBox.Show("Me llega notificacion de actualizacion de la lista.");
                                 //Separamos los conectados y los introducimos en un vector
                                 string[] conectados = mensaje.Split('*');
 
@@ -191,9 +194,9 @@ namespace Trivial
             dado.Image = Image.FromFile("dado1.png");
 
             //Se conecta al servidor solamente entrar
-            IPAddress direc = IPAddress.Parse("147.83.117.22"); //@IP_Shiva1: 147.83.117.22
+            IPAddress direc = IPAddress.Parse("192.168.56.102"); //@IP_Shiva1: 147.83.117.22
                                                                  //@IP_LocalHost: 192.168.56.102
-            IPEndPoint ipep = new IPEndPoint(direc, 50051);     //@Port_Shiva1: 50051.2.3
+            IPEndPoint ipep = new IPEndPoint(direc, 9070);     //@Port_Shiva1: 50051.2.3
 
             try
             {
@@ -224,8 +227,8 @@ namespace Trivial
             //Caso Desconectado --> Queremos conectarnos
             if (c == 0)
             {
-                IPAddress direc = IPAddress.Parse("147.83.117.22");
-                IPEndPoint ipep = new IPEndPoint(direc, 50051);
+                IPAddress direc = IPAddress.Parse("192.168.56.102");
+                IPEndPoint ipep = new IPEndPoint(direc, 9070);
 
                 //Creamos el socket 
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

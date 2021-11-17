@@ -356,9 +356,8 @@ int *AtenderCliente(void *socket){
 				//Añadimos a la lista de conectados si la comprovacion ha sido correcta
 				if (res == 0){
 					pthread_mutex_lock(&mutex);  //Autoexclusion
-					AnadirAListaConectados(nombre,socket);
+					AnadirAListaConectados(nombre,sock_conn);
 					NotificarNuevaListaConectados();
-					
 					pthread_mutex_unlock(&mutex);
 					
 					
