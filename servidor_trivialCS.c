@@ -285,6 +285,38 @@ void NotificarNuevaListaConectados(){
 	}
 	
 }
+//Invitar a los conectados seleccionados a una partida
+int Invitar(char invitados[500], char nombre[25], char noDisponibles[500]) {
+	//Retorna 0 --> Todo OK (+ notifica a los invitados (8/persona_que_le_ha_invitado))
+	//       -1 --> Alguno de los usuarios invitados se ha desconectado (+nombres de los desconectados en noDisponibles)
+	
+	strcpy(noDisponibles,"\0");
+	int error = 0;
+	char *p = strtok(invitados,"*");
+	
+	while (p != NULL) {
+		int encontrado = 0;
+		int i = 0;
+		while ((i<listaC.num)&&(encontrado == 0)) {
+			if (strcmp(listaC.conectados[i].nombre,p) == 0) {
+				char invitacion[512];
+				sprintf(invitacion, "8/%s", nombre);
+				write(listaC.conectados[i].socket, invitacion, strlen(invitacion));
+				encontrado = 1;
+			}
+			else
+				i = i + 1;
+		}
+		if (encontrado == 0){
+			error = -1;
+			sprintf(noDisponibles,"%s%s*",noDisponibles,p);
+			noDisponibles[strlen(noDisponibles)-1] = '\0';
+		}
+		p = strtok(NULL, "*");		
+	}
+	
+	return error;
+}
 //Atencion a los diferentes clientes (threads)
 int *AtenderCliente(void *socket){
 	
@@ -421,6 +453,25 @@ int *AtenderCliente(void *socket){
 					sprintf(buff2,"5/%d",res);
 				
 			}
+			
+			//Codigo 6 --> Invitar a otros usuarios conectados a una partida
+			else if (codigo ==  6) {
+				//Mensaje en buff: 6/invitado1*invitado2*...
+				//Return en buff2: 7/0 (Todo OK) ; 7/invitado_no_disponible1/... (si hay invitados que se han desconectado)
+				
+				p = strtok(NULL, "\0");
+				char invitados[500];
+				char noDisponibles[500];
+				strcpy(invitados, p);
+				int res = Invitar(invitados, nombre, noDisponibles);
+				
+				if (res == -1){
+					sprintf(buff2,"7/%s",noDisponibles);
+				}
+				else
+					strcpy(buff2,"7/0");
+			}
+			
 			// Y lo enviamos
 			if (codigo!=0){
 				write (sock_conn,buff2, strlen(buff2));
@@ -460,7 +511,7 @@ int main(int argc, char *argv[]) {
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port 50051
-	serv_adr.sin_port = htons(9060);
+	serv_adr.sin_port = htons(9070);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind\n");
 	//La cola de peticiones pendientes no podr? ser superior a 4

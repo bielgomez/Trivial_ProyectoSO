@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Login = new System.Windows.Forms.Button();
             this.PasswordBox = new System.Windows.Forms.TextBox();
             this.NameBox = new System.Windows.Forms.TextBox();
@@ -57,6 +57,7 @@
             this.ConectadosGridView = new System.Windows.Forms.DataGridView();
             this.labelConectados = new System.Windows.Forms.Label();
             this.nameUserTxt = new System.Windows.Forms.Label();
+            this.invitarButton = new System.Windows.Forms.Button();
             this.accederBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoBox)).BeginInit();
             this.registroBox.SuspendLayout();
@@ -362,15 +363,18 @@
             // 
             // ConectadosGridView
             // 
+            this.ConectadosGridView.AllowUserToAddRows = false;
+            this.ConectadosGridView.AllowUserToDeleteRows = false;
             this.ConectadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ConectadosGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.ConectadosGridView.GridColor = System.Drawing.SystemColors.Control;
             this.ConectadosGridView.Location = new System.Drawing.Point(12, 331);
             this.ConectadosGridView.Name = "ConectadosGridView";
@@ -378,6 +382,7 @@
             this.ConectadosGridView.RowTemplate.Height = 24;
             this.ConectadosGridView.Size = new System.Drawing.Size(230, 281);
             this.ConectadosGridView.TabIndex = 16;
+            this.ConectadosGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ConectadosGridView_CellClick);
             // 
             // labelConectados
             // 
@@ -398,6 +403,19 @@
             this.nameUserTxt.Size = new System.Drawing.Size(0, 27);
             this.nameUserTxt.TabIndex = 18;
             // 
+            // invitarButton
+            // 
+            this.invitarButton.BackColor = System.Drawing.Color.Black;
+            this.invitarButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.invitarButton.ForeColor = System.Drawing.Color.White;
+            this.invitarButton.Location = new System.Drawing.Point(12, 280);
+            this.invitarButton.Name = "invitarButton";
+            this.invitarButton.Size = new System.Drawing.Size(102, 33);
+            this.invitarButton.TabIndex = 19;
+            this.invitarButton.Text = "Invitar";
+            this.invitarButton.UseVisualStyleBackColor = false;
+            this.invitarButton.Click += new System.EventHandler(this.invitarButton_Click);
+            // 
             // Acceso
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -405,6 +423,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1398, 662);
+            this.Controls.Add(this.invitarButton);
             this.Controls.Add(this.nameUserTxt);
             this.Controls.Add(this.labelConectados);
             this.Controls.Add(this.dadolbl);
@@ -466,6 +485,7 @@
         private System.Windows.Forms.DataGridView ConectadosGridView;
         private System.Windows.Forms.Label labelConectados;
         private System.Windows.Forms.Label nameUserTxt;
+        private System.Windows.Forms.Button invitarButton;
     }
 }
 

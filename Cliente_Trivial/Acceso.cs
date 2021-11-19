@@ -31,6 +31,8 @@ namespace Trivial
 
         delegate void DelegadoParaEscribir(string[] conectados);
 
+        List<string> invitados;
+
         public Acceso()
         {
             InitializeComponent();
@@ -96,6 +98,7 @@ namespace Trivial
                                 nameUserTxt.Visible = true;
                                 ConectadosGridView.Visible = true;
                                 labelConectados.Visible = true;
+                                invitarButton.Visible = true;
                                 nameUserTxt.Text = "Estas jugando con: " + userName;
                                 
                             }
@@ -156,7 +159,6 @@ namespace Trivial
                                 MessageBox.Show("No hay usuarios conectados.");
                             else
                             {
-                                MessageBox.Show("Me llega notificacion de actualizacion de la lista.");
                                 //Separamos los conectados y los introducimos en un vector
                                 string[] conectados = mensaje.Split('*');
 
@@ -166,11 +168,34 @@ namespace Trivial
                                 
                             }
                             break;
+
+                        case 7: //Respuesta a la peticion de invitacion
+                            if (mensaje == "0")
+                                MessageBox.Show("Invitaciones enviadas correctamente");
+                            else
+                            {
+                                //Recibimos las invitaciones fallidas
+                                string[] noDisponibles = mensaje.Split('*');
+                                string show = "";
+                                for (int n = 0; n < noDisponibles.Length; n++)
+                                    show = show + noDisponibles[n] + ",";
+                                show = show.Remove(show.Length - 1);
+                                MessageBox.Show("Invitaciones enviadas con exito\n excepto las de: "+show);
+                            }
+                            break;
+
+                        case 8: //Notificación de invitacion a una partida
+                            MessageBox.Show(mensaje+" te ha invitado a una partida");
+                            break;
                     }
                 }
                 catch (SocketException)
                 {
                     MessageBox.Show("Server desconectado");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Error al recibir los datos");
                 }
             }
             
@@ -187,6 +212,7 @@ namespace Trivial
             ConectadosGridView.Visible = false;
             labelConectados.Visible = false;
             nameUserTxt.Visible = false;
+            invitarButton.Visible = false;
 
             //Fondo
             candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
@@ -288,6 +314,7 @@ namespace Trivial
                     ConectadosGridView.Visible = false;
                     labelConectados.Visible = false;
                     nameUserTxt.Visible = false;
+                    invitarButton.Visible = false;
                     
                     //Cambio de fondo
                     Bitmap portada = new Bitmap(Application.StartupPath + @"\portada.png");
@@ -476,6 +503,68 @@ namespace Trivial
              
             }
         }
-   
+
+        private void ConectadosGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //solo funciona cuando se habilita la funcion de invitar con el boton invitarButton
+            if (invitarButton.Text == "Enviar\n Invitación")
+            {
+                string invitado = ConectadosGridView.CurrentCell.Value.ToString();
+
+                //Comprovamos que no somos nosotros mismos
+                if (invitado == userName)
+                    MessageBox.Show("No te puedes autoinvitar");
+                else
+                {
+                    //Comprovamos que no este ya en la lista para añadirlo
+                    int i = 0;
+                    bool encontrado = false;
+                    while ((i < invitados.Count) && (encontrado == false))
+                    {
+                        if (invitado == invitados[i])
+                            encontrado = true;
+                        else
+                            i = i + 1;
+                    }
+
+                    if (encontrado == true)
+                        MessageBox.Show("Ya has seleccionado a este jugador");
+                    else
+                        invitados.Add(invitado);
+                }
+
+            }
+        }
+
+        private void invitarButton_Click(object sender, EventArgs e)
+        {
+            
+            if (invitarButton.Text == "Invitar")
+            {
+                //Iniciamos la recopilacion de invitados
+                MessageBox.Show("Haz click sobre los jugadores que quieras invitar");
+                invitarButton.Text = "Enviar\n Invitación";
+                invitados = new List<string>();
+            }
+            else
+            {
+                invitarButton.Text = "Invitar";
+
+                //si no se clica a nadie no hace nada y vuelve al estado inicial
+                if (invitados.Count != 0)
+                {
+                    //Construimos el mensaje
+                    string mensaje = "6/";
+
+                    for (int i = 0; i < invitados.Count; i++)
+                        mensaje = mensaje + invitados[i];
+
+                    //Lo enviamos por el socket (Codigo 6 --> Invitar a jugadores)
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                }
+                              
+            }
+        }
     }
 }
