@@ -27,10 +27,21 @@ typedef struct{
 	int num;
 }ListaConectados;
 
-	//Iniciamos la lista de conectados
-ListaConectados listaC;
+typedef struct{
+	int estado;
+	char host[25];
+	char jug2[25];
+	char jug3[25];
+	char jug4[25];
+}Partidas;
 
-	//Para poder notificar a todos los clientes, necesitamos que el vector de sockets sea una variable global
+
+//Iniciamos la lista de conectados
+ListaConectados listaC;
+int len_tablaP=100;
+Partidas tablaP[len_tablaP];
+
+//Para poder notificar a todos los clientes, necesitamos que el vector de sockets sea una variable global
 int i;
 int sockets[100];
 
@@ -317,6 +328,23 @@ int Invitar(char invitados[500], char nombre[25], char noDisponibles[500]) {
 	
 	return error;
 }
+void CrearPartida(char invitados[500], char nombre[25]){
+	int i=0;
+	int encontrado=0;
+	while((i<len_tablaP)&&!encontado)
+	{
+		if(tablaP[i].estado==0)
+		{
+			strcpy(tablaP[i].host,nombre);
+			char *p=strtok(invitados,"*");
+			strcpy(tablaP[i].jug2,p);
+			p=strtok(NULL,"*");
+			strcpy(tablaP[i].jug3,p);
+			p=strtok(NULL,"*");
+			strcpy(tablaP[i].jug4, p);			
+		}
+	}
+}
 //Atencion a los diferentes clientes (threads)
 int *AtenderCliente(void *socket){
 	
@@ -468,8 +496,10 @@ int *AtenderCliente(void *socket){
 				if (res == -1){
 					sprintf(buff2,"7/%s",noDisponibles);
 				}
-				else
+				else{
 					strcpy(buff2,"7/0");
+					CrearPartida(invitados,nombre); 
+				}
 			}
 			
 			// Y lo enviamos

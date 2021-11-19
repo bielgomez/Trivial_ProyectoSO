@@ -53,10 +53,19 @@
       <DependentUpon>Acceso.cs</DependentUpon>
     </Compile>
     <Compile Include="Consultas.cs" />
+    <Compile Include="Invitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invitacion.Designer.cs">
+      <DependentUpon>Invitacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Acceso.resx">
       <DependentUpon>Acceso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invitacion.resx">
+      <DependentUpon>Invitacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
