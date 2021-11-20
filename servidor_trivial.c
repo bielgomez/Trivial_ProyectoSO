@@ -296,8 +296,27 @@ void NotificarNuevaListaConectados(){
 	}
 	
 }
+//Retorna el socket del nombre buscado en la lista de conectados.
+int DameSocketConectado(char nombre[25]){
+	//Retorna -1 --> El usuario buscado no se ha encontrado conectado.
+	//Retorna número socket--> Se ha encontrado el resultado conectado.
+	int i=0;
+	int encontrado=0;
+	while (i<listaC.num && !encontrado){
+		if (strcmp(listaC.conectados[i].nombre,nombre)==0)
+			encontrado=1;
+		else
+			i++;
+	}
+	if (encontrado==1)
+	{
+		return listaC.conectados[i].socket;
+	}
+	else 
+		return -1;
+}
 //Invitar a los conectados seleccionados a una partida
-int Invitar(char invitados[500], char nombre[25], char noDisponibles[500]) {
+int Invitar(char invitados[500], char nombre[25], char noDisponibles[500],int partida) {
 	//Retorna 0 --> Todo OK (+ notifica a los invitados (8/persona_que_le_ha_invitado))
 	//       -1 --> Alguno de los usuarios invitados se ha desconectado (+nombres de los desconectados en noDisponibles)
 	
@@ -311,7 +330,7 @@ int Invitar(char invitados[500], char nombre[25], char noDisponibles[500]) {
 		while ((i<listaC.num)&&(encontrado == 0)) {
 			if (strcmp(listaC.conectados[i].nombre,p) == 0) {
 				char invitacion[512];
-				sprintf(invitacion, "8/%s", nombre);
+				sprintf(invitacion, "8/%s*%d", nombre,partida);
 				write(listaC.conectados[i].socket, invitacion, strlen(invitacion));
 				encontrado = 1;
 			}
@@ -328,22 +347,85 @@ int Invitar(char invitados[500], char nombre[25], char noDisponibles[500]) {
 	
 	return error;
 }
-void CrearPartida(char invitados[500], char nombre[25]){
+//Busca una partida disponible en la tabla de partidas y le asocia el  host
+int CrearPartida(char invitados[500], char nombre[25]){
+	//Retorna -1 --> si no hay ningún espacio libre en la tabla de partidas.
+	//Retorna id de la partida-->  si se ha asignado.
 	int i=0;
 	int encontrado=0;
 	while((i<len_tablaP)&&!encontado)
-	{
+	{	
+		pthread_mutex_lock(&mutex);
 		if(tablaP[i].estado==0)
 		{
 			strcpy(tablaP[i].host,nombre);
-			char *p=strtok(invitados,"*");
-			strcpy(tablaP[i].jug2,p);
-			p=strtok(NULL,"*");
-			strcpy(tablaP[i].jug3,p);
-			p=strtok(NULL,"*");
-			strcpy(tablaP[i].jug4, p);			
+			tablaP[i].estado=1;
+			encontrado=1;			
 		}
+		pthread_mutex_unlock(&mutex);
+		else 
+		   i++;
 	}
+	if(encontrado==0)
+		return -1;
+	else{
+		return i;
+	}
+}
+//Añade un jugador a la partida indicada
+int AñadirJugador(nombre[25],int partida)
+	//Retorna 0 --> Jugador añadido a la partida con éxito.
+	//Retorna -1 --> No se ha podido añadir jugador porque la partida ya estaba llena.
+{	
+	int encontrado=0;
+	pthread_mutex_lock(&mutex);
+	if(strcmp(tablaP[partida].jug2,NULL)==0){
+		strcpy(tablaP[partida].jug2,nombre);
+		encontrado=1;
+	}
+	if ((strcmp(tablaP[partida].jug3,NULL)==0)&&encontrado==0){
+		strcpy(tablaP[partida].jug3,nombre);
+		encontrado=1;
+	}
+	if((strcmp(tablaP[partida].jug4,NULL)==0){
+		strcpy(tablaP[partida].jug4,nombre);
+		encontrado=1;
+	}
+	pthread_mutex_unlock(&mutex);
+	if(encontrado==0)
+		return -1;
+	if (encontrado==1)
+		return 0;
+		
+	
+}
+//Notifica a los jugadores de la tabla que ha acabado la partida.
+void FinPartida(int partida){
+	char fin[10]="9/";
+	int socket1=DameSocketConectado(tablaP[partida].host);
+	if(socket1!=-1)
+		write(socket1,fin,strlen(fin));
+	int socket2=DameSocketConectado(tablaP[partida].jug2);
+	if (socket2!=-1)
+		write(socket2,fin,strlen(fin));
+	if (strcmp(tablaP[partida].jug3,NULL)!=0){
+		int socket3=DameSocketConectado(tablaP[partida].jug3);
+		if(socket3!=-1)
+			write(socket3,fin,strlen(fin));
+	}
+	if (strcmp(tablaP[partida].jug4,NULL)!=0){
+		int socket4=DameSocketConectado(tablaP[partida].jug4);
+		if(socket4!=-1)
+			write(socket4,fin,strlen(fin));
+	}	
+}
+//Eliminia una partida de la tabla de partidas.
+void EliminarPartida(int partida){
+	tablaP[partida].estado=0;
+	tablaP[partida].host=NULL;
+	tablaP[partida].jug2=NULL;
+	tablaP[partida].jug3=NULL;
+	tablaP[partida].jug4=NULL;
 }
 //Atencion a los diferentes clientes (threads)
 int *AtenderCliente(void *socket){
@@ -491,15 +573,22 @@ int *AtenderCliente(void *socket){
 				char invitados[500];
 				char noDisponibles[500];
 				strcpy(invitados, p);
-				int res = Invitar(invitados, nombre, noDisponibles);
+				int partida=CrearPartida(invitados,nombre);
+				if (partida==-1)
+					sprintf(buff2,"7/-1");
+				else
+					{
+					int res = Invitar(invitados, nombre, noDisponibles,partida);
+					
+					if (res == -1){
+						sprintf(buff2,"7/%s",noDisponibles);
+					}
+					else{
+						strcpy(buff2,"7/0");						 
+					}
+					
+				}
 				
-				if (res == -1){
-					sprintf(buff2,"7/%s",noDisponibles);
-				}
-				else{
-					strcpy(buff2,"7/0");
-					CrearPartida(invitados,nombre); 
-				}
 			}
 			
 			// Y lo enviamos

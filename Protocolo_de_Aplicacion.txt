@@ -1,0 +1,16 @@
+PROTOCOLO DE APLICACIÓN
+-------------------------
+
+                    CLIENTE                                      |                                         SERVIDOR
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    "0/" (Desconectar)                                           ->                                            -
+    "1/usuario/contraseña" (LogIn)                               ->    "1/0 o 1 o 2 o -1" (Login Correcto o Usuario no existe o Error de consulta)
+    "2/usuario/contraseña/mail" (Registrarse)                    ->    "2/0 o 1 o -1" (Registro correcto o Usuario ya existe o Error de consulta)
+    "3/usuario" (Dame mi contraseña)                             ->    "3/contraseña o 1 o -1" (Dame contraseña o No hay usuario o Error de Consulta)
+    "4/" (Dame la partida más larga)                             ->    "4/idPartidaLarga o -1 o -2" (Id Partida más larga o Error de consulta o No hay partidas en la BBDD)
+    "5/" (Dame jugador con más punto)                            ->    "5/nombreJugador o -1 o -2" (nombre del jugador con más puntos o Error de consulta o No hay jugadores en la BBDD)
+                            -                                    <-    "6/conectado1*conectado2*..." (Notificar nueva lista de conectados)
+    "6/invitado1*invitado2*..." (Invitar a una partida)          ->    "7/0 o noDisponible1*noDisponible2... o -1" (Invitaciones enviadas correctamente o invitaciones no enviadas a no disponibles o no se ha creado la partida)
+    "7/SI o NO/idPartida" (Aceptar o Declinar una invitación)    <-    "8/host*idPartida" (Notificar invitacion a una partida)
+                            -                                    <-    "9/" (Notificación de fin de partida)
+        

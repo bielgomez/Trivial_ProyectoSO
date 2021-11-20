@@ -565,7 +565,9 @@ namespace Trivial
                     string mensaje = "6/";
 
                     for (int i = 0; i < invitados.Count; i++)
-                        mensaje = mensaje + invitados[i];
+                        mensaje = mensaje + invitados[i]+"*";
+
+                    mensaje = mensaje.Remove(mensaje.Length - 1);
 
                     //Lo enviamos por el socket (Codigo 6 --> Invitar a jugadores)
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
