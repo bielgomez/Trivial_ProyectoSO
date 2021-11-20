@@ -24,6 +24,7 @@ namespace Trivial
         Socket server;
         Thread atender;
         Invitacion invitacion;
+        Tablero tablero;
 
         int c = 0;
         int ask = 0;
@@ -33,6 +34,7 @@ namespace Trivial
         delegate void DelegadoParaEscribir(string[] conectados);
 
         List<string> invitados;
+        string convidats;
 
         public Acceso()
         {
@@ -186,14 +188,23 @@ namespace Trivial
                             break;
 
                         case 8: //Notificación de invitacion a una partida
-                            MessageBox.Show(mensaje+" te ha invitado a una partida");
+                            string[] split = mensaje.Split('*');
                             invitacion = new Invitacion();
-                            invitacion.SetHost(mensaje);
+                            invitacion.SetHost(split[0]);
                             invitacion.ShowDialog();
-                            string respuesta ="7/"+invitacion.GetRespuesta();                            
+                            string respuesta = "7/" + invitacion.GetRespuesta() + "/" + split[1]+"\0";
+                            invitacion.Close();
                             byte[] msg = System.Text.Encoding.ASCII.GetBytes(respuesta);
                             server.Send(msg);                       
                             
+                            break;
+
+                        case 9: //Notificación de inicio de partida
+                            string[] split2 = mensaje.Split('/');
+                            tablero = new Tablero();
+                            //tablero.SetPartida(Convert.ToInt32(split2[0]), invitados);
+                            tablero.SetPartida(Convert.ToInt32(split2[0]), convidats);
+                            tablero.ShowDialog();
                             break;
                     }
                 }
@@ -228,9 +239,9 @@ namespace Trivial
             dado.Image = Image.FromFile("dado1.png");
 
             //Se conecta al servidor solamente entrar
-            IPAddress direc = IPAddress.Parse("147.83.117.22");    //@IP_Shiva1: 147.83.117.22
-                                                                 //@IP_LocalHost: 192.168.56.102
-            IPEndPoint ipep = new IPEndPoint(direc, 50051);     //@Port_Shiva1: 50051.2.3
+            IPAddress direc = IPAddress.Parse("192.168.56.102");    //@IP_Shiva1: 147.83.117.22
+                                                                    //@IP_LocalHost: 192.168.56.102
+            IPEndPoint ipep = new IPEndPoint(direc, 9090); //@Port_Shiva1: 50051.2.3 o 9070
 
             try
             {
@@ -261,8 +272,8 @@ namespace Trivial
             //Caso Desconectado --> Queremos conectarnos
             if (c == 0)
             {
-                IPAddress direc = IPAddress.Parse("147.83.117.22");
-                IPEndPoint ipep = new IPEndPoint(direc, 50051);
+                IPAddress direc = IPAddress.Parse("192.168.56.102");
+                IPEndPoint ipep = new IPEndPoint(direc, 9090);
 
                 //Creamos el socket 
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -322,6 +333,7 @@ namespace Trivial
                     ConectadosGridView.Visible = false;
                     labelConectados.Visible = false;
                     nameUserTxt.Visible = false;
+                    invitarButton.Text = "Invitar";
                     invitarButton.Visible = false;
                     
                     //Cambio de fondo
@@ -514,8 +526,8 @@ namespace Trivial
 
         private void ConectadosGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            //solo funciona cuando se habilita la funcion de invitar con el boton invitarButton
-            if (invitarButton.Text == "Enviar\n Invitación")
+            //Solo funciona cuando se habilita la funcion de invitar con el boton invitarButton
+            if ((invitarButton.Text == "Enviar\n Invitación") && (invitados.Count <= 3))
             {
                 string invitado = ConectadosGridView.CurrentCell.Value.ToString();
 
@@ -534,14 +546,21 @@ namespace Trivial
                         else
                             i = i + 1;
                     }
-
                     if (encontrado == true)
-                        MessageBox.Show("Ya has seleccionado a este jugador");
+                    {
+                        invitados.Remove(invitado);
+                        MessageBox.Show("Has eliminado a " + invitado);
+                    }
                     else
+                    {
                         invitados.Add(invitado);
+                        MessageBox.Show("Has añadido a " + invitado);
+                    }
                 }
-
             }
+            else if (invitados.Count > 3)
+                MessageBox.Show("El numero maximo de invitados es 3");
+
         }
 
         private void invitarButton_Click(object sender, EventArgs e)
@@ -563,11 +582,17 @@ namespace Trivial
                 {
                     //Construimos el mensaje
                     string mensaje = "6/";
-
+                    convidats = "";
                     for (int i = 0; i < invitados.Count; i++)
-                        mensaje = mensaje + invitados[i]+"*";
+                    {
+                        mensaje = mensaje + invitados[i] + "*";
+                        convidats = convidats + invitados[i] + "*";
+                    }
 
                     mensaje = mensaje.Remove(mensaje.Length - 1);
+                    convidats = convidats.Remove(convidats.Length - 1);
+
+                    //MessageBox.Show(mensaje);
 
                     //Lo enviamos por el socket (Codigo 6 --> Invitar a jugadores)
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);

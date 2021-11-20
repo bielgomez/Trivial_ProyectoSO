@@ -63,10 +63,13 @@
             // 
             // invitationLabel
             // 
+            this.invitationLabel.AutoSize = true;
+            this.invitationLabel.BackColor = System.Drawing.Color.Transparent;
             this.invitationLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.invitationLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.invitationLabel.Location = new System.Drawing.Point(55, 49);
             this.invitationLabel.Name = "invitationLabel";
-            this.invitationLabel.Size = new System.Drawing.Size(221, 117);
+            this.invitationLabel.Size = new System.Drawing.Size(2, 19);
             this.invitationLabel.TabIndex = 16;
             // 
             // Invitacion

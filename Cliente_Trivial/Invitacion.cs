@@ -23,7 +23,7 @@ namespace Trivial
             this.host = host;
         }
 
-        public string  GetRespuesta()
+        public string GetRespuesta()
         {
             return this.respuesta;
         }
@@ -34,14 +34,15 @@ namespace Trivial
 
         private void siButton_Click(object sender, EventArgs e)
         {
-            respuesta = "SI";
+            this.respuesta = "SI";
             this.Close();
         }
 
         private void noButton_Click(object sender, EventArgs e)
         {
-            respuesta="NO";
+            this.respuesta="NO";
             this.Close();
         }
+
     }
 }
