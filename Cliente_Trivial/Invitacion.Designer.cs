@@ -68,12 +68,12 @@
             this.invitationLabel.Name = "invitationLabel";
             this.invitationLabel.Size = new System.Drawing.Size(221, 117);
             this.invitationLabel.TabIndex = 16;
-            this.invitationLabel.Text = "tuputamadre";
             // 
             // Invitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(330, 289);
             this.Controls.Add(this.invitationLabel);
             this.Controls.Add(this.noButton);
