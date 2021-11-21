@@ -87,14 +87,10 @@ namespace Trivial
                         case 1: //Respuesta de la comprovación para el LogIn
                             if (mensaje == "0") //Login correcto
                             {
-                                //Cambio de fondo
-                                Bitmap tablero = new Bitmap(Application.StartupPath + @"\tablero.png");
-                                this.BackgroundImage = tablero;
+                                
 
                                 //Establecemos pantalla del juego
                                 consultasButton.Visible = true;
-                                dado.Visible = true;
-                                dadolbl.Visible = true;
                                 accederBox.Visible = false;
                                 registroBox.Visible = false;
                                 nameUserTxt.Visible = true;
@@ -227,8 +223,6 @@ namespace Trivial
             //Partes ocultas al inicio
             consultaBox.Visible = false;
             consultasButton.Visible = false;
-            dado.Visible = false;
-            dadolbl.Visible = false;
             ConectadosGridView.Visible = false;
             labelConectados.Visible = false;
             nameUserTxt.Visible = false;
@@ -237,12 +231,12 @@ namespace Trivial
             //Fondo
             candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
             candadoBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            dado.Image = Image.FromFile("dado1.png");
+            
 
             //Se conecta al servidor solamente entrar
-            IPAddress direc = IPAddress.Parse("192.168.56.102");    //@IP_Shiva1: 147.83.117.22
+            IPAddress direc = IPAddress.Parse("147.83.117.22");    //@IP_Shiva1: 147.83.117.22
                                                                     //@IP_LocalHost: 192.168.56.102
-            IPEndPoint ipep = new IPEndPoint(direc, 9080); //@Port_Shiva1: 50051.2.3 o 9070
+            IPEndPoint ipep = new IPEndPoint(direc, 50051); //@Port_Shiva1: 50051.2.3 o 9070
 
             try
             {
@@ -273,8 +267,8 @@ namespace Trivial
             //Caso Desconectado --> Queremos conectarnos
             if (c == 0)
             {
-                IPAddress direc = IPAddress.Parse("192.168.56.102");
-                IPEndPoint ipep = new IPEndPoint(direc, 9080);
+                IPAddress direc = IPAddress.Parse("147.83.117.22");
+                IPEndPoint ipep = new IPEndPoint(direc, 50051);
 
                 //Creamos el socket 
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -327,8 +321,6 @@ namespace Trivial
                     //Establecemos pantalla inicial
                     consultaBox.Visible = false;
                     consultasButton.Visible = false;
-                    dado.Visible = false;
-                    dadolbl.Visible = false;
                     accederBox.Visible = true;
                     registroBox.Visible = true;
                     ConectadosGridView.Visible = false;
@@ -337,9 +329,7 @@ namespace Trivial
                     invitarButton.Text = "Invitar";
                     invitarButton.Visible = false;
                     
-                    //Cambio de fondo
-                    Bitmap portada = new Bitmap(Application.StartupPath + @"\portada.png");
-                    this.BackgroundImage = portada;
+ 
 
                     //Vaciamos las casillas por si habian quedado rellenadas
                     NameBox.Clear();
@@ -457,27 +447,7 @@ namespace Trivial
             }
         }
 
-        //Tirar el dado y mostrar el resultado
-        private void dado_Click(object sender, EventArgs e)
-        {
-            Random dice = new Random();
-            int num = dice.Next(1, 7);
-            if (num == 1)
-                dado.Image = Image.FromFile("dado1.png");
-            else if (num == 2)
-                dado.Image = Image.FromFile("dado2.png");
-            else if (num == 3)
-                dado.Image = Image.FromFile("dado3.png");
-            else if (num == 4)
-                dado.Image = Image.FromFile("dado4.png");
-            else if (num == 5)
-                dado.Image = Image.FromFile("dado5.png");
-            else if (num == 6)
-                dado.Image = Image.FromFile("dado6.png");
-
-            dadolbl.Text = "Avanza " +num.ToString()+ " casillas.";
-
-        }
+ 
 
         //Boton para desplegar/esconder las posibles consultas
         private void consultasButton_Click(object sender, EventArgs e)

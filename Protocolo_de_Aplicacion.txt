@@ -12,7 +12,7 @@ PROTOCOLO DE APLICACIÓN
                             -                                    <-    "6/conectado1*conectado2*..." (Notificar nueva lista de conectados)
     "6/invitado1*invitado2*..." (Invitar a una partida)          ->    "7/0 o noDisponible1*noDisponible2... o -1" (Invitaciones enviadas correctamente o invitaciones no enviadas a no disponibles o no se ha creado la partida)
     "7/SI o NO/idPartida" (Aceptar o Declinar una invitación)    <-    "8/host*idPartida" (Notificar invitacion a una partida)
-                            -                                    <-    "9/" (Notificación de inicio de partida)
-                            -                                    <-    "10/" (Notificación de fin de partida)
+                            -                                    <-    "9/idPartida*listajugadores" (Notificación de inicio de partida)
+                            -                                    <-    "10/idPartida" (Notificación de fin de partida)
         
 

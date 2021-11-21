@@ -20,3 +20,10 @@ Lista de Conectados automatica y entorno de producción
 	Verificador: Biel Gómez
 	Comunicador: Maria Ubiergo
 URL: https://drive.google.com/drive/folders/1gRTJbbKmVD4K7JOWYYrkuU3unJ3CfYJv?usp=sharing
+
+VERSIÓN 4:
+Invitación y inicio de partida.
+	Manager: Maria Ubiergo
+ 	Verificador: Laia Costa
+  	Comunicador: Biel Gómez
+URL: 

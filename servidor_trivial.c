@@ -50,7 +50,7 @@ int sockets[100];
 
 //LogIn --> Codigo 1
 int LogIn(char nombre[25], char contrasenya[20]){
-	//Retorna: 0--> Todo OK ; 1 --> Usuario no existe ; 2 --> Contrasenya no coincide ; -1 --> Error de consulta
+	//Retorna: 0--> Todo OK ; 1 --> Usuario no existe ; 2 --> Contrasenya no coincide ; -1 --> Error de consulta ; 3 --> Usuario ya conectado
 	
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
@@ -76,8 +76,20 @@ int LogIn(char nombre[25], char contrasenya[20]){
 		else
 		{
 			printf("Contrasenya: %s\n",row[0]);
-			if (strcmp(contrasenya,row[0])==0)
-				return 0;
+			if (strcmp(contrasenya,row[0])==0){
+				int i = 0;
+				int encontrado = 0;
+				while (i<listaC.num && encontrado == 0){
+					if (strcmp(listaC.conectados[i].nombre,nombre)==0)
+						encontrado = 1;
+					else
+						i=i+1;
+				}
+				if (encontrado==1)
+					return 3;
+				else
+					return 0;
+			}
 			else
 				return 2;
 			
@@ -326,7 +338,7 @@ int Invitar(char invitados[500], char nombre[25], char noDisponibles[500],int pa
 	strcpy(noDisponibles,"\0");
 	int error = 0;
 	char *p = strtok(invitados,"*");
-	int numInvitados = 1;
+	int numInvitados = 0;
 	
 	while (p != NULL) {
 		int encontrado = 0;
@@ -397,10 +409,8 @@ int AnadirJugador(char nombre[25],int partida){
 	//Cliente ya no permite que se inviten a mas de 3 personas
 	printf("Añadir jugador: %s\n",nombre);
 	pthread_mutex_lock(&mutex);
-	printf("Jug2: %s\n", tablaP[partida].jug2);
 	if(strcmp(tablaP[partida].jug2,"0")==0){
 		strcpy(tablaP[partida].jug2,nombre);
-		printf("Jug2 change: %s\n", tablaP[partida].jug2);
 	}
 	else if (strcmp(tablaP[partida].jug3,"0")==0)
 		strcpy(tablaP[partida].jug3,nombre);
@@ -413,9 +423,9 @@ int AnadirJugador(char nombre[25],int partida){
 	return res;	
 }
 
-void IniciarPartida (int partida){
+void IniciarPartida (int partida, char jugadores_partida[500]){
 	char ini[20];
-	sprintf(ini, "9/%d/", partida);
+	sprintf(ini, "9/%d*%s", partida, jugadores_partida);
 	printf("Iniciar partida: %s\n",ini);
 	int socket1 = DameSocketConectado(tablaP[partida].host);
 	if(socket1!=-1)
@@ -424,12 +434,12 @@ void IniciarPartida (int partida){
 	if(socket2!=-1)
 		write(socket2,ini,strlen(ini));
 	
-	if (strcmp(tablaP[partida].jug3,NULL)!=0){
+	if (strcmp(tablaP[partida].jug3,"0")!=0){
 		int socket3=DameSocketConectado(tablaP[partida].jug3);
 		if(socket3!=-1)
 			write(socket3,ini,strlen(ini));
 	}
-	if (strcmp(tablaP[partida].jug4,NULL)!=0){
+	if (strcmp(tablaP[partida].jug4,"0")!=0){
 		int socket4=DameSocketConectado(tablaP[partida].jug4);
 		if(socket4!=-1)
 			write(socket4,ini,strlen(ini));
@@ -440,30 +450,62 @@ void FinPartida(int partida){
 	char fin[20];
 	sprintf(fin,"10/%d", partida);
 	int socket1=DameSocketConectado(tablaP[partida].host);
-	if(socket1!=-1)
+	if(socket1!=-1){
 		write(socket1,fin,strlen(fin));
+		printf("notificación: %s enviada a socket:%d \n",fin,socket1);
+	}
 	int socket2=DameSocketConectado(tablaP[partida].jug2);
-	if (socket2!=-1)
+	if (socket2!=-1){
 		write(socket2,fin,strlen(fin));
-	if (strcmp(tablaP[partida].jug3,NULL)!=0){
+		printf("notificación: %s enviada a socket:%d \n",fin,socket2);
+	}
+	
+	if (strcmp(tablaP[partida].jug3,"0")!=0){
 		int socket3=DameSocketConectado(tablaP[partida].jug3);
 		if(socket3!=-1)
+		{
 			write(socket3,fin,strlen(fin));
+			printf("notificación: %s enviada a socket:%d \n",fin,socket3);
+		}	
 	}
-	if (strcmp(tablaP[partida].jug4,NULL)!=0){
+	if (strcmp(tablaP[partida].jug4,"0")!=0){
 		int socket4=DameSocketConectado(tablaP[partida].jug4);
-		if(socket4!=-1)
+		if(socket4!=-1){
 			write(socket4,fin,strlen(fin));
+			printf("notificación: %s enviada a socket:%d \n",fin,socket4);
+			
+		}
 	}	
 }
 //Eliminia una partida de la tabla de partidas.
 void EliminarPartida(int partida){
 	tablaP[partida].estado=0;
 	tablaP[partida].numInvitados=-1;
-	strcpy(tablaP[partida].host,NULL);
-	strcpy(tablaP[partida].jug2,NULL);
-	strcpy(tablaP[partida].jug3,NULL);
-	strcpy(tablaP[partida].jug4,NULL);
+	strcpy(tablaP[partida].host,"0");
+	strcpy(tablaP[partida].jug2,"0");
+	strcpy(tablaP[partida].jug3,"0");
+	strcpy(tablaP[partida].jug4,"0");
+}
+//Retorna los jugadores de una partida recibida como parametro
+void DameJugadoresPartida(int partida, char jugadores[500]){
+	sprintf(jugadores,"%s*%s",tablaP[partida].host,tablaP[partida].jug2);
+	
+	if (strcmp(tablaP[partida].jug3,"0")!=0){
+		sprintf(jugadores,"%s*%s",jugadores,tablaP[partida].jug3);
+		if(strcmp(tablaP[partida].jug4,"0")!=0)
+			sprintf(jugadores,"%s*%s",jugadores,tablaP[partida].jug4);
+	}
+}
+//Retorna los id de las partidas en las que participa el jugador recibido como parámetro
+void DamePartidasJugador(char nombre[25], char partidas[100]){
+	int i=0;
+	strcpy(partidas,"\0");
+	while(i<len_tablaP)
+	{
+		if((strcmp(nombre,tablaP[i].host)==0)||(strcmp(nombre,tablaP[i].jug2)==0)||(strcmp(nombre,tablaP[i].jug3)==0)||(strcmp(nombre,tablaP[i].jug4)==0))
+			sprintf(partidas,"%s%d/",partidas,i);
+		i=i+1;
+	}
 }
 
 //Atencion a los diferentes clientes (threads)
@@ -515,7 +557,18 @@ int *AtenderCliente(void *socket){
 			pthread_mutex_lock(&mutex);
 			RetirarDeListaConectados(nombre);
 			NotificarNuevaListaConectados();
-			
+			char partidas[100];
+			DamePartidasJugador(nombre,partidas);
+			char *p=strtok(partidas,"/");
+			while(p!=NULL)
+			{	
+				int partida=atoi(p);
+				FinPartida(partida);
+				printf("Notificación de fin de partida %d\n",partida);
+				EliminarPartida(partida);
+				p=strtok(NULL,"/");
+			}
+						
 			pthread_mutex_unlock(&mutex);
 			
 			
@@ -631,23 +684,33 @@ int *AtenderCliente(void *socket){
 				}
 				
 			}
+			//Codigo 7 --> Respuesta a una invitacion de partida
 			else if (codigo ==  7) {
 				//Mensaje en buff: 7/respuesta(SI/NO)/id_partida
+				//Mensaje en buff2: -
+				
 				p = strtok(NULL,"/");
 				char respuesta[3];
 				strcpy(respuesta,p);
-				printf(respuesta);
-				p = strtok(NULL,"\0");
+				printf("%s\n",respuesta);
+				p = strtok(NULL,"/");
 				printf("Id partida: %s\n",p);
 				int id_partida;
 				id_partida = atoi(p);
 				if (strcmp(respuesta,"NO")==0){
 					FinPartida(id_partida);
 					EliminarPartida(id_partida);
-				}else{
+				}
+				else{
 					int res = AnadirJugador(nombre,id_partida);
-					printf("Iniciar partida: \n");
-					IniciarPartida(id_partida);
+					printf("Añadido a la partida %s\n",nombre);
+					printf("%d\n",res);
+					if (res == 0){
+						printf("Iniciar partida: \n");
+						char jugadores_partida[500];
+						DameJugadoresPartida(id_partida,jugadores_partida);
+						IniciarPartida(id_partida,jugadores_partida);
+					}
 				}
 				
 			}
@@ -691,7 +754,7 @@ int main(int argc, char *argv[]) {
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port 50051
-	serv_adr.sin_port = htons(9090);
+	serv_adr.sin_port = htons(50051);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind\n");
 	//La cola de peticiones pendientes no podr? ser superior a 4
@@ -705,7 +768,7 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 	
-	conn = mysql_real_connect(conn,"localhost","root","mysql","T1_BBDD",0,NULL,0);
+	conn = mysql_real_connect(conn,"shiva2.upc.es","root","mysql","T1_BBDD",0,NULL,0);
 	if (conn==NULL){
 		printf("Error al crear la connexión: %u %s\n",mysql_errno(conn),mysql_error(conn));
 		exit(1);

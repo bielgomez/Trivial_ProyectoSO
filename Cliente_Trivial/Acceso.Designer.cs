@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Login = new System.Windows.Forms.Button();
             this.PasswordBox = new System.Windows.Forms.TextBox();
             this.NameBox = new System.Windows.Forms.TextBox();
@@ -51,9 +51,7 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.duracion = new System.Windows.Forms.RadioButton();
             this.Contraseña = new System.Windows.Forms.RadioButton();
-            this.dado = new System.Windows.Forms.PictureBox();
             this.consultasButton = new System.Windows.Forms.Button();
-            this.dadolbl = new System.Windows.Forms.Label();
             this.ConectadosGridView = new System.Windows.Forms.DataGridView();
             this.labelConectados = new System.Windows.Forms.Label();
             this.nameUserTxt = new System.Windows.Forms.Label();
@@ -62,7 +60,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.candadoBox)).BeginInit();
             this.registroBox.SuspendLayout();
             this.consultaBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ConectadosGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -326,16 +323,6 @@
             this.Contraseña.Text = "¿Cuál es mi contraseña?";
             this.Contraseña.UseVisualStyleBackColor = false;
             // 
-            // dado
-            // 
-            this.dado.Location = new System.Drawing.Point(1247, 515);
-            this.dado.Name = "dado";
-            this.dado.Size = new System.Drawing.Size(101, 97);
-            this.dado.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.dado.TabIndex = 12;
-            this.dado.TabStop = false;
-            this.dado.Click += new System.EventHandler(this.dado_Click);
-            // 
             // consultasButton
             // 
             this.consultasButton.AutoSize = true;
@@ -350,30 +337,19 @@
             this.consultasButton.UseVisualStyleBackColor = false;
             this.consultasButton.Click += new System.EventHandler(this.consultasButton_Click);
             // 
-            // dadolbl
-            // 
-            this.dadolbl.AutoSize = true;
-            this.dadolbl.BackColor = System.Drawing.Color.Transparent;
-            this.dadolbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dadolbl.Location = new System.Drawing.Point(1234, 485);
-            this.dadolbl.Name = "dadolbl";
-            this.dadolbl.Size = new System.Drawing.Size(113, 18);
-            this.dadolbl.TabIndex = 14;
-            this.dadolbl.Text = "Lanza el dado";
-            // 
             // ConectadosGridView
             // 
             this.ConectadosGridView.AllowUserToAddRows = false;
             this.ConectadosGridView.AllowUserToDeleteRows = false;
             this.ConectadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.ConectadosGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.ConectadosGridView.GridColor = System.Drawing.SystemColors.Control;
             this.ConectadosGridView.Location = new System.Drawing.Point(12, 331);
@@ -408,9 +384,9 @@
             this.invitarButton.BackColor = System.Drawing.Color.Black;
             this.invitarButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.invitarButton.ForeColor = System.Drawing.Color.White;
-            this.invitarButton.Location = new System.Drawing.Point(12, 280);
+            this.invitarButton.Location = new System.Drawing.Point(12, 241);
             this.invitarButton.Name = "invitarButton";
-            this.invitarButton.Size = new System.Drawing.Size(102, 33);
+            this.invitarButton.Size = new System.Drawing.Size(139, 72);
             this.invitarButton.TabIndex = 19;
             this.invitarButton.Text = "Invitar";
             this.invitarButton.UseVisualStyleBackColor = false;
@@ -426,9 +402,7 @@
             this.Controls.Add(this.invitarButton);
             this.Controls.Add(this.nameUserTxt);
             this.Controls.Add(this.labelConectados);
-            this.Controls.Add(this.dadolbl);
             this.Controls.Add(this.consultasButton);
-            this.Controls.Add(this.dado);
             this.Controls.Add(this.consultaBox);
             this.Controls.Add(this.registroBox);
             this.Controls.Add(this.luz);
@@ -448,7 +422,6 @@
             this.registroBox.PerformLayout();
             this.consultaBox.ResumeLayout(false);
             this.consultaBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ConectadosGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -479,9 +452,7 @@
         private System.Windows.Forms.RadioButton duracion;
         private System.Windows.Forms.RadioButton Contraseña;
         private System.Windows.Forms.PictureBox candadoBox;
-        private System.Windows.Forms.PictureBox dado;
         private System.Windows.Forms.Button consultasButton;
-        private System.Windows.Forms.Label dadolbl;
         private System.Windows.Forms.DataGridView ConectadosGridView;
         private System.Windows.Forms.Label labelConectados;
         private System.Windows.Forms.Label nameUserTxt;
