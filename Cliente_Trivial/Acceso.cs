@@ -200,8 +200,13 @@ namespace Trivial
                             break;
 
                         case 10://Notificación de fin de partida
-                            tablero.Close();
-                            MessageBox.Show("La partida "+mensaje+" ha finalizado.");
+                            if (tablero != null)
+                            {
+                                tablero.Close();
+                                
+                            }
+                            MessageBox.Show("La partida " + mensaje + " ha finalizado.");
+
                             break;
                     }
                 }

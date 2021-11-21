@@ -52,7 +52,7 @@ namespace Trivial
 
         }
 
-        //public void SetPartida(int id_partida, List<string> invitados) {
+        
         public void SetPartida(string mensaje)
         {
             string[] trozos = mensaje.Split('*');
