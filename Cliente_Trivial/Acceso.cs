@@ -202,6 +202,11 @@ namespace Trivial
                             tablero.SetPartida(mensaje);
                             tablero.ShowDialog();
                             break;
+
+                        case 10://Notificación de fin de partida
+                            tablero.Close();
+                            MessageBox.Show("La partida "+mensaje+" ha finalizado.");
+                            break;
                     }
                 }
                 catch (SocketException)
@@ -237,7 +242,7 @@ namespace Trivial
             //Se conecta al servidor solamente entrar
             IPAddress direc = IPAddress.Parse("192.168.56.102");    //@IP_Shiva1: 147.83.117.22
                                                                     //@IP_LocalHost: 192.168.56.102
-            IPEndPoint ipep = new IPEndPoint(direc, 9090); //@Port_Shiva1: 50051.2.3 o 9070
+            IPEndPoint ipep = new IPEndPoint(direc, 9080); //@Port_Shiva1: 50051.2.3 o 9070
 
             try
             {
@@ -269,7 +274,7 @@ namespace Trivial
             if (c == 0)
             {
                 IPAddress direc = IPAddress.Parse("192.168.56.102");
-                IPEndPoint ipep = new IPEndPoint(direc, 9090);
+                IPEndPoint ipep = new IPEndPoint(direc, 9080);
 
                 //Creamos el socket 
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -556,7 +561,7 @@ namespace Trivial
             }
             else if ((invitarButton.Text == "Enviar\n Invitación") && (invitados.Count > 3))
                 MessageBox.Show("El numero maximo de invitados es 3");
-
+            ConectadosGridView.SelectAll();
         }
 
         private void invitarButton_Click(object sender, EventArgs e)

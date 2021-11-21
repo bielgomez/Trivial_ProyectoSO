@@ -450,20 +450,31 @@ void FinPartida(int partida){
 	char fin[20];
 	sprintf(fin,"10/%d", partida);
 	int socket1=DameSocketConectado(tablaP[partida].host);
-	if(socket1!=-1)
+	if(socket1!=-1){
 		write(socket1,fin,strlen(fin));
+		printf("notificación: %s enviada a socket:%d \n",fin,socket1);
+	}
 	int socket2=DameSocketConectado(tablaP[partida].jug2);
-	if (socket2!=-1)
+	if (socket2!=-1){
 		write(socket2,fin,strlen(fin));
+		printf("notificación: %s enviada a socket:%d \n",fin,socket2);
+	}
+	
 	if (strcmp(tablaP[partida].jug3,"0")!=0){
 		int socket3=DameSocketConectado(tablaP[partida].jug3);
 		if(socket3!=-1)
+		{
 			write(socket3,fin,strlen(fin));
+			printf("notificación: %s enviada a socket:%d \n",fin,socket3);
+		}	
 	}
 	if (strcmp(tablaP[partida].jug4,"0")!=0){
 		int socket4=DameSocketConectado(tablaP[partida].jug4);
-		if(socket4!=-1)
+		if(socket4!=-1){
 			write(socket4,fin,strlen(fin));
+			printf("notificación: %s enviada a socket:%d \n",fin,socket4);
+			
+		}
 	}	
 }
 //Eliminia una partida de la tabla de partidas.
@@ -483,6 +494,17 @@ void DameJugadoresPartida(int partida, char jugadores[500]){
 		sprintf(jugadores,"%s*%s",jugadores,tablaP[partida].jug3);
 		if(strcmp(tablaP[partida].jug4,"0")!=0)
 			sprintf(jugadores,"%s*%s",jugadores,tablaP[partida].jug4);
+	}
+}
+//Retorna los id de las partidas en las que participa el jugador recibido como parámetro
+void DamePartidasJugador(char nombre[25], char partidas[100]){
+	int i=0;
+	strcpy(partidas,"\0");
+	while(i<len_tablaP)
+	{
+		if((strcmp(nombre,tablaP[i].host)==0)||(strcmp(nombre,tablaP[i].jug2)==0)||(strcmp(nombre,tablaP[i].jug3)==0)||(strcmp(nombre,tablaP[i].jug4)==0))
+			sprintf(partidas,"%s%d/",partidas,i);
+		i=i+1;
 	}
 }
 
@@ -535,7 +557,18 @@ int *AtenderCliente(void *socket){
 			pthread_mutex_lock(&mutex);
 			RetirarDeListaConectados(nombre);
 			NotificarNuevaListaConectados();
-			
+			char partidas[100];
+			DamePartidasJugador(nombre,partidas);
+			char *p=strtok(partidas,"/");
+			while(p!=NULL)
+			{	
+				int partida=atoi(p);
+				FinPartida(partida);
+				printf("Notificación de fin de partida %d\n",partida);
+				EliminarPartida(partida);
+				p=strtok(NULL,"/");
+			}
+						
 			pthread_mutex_unlock(&mutex);
 			
 			
@@ -721,7 +754,7 @@ int main(int argc, char *argv[]) {
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port 50051
-	serv_adr.sin_port = htons(9090);
+	serv_adr.sin_port = htons(9080);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind\n");
 	//La cola de peticiones pendientes no podr? ser superior a 4
