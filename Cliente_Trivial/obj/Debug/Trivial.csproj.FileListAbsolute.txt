@@ -72,3 +72,5 @@ C:\Users\Inmaculada\Documents\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug
 C:\Users\Inmaculada\Documents\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.pdb
 C:\Users\Inmaculada\Documents\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.Invitacion.resources
 C:\Users\Inmaculada\Documents\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.Tablero.resources
+C:\Users\bielg\OneDrive\Escriptori\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.Invitacion.resources
+C:\Users\bielg\OneDrive\Escriptori\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.Tablero.resources

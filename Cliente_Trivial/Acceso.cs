@@ -34,7 +34,6 @@ namespace Trivial
         delegate void DelegadoParaEscribir(string[] conectados);
 
         List<string> invitados;
-        string convidats;
 
         public Acceso()
         {
@@ -193,17 +192,14 @@ namespace Trivial
                             invitacion.SetHost(split[0]);
                             invitacion.ShowDialog();
                             string respuesta = "7/" + invitacion.GetRespuesta() + "/" + split[1]+"\0";
-                            invitacion.Close();
                             byte[] msg = System.Text.Encoding.ASCII.GetBytes(respuesta);
                             server.Send(msg);                       
                             
                             break;
 
-                        case 9: //Notificación de inicio de partida
-                            string[] split2 = mensaje.Split('/');
+                        case 9: //Notificación de inicio de partida                         
                             tablero = new Tablero();
-                            //tablero.SetPartida(Convert.ToInt32(split2[0]), invitados);
-                            tablero.SetPartida(Convert.ToInt32(split2[0]), convidats);
+                            tablero.SetPartida(mensaje);
                             tablero.ShowDialog();
                             break;
                     }
@@ -558,7 +554,7 @@ namespace Trivial
                     }
                 }
             }
-            else if (invitados.Count > 3)
+            else if ((invitarButton.Text == "Enviar\n Invitación") && (invitados.Count > 3))
                 MessageBox.Show("El numero maximo de invitados es 3");
 
         }
@@ -582,17 +578,12 @@ namespace Trivial
                 {
                     //Construimos el mensaje
                     string mensaje = "6/";
-                    convidats = "";
                     for (int i = 0; i < invitados.Count; i++)
                     {
                         mensaje = mensaje + invitados[i] + "*";
-                        convidats = convidats + invitados[i] + "*";
                     }
 
                     mensaje = mensaje.Remove(mensaje.Length - 1);
-                    convidats = convidats.Remove(convidats.Length - 1);
-
-                    //MessageBox.Show(mensaje);
 
                     //Lo enviamos por el socket (Codigo 6 --> Invitar a jugadores)
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);

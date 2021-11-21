@@ -13,8 +13,8 @@ namespace Trivial
     public partial class Tablero : Form
     {
         int partida;
-        List<string> invitados;
-        List<string> convidatsLlista;
+        List<string> jugadores;
+        
         public Tablero()
         {
             InitializeComponent();
@@ -22,39 +22,40 @@ namespace Trivial
 
         private void Tablero_Load(object sender, EventArgs e)
         {
-            playersGridView.ColumnCount = 2;
-            playersGridView.RowCount = this.convidatsLlista.Count;
+            playersGridView.ColumnCount = 3;
+            playersGridView.RowCount = this.jugadores.Count;
             playersGridView.ColumnHeadersVisible = true;
             playersGridView.Columns[0].HeaderText = "Jugador";
             playersGridView.Columns[1].HeaderText = "Turno";
+            playersGridView.Columns[2].HeaderText = "Puntos";
             playersGridView.RowHeadersVisible = false;
             playersGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             playersGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             playersGridView.SelectAll();
 
             //for(int i = 0; i<this.invitados.Count; i++)
-            for (int i = 0; i < this.convidatsLlista.Count; i++)
+            for (int i = 0; i < this.jugadores.Count; i++)
             {
                 //playersGridView.Rows[i].Cells[0].Value = invitados[i];
-                playersGridView.Rows[i].Cells[0].Value = convidatsLlista[i];
-                playersGridView.Rows[i].Cells[1].Value = "0";
+                playersGridView.Rows[i].Cells[0].Value = jugadores[i];
+                playersGridView.Rows[i].Cells[1].Value = "NO";
+                playersGridView.Rows[i].Cells[2].Value = "0";
             }
-            playersGridView.Rows[0].Cells[1].Value = "1";
+            playersGridView.Rows[0].Cells[1].Value = "SI";
             playersGridView.Show();
 
         }
 
         //public void SetPartida(int id_partida, List<string> invitados) {
-        public void SetPartida(int id_partida, string convidats)
+        public void SetPartida(string mensaje)
         {
-            this.partida = id_partida;
-            //this.invitados = new List<string>();
-            //for(int i = 0; i<invitados.Count; i++)
-            //this.invitados.Add(invitados[i]);
-            this.convidatsLlista = new List<string>();
-            string[] trozos = convidats.Split('*');
-            for(int i = 0; i<trozos.Length; i++)
-                this.convidatsLlista.Add(trozos[i]);
+            string[] trozos = mensaje.Split('*');
+            this.partida = Convert.ToInt32(trozos[0]);
+
+            jugadores = new List<string>();
+            for (int i = 1; i < trozos.Length; i++)
+                jugadores.Add(trozos[i]);
+
         }
     }
 }
