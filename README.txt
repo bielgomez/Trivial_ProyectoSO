@@ -26,4 +26,4 @@ Invitación y inicio de partida.
 	Manager: Maria Ubiergo
  	Verificador: Laia Costa
   	Comunicador: Biel Gómez
-URL: 
+URL: https://drive.google.com/drive/folders/1RsSXtYWzPNOOo1GmbLi3XYf4MIdl9LBz?usp=sharing
