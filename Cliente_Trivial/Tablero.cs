@@ -7,12 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
+using System.Net.Sockets;
 
 namespace Trivial
 {
     public partial class Tablero : Form
     {
         int partida;
+        Socket server;
         List<string> jugadores;
         
         public Tablero()
@@ -21,7 +24,7 @@ namespace Trivial
             Bitmap tablero = new Bitmap(Application.StartupPath + @"\tablero.png");
             this.BackgroundImage = tablero;
             this.BackgroundImageLayout = ImageLayout.Stretch;
-            PictureBox dado = new PictureBox();          
+            PictureBox dado = new PictureBox();
 
         }
 
@@ -53,7 +56,7 @@ namespace Trivial
         }
 
         
-        public void SetPartida(string mensaje)
+        public void SetPartida(string mensaje,Socket server)
         {
             string[] trozos = mensaje.Split('*');
             this.partida = Convert.ToInt32(trozos[0]);
@@ -62,8 +65,14 @@ namespace Trivial
             for (int i = 1; i < trozos.Length; i++)
                 jugadores.Add(trozos[i]);
 
+            this.server = server;
         }
 
+        //Obtener el numero de la partida de este tablero
+        public int DameIdPartida()
+        {
+            return this.partida;
+        }
 
         //Tirar el dado y mostrar el resultado
         private void dado_Click_1(object sender, EventArgs e)

@@ -24,7 +24,6 @@ namespace Trivial
         Socket server;
         Thread atender;
         Invitacion invitacion;
-        Tablero tablero;
 
         int c = 0;
         int ask = 0;
@@ -34,6 +33,8 @@ namespace Trivial
         delegate void DelegadoParaEscribir(string[] conectados);
 
         List<string> invitados;
+
+        List<Tablero> tableros;
 
         public Acceso()
         {
@@ -67,7 +68,26 @@ namespace Trivial
 
         }
 
-        //Funcion que ejecutará el thread
+        //Funcion para obtener la posicion en la lista de tableros de un id de partida
+        private int DamePosicionLista(List<Tablero> tableros, int idPartida)
+        {
+            //Retorna el tablero asignado a la partida si todo va bien y -1 si no
+            bool found = false;
+            int i = 0;
+            while (i < tableros.Count && found == false)
+            {
+                if (tableros.ElementAt(i).DameIdPartida() == idPartida)
+                    found = true;
+                else
+                    i = i + 1;
+            }
+            if (found == true)
+                return i;
+            else
+                return -1;
+        }
+
+        //Funcion que ejecutará el thread de recepción de respuestas del servidor
         private void AtenderServidor()
         {
             while (true)
@@ -87,7 +107,8 @@ namespace Trivial
                         case 1: //Respuesta de la comprovación para el LogIn
                             if (mensaje == "0") //Login correcto
                             {
-                                
+                                //establecemos una lista de partidas para esta conexión
+                                tableros = new List<Tablero>();
 
                                 //Establecemos pantalla del juego
                                 consultasButton.Visible = true;
@@ -193,20 +214,19 @@ namespace Trivial
                             
                             break;
 
-                        case 9: //Notificación de inicio de partida                         
-                            tablero = new Tablero();
-                            tablero.SetPartida(mensaje);
-                            tablero.ShowDialog();
+                        case 9: //Notificación de inicio de partida
+                            //Iniciamos un thread para esta partida
+                            ThreadStart ts = delegate { NuevaPartida(mensaje); };
+                            Thread T = new Thread(ts);
+                            T.Start();
                             break;
 
                         case 10://Notificación de fin de partida
-                            if (tablero != null)
-                            {
-                                tablero.Close();
-                                
-                            }
+                            //Enviar esta notificacion al Tablero correspondiente
                             MessageBox.Show("La partida " + mensaje + " ha finalizado.");
-
+                            int numTablero = DamePosicionLista(tableros, Convert.ToInt32(mensaje));
+                            if(numTablero>=0)
+                                tableros[numTablero].Close();
                             break;
                     }
                 }
@@ -220,6 +240,20 @@ namespace Trivial
                 }
             }
             
+        }
+
+        //Funcion para ejecutar un nuevo thread con el formulario de una partida
+        private void NuevaPartida(string mensaje)
+        {
+            Tablero tablero = new Tablero();
+            tablero.SetPartida(mensaje,this.server);
+            tableros.Add(tablero);
+            tablero.ShowDialog();
+            //En un futur aqui recollirem el historial de la partida
+            //En el momento que se cierra el tablero (se acaba el ShowDialog) quitamos el tablero de la lista
+            tableros.Remove(tablero);
+
+            //Acaba el thread para esta partida
         }
 
         //Iniciacion del Form 
@@ -239,9 +273,10 @@ namespace Trivial
             
 
             //Se conecta al servidor solamente entrar
-            IPAddress direc = IPAddress.Parse("147.83.117.22");    //@IP_Shiva1: 147.83.117.22
+            IPAddress direc = IPAddress.Parse("192.168.56.102");    //@IP_Shiva1: 147.83.117.22
                                                                     //@IP_LocalHost: 192.168.56.102
-            IPEndPoint ipep = new IPEndPoint(direc, 50051); //@Port_Shiva1: 50051.2.3 o 9070
+            IPEndPoint ipep = new IPEndPoint(direc, 9070); //#Port_Shiva1: 50051.2.3
+                                                           //#Port_localhost: 9080
 
             try
             {
@@ -272,8 +307,8 @@ namespace Trivial
             //Caso Desconectado --> Queremos conectarnos
             if (c == 0)
             {
-                IPAddress direc = IPAddress.Parse("147.83.117.22");
-                IPEndPoint ipep = new IPEndPoint(direc, 50051);
+                IPAddress direc = IPAddress.Parse("192.168.56.102");
+                IPEndPoint ipep = new IPEndPoint(direc, 9070);
 
                 //Creamos el socket 
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -333,8 +368,11 @@ namespace Trivial
                     nameUserTxt.Visible = false;
                     invitarButton.Text = "Invitar";
                     invitarButton.Visible = false;
-                    
- 
+
+                    //Cerramos todos los tableros que haya abiertos
+                    for (int i = 0; i < tableros.Count; i++)
+                        tableros[i].Close();
+                    tableros.Clear();
 
                     //Vaciamos las casillas por si habian quedado rellenadas
                     NameBox.Clear();
@@ -492,6 +530,11 @@ namespace Trivial
                     //Desconexión del servidor
                     server.Shutdown(SocketShutdown.Both);
                     server.Close();
+
+                    //Cerramos todos los tableros que haya abiertos
+                    for (int i = 0; i < tableros.Count; i++)
+                        tableros[i].Close();
+                    tableros.Clear();
                 }
             }
             catch (Exception)

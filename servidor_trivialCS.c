@@ -257,7 +257,7 @@ void AnadirAListaConectados (char nombre[25],int *socket){
 		//Lo añadimos
 		listaC.conectados[listaC.num]=nuevoUsuario;
 		listaC.num = listaC.num+1;
-		printf("Usuario %s añadido", nombre);
+		printf("Usuario %s añadido\n", nombre);
 	}	
 }
 //Retirar de la lista de conectados
@@ -422,7 +422,8 @@ int AnadirJugador(char nombre[25],int partida){
 	pthread_mutex_unlock(&mutex);
 	return res;	
 }
-
+//Con la confirmacion de todos los invitados notificamos a los jugadores
+//del inicio de la partida.
 void IniciarPartida (int partida, char jugadores_partida[500]){
 	char ini[20];
 	sprintf(ini, "9/%d*%s", partida, jugadores_partida);
@@ -754,7 +755,7 @@ int main(int argc, char *argv[]) {
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port 50051
-	serv_adr.sin_port = htons(9080);
+	serv_adr.sin_port = htons(9070);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind\n");
 	//La cola de peticiones pendientes no podr? ser superior a 4
