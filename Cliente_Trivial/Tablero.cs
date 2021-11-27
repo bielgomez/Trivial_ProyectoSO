@@ -15,6 +15,7 @@ namespace Trivial
     public partial class Tablero : Form
     {
         int partida;
+        string userName;
         string rol;
         bool miTurno;
         Socket server;
@@ -62,17 +63,19 @@ namespace Trivial
         }
 
         
-        public void SetPartida(string mensaje,Socket server)
+        public void SetPartida(string mensaje,Socket server, string userName)
         {
-            string[] trozos = mensaje.Split('*');
+            string[] trozos = mensaje.Split('*'); //0*maria*biel
             this.partida = Convert.ToInt32(trozos[0]);
 
             jugadores = new List<string>();
             for (int i = 1; i < trozos.Length-1; i++)
                 jugadores.Add(trozos[i]);
-
+            MessageBox.Show(jugadores.Count.ToString());
             this.rol = trozos[trozos.Length - 1];
             this.server = server;
+
+            this.userName = userName;
         }
 
         //Recibimos un nuevo movimiento (el codigo nos indica el tipo de movimiento)
@@ -149,7 +152,7 @@ namespace Trivial
                 dadolbl.Text = "Avanza " + num.ToString() + " casillas.";
 
                 //Construimos el mensaje para enviar el resultado del dado
-                string resDado = "8/" + partida + "/" + num + "/" + rol;
+                string resDado = "8/" + partida + "/" + num + "/" + rol + "/" + userName;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(resDado);
                 server.Send(msg);
             }

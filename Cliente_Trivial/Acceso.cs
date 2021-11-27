@@ -76,7 +76,7 @@ namespace Trivial
             int i = 0;
             while (i < tableros.Count && found == false)
             {
-                MessageBox.Show(Convert.ToString(tableros[i].DameIdPartida()));
+                //MessageBox.Show(Convert.ToString(tableros[i].DameIdPartida()));
                 if (tableros[i].DameIdPartida() == idPartida)
                     found = true;
                 else
@@ -255,7 +255,7 @@ namespace Trivial
         private void NuevaPartida(string mensaje)
         {
             Tablero tablero = new Tablero();
-            tablero.SetPartida(mensaje,this.server);
+            tablero.SetPartida(mensaje,this.server,this.userName);
             tableros.Add(tablero);
             MessageBox.Show("1:" + Convert.ToString(tableros.Count));
             tablero.ShowDialog();
@@ -284,9 +284,9 @@ namespace Trivial
             
 
             //Se conecta al servidor solamente entrar
-            IPAddress direc = IPAddress.Parse("147.83.117.22");    //@IP_Shiva1: 147.83.117.22
+            IPAddress direc = IPAddress.Parse("192.168.56.102");    //@IP_Shiva1: 147.83.117.22
                                                                     //@IP_LocalHost: 192.168.56.102
-            IPEndPoint ipep = new IPEndPoint(direc, 50051); //#Port_Shiva1: 50051.2.3
+            IPEndPoint ipep = new IPEndPoint(direc, 9070); //#Port_Shiva1: 50051.2.3
                                                            //#Port_localhost: 9080
 
             try
@@ -318,8 +318,8 @@ namespace Trivial
             //Caso Desconectado --> Queremos conectarnos
             if (c == 0)
             {
-                IPAddress direc = IPAddress.Parse("147.83.117.22");
-                IPEndPoint ipep = new IPEndPoint(direc, 50051);
+                IPAddress direc = IPAddress.Parse("192.168.56.102");
+                IPEndPoint ipep = new IPEndPoint(direc, 9070);
 
                 //Creamos el socket 
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
