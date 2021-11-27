@@ -14,5 +14,6 @@ PROTOCOLO DE APLICACIÓN
     "7/SI o NO/idPartida" (Aceptar o Declinar una invitación)    <-    "8/host*idPartida" (Notificar invitacion a una partida)
                             -                                    <-    "9/idPartida*listajugadores" (Notificación de inicio de partida)
                             -                                    <-    "10/idPartida" (Notificación de fin de partida)
+    "8/idPartida/resDado/miRol" (Resultado del dado lanzado)     ->    "11/idPartida*resDado*nombreTirador*siguienteTurno(rol)" (Notificación al resto de jugadores del resultado del dado)  
         
 

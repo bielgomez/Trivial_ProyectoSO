@@ -15,6 +15,8 @@ namespace Trivial
     public partial class Tablero : Form
     {
         int partida;
+        string rol;
+        bool miTurno;
         Socket server;
         List<string> jugadores;
         
@@ -42,10 +44,9 @@ namespace Trivial
             playersGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             playersGridView.SelectAll();
 
-            //for(int i = 0; i<this.invitados.Count; i++)
+            
             for (int i = 0; i < this.jugadores.Count; i++)
             {
-                //playersGridView.Rows[i].Cells[0].Value = invitados[i];
                 playersGridView.Rows[i].Cells[0].Value = jugadores[i];
                 playersGridView.Rows[i].Cells[1].Value = "NO";
                 playersGridView.Rows[i].Cells[2].Value = "0";
@@ -53,6 +54,11 @@ namespace Trivial
             playersGridView.Rows[0].Cells[1].Value = "SI";
             playersGridView.Show();
 
+            //Establecemos el turno inicial
+            if (rol == "host")
+                miTurno = true;
+            else
+                miTurno = false;
         }
 
         
@@ -62,10 +68,56 @@ namespace Trivial
             this.partida = Convert.ToInt32(trozos[0]);
 
             jugadores = new List<string>();
-            for (int i = 1; i < trozos.Length; i++)
+            for (int i = 1; i < trozos.Length-1; i++)
                 jugadores.Add(trozos[i]);
 
+            this.rol = trozos[trozos.Length - 1];
             this.server = server;
+        }
+
+        //Recibimos un nuevo movimiento (el codigo nos indica el tipo de movimiento)
+        public void NuevoMovimiento(string mensaje, int codigo) //"idPartida*resDado*nombreTirador*siguienteTurno(rol)"
+        {
+            //Resultado del dado
+            if (codigo == 11)
+            {
+                string[] trozos = mensaje.Split('*');
+                if (miTurno == true)
+                    miTurno = false;
+                else
+                {
+                    dadolbl.Text = trozos[2] + " avanza " + trozos[1] + " casillas";
+                    if (trozos[3] == rol)
+                        miTurno = true;
+                }
+
+                ActualizarTurno(trozos[3]);
+
+            }
+        }
+
+        //Actualizar turno 
+        private void ActualizarTurno(string siguienteTurno)
+        {
+            for (int i = 0; i < playersGridView.RowCount; i++)
+                playersGridView.Rows[i].Cells[1].Value = "NO";
+
+            switch (siguienteTurno)
+            {
+                case "host":
+                    playersGridView.Rows[0].Cells[1].Value = "SI";
+                    break;
+                case "jug2":
+                    playersGridView.Rows[1].Cells[1].Value = "SI";
+                    break;
+                case "jug3":
+                    playersGridView.Rows[2].Cells[1].Value = "SI";
+                    break;
+                case "jug4":
+                    playersGridView.Rows[3].Cells[1].Value = "SI";
+                    break;
+            }
+
         }
 
         //Obtener el numero de la partida de este tablero
@@ -77,22 +129,33 @@ namespace Trivial
         //Tirar el dado y mostrar el resultado
         private void dado_Click_1(object sender, EventArgs e)
         {
-            Random dice = new Random();
-            int num = dice.Next(1, 7);
-            if (num == 1)
-                dado.Image = Image.FromFile("dado1.png");
-            else if (num == 2)
-                dado.Image = Image.FromFile("dado2.png");
-            else if (num == 3)
-                dado.Image = Image.FromFile("dado3.png");
-            else if (num == 4)
-                dado.Image = Image.FromFile("dado4.png");
-            else if (num == 5)
-                dado.Image = Image.FromFile("dado5.png");
-            else if (num == 6)
-                dado.Image = Image.FromFile("dado6.png");
+            if (miTurno == true)
+            {
+                Random dice = new Random();
+                int num = dice.Next(1, 7);
+                if (num == 1)
+                    dado.Image = Image.FromFile("dado1.png");
+                else if (num == 2)
+                    dado.Image = Image.FromFile("dado2.png");
+                else if (num == 3)
+                    dado.Image = Image.FromFile("dado3.png");
+                else if (num == 4)
+                    dado.Image = Image.FromFile("dado4.png");
+                else if (num == 5)
+                    dado.Image = Image.FromFile("dado5.png");
+                else if (num == 6)
+                    dado.Image = Image.FromFile("dado6.png");
 
-            dadolbl.Text = "Avanza " + num.ToString() + " casillas.";
+                dadolbl.Text = "Avanza " + num.ToString() + " casillas.";
+
+                //Construimos el mensaje para enviar el resultado del dado
+                string resDado = "8/" + partida + "/" + num + "/" + rol;
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(resDado);
+                server.Send(msg);
+            }
+            else
+                MessageBox.Show("No es tu turno");
+            
         }
     }
 }

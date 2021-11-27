@@ -425,58 +425,69 @@ int AnadirJugador(char nombre[25],int partida){
 //Con la confirmacion de todos los invitados notificamos a los jugadores
 //del inicio de la partida.
 void IniciarPartida (int partida, char jugadores_partida[500]){
-	char ini[20];
+	char ini[500];
 	sprintf(ini, "9/%d*%s", partida, jugadores_partida);
 	printf("Iniciar partida: %s\n",ini);
 	int socket1 = DameSocketConectado(tablaP[partida].host);
-	if(socket1!=-1)
+	if(socket1!=-1){
+		sprintf(ini,"%s*%s",ini,"host");
 		write(socket1,ini,strlen(ini));
+	}
 	int socket2 = DameSocketConectado(tablaP[partida].jug2);
-	if(socket2!=-1)
+	if(socket2!=-1){
+		sprintf(ini,"%s*%s",ini,"jug2");
 		write(socket2,ini,strlen(ini));
+	}
 	
 	if (strcmp(tablaP[partida].jug3,"0")!=0){
 		int socket3=DameSocketConectado(tablaP[partida].jug3);
-		if(socket3!=-1)
+		if(socket3!=-1){
+			sprintf(ini,"%s*%s",ini,"jug3");
 			write(socket3,ini,strlen(ini));
+		}
 	}
 	if (strcmp(tablaP[partida].jug4,"0")!=0){
 		int socket4=DameSocketConectado(tablaP[partida].jug4);
-		if(socket4!=-1)
+		if(socket4!=-1){
+			sprintf(ini,"%s*%s",ini,"jug4");
 			write(socket4,ini,strlen(ini));
+		}
 	}	
 }
-//Notifica a los jugadores de la tabla que ha acabado la partida.
-void FinPartida(int partida){
-	char fin[20];
-	sprintf(fin,"10/%d", partida);
+//Envia notificacion a toods
+void EnviaNotificacion(char notificacion[500],int partida){
 	int socket1=DameSocketConectado(tablaP[partida].host);
 	if(socket1!=-1){
-		write(socket1,fin,strlen(fin));
-		printf("notificación: %s enviada a socket:%d \n",fin,socket1);
+		write(socket1,notificacion,strlen(notificacion));
+		printf("notificación: %s enviada a socket:%d \n",notificacion,socket1);
 	}
 	int socket2=DameSocketConectado(tablaP[partida].jug2);
 	if (socket2!=-1){
-		write(socket2,fin,strlen(fin));
-		printf("notificación: %s enviada a socket:%d \n",fin,socket2);
+		write(socket2,notificacion,strlen(notificacion));
+		printf("notificación: %s enviada a socket:%d \n",notificacion,socket2);
 	}
 	
 	if (strcmp(tablaP[partida].jug3,"0")!=0){
 		int socket3=DameSocketConectado(tablaP[partida].jug3);
 		if(socket3!=-1)
 		{
-			write(socket3,fin,strlen(fin));
-			printf("notificación: %s enviada a socket:%d \n",fin,socket3);
+			write(socket3,notificacion,strlen(notificacion));
+			printf("notificación: %s enviada a socket:%d \n",notificacion,socket3);
 		}	
 	}
 	if (strcmp(tablaP[partida].jug4,"0")!=0){
 		int socket4=DameSocketConectado(tablaP[partida].jug4);
 		if(socket4!=-1){
-			write(socket4,fin,strlen(fin));
-			printf("notificación: %s enviada a socket:%d \n",fin,socket4);
-			
+			write(socket4,notificacion,strlen(notificacion));
+			printf("notificación: %s enviada a socket:%d \n",notificacion,socket4);
 		}
 	}	
+}
+//Notifica a los jugadores de la tabla que ha acabado la partida.
+void FinPartida(int partida){
+	char fin[500];
+	sprintf(fin,"10/%d", partida);
+	EnviaNotificacion(fin,partida);
 }
 //Eliminia una partida de la tabla de partidas.
 void EliminarPartida(int partida){
@@ -487,15 +498,19 @@ void EliminarPartida(int partida){
 	strcpy(tablaP[partida].jug3,"0");
 	strcpy(tablaP[partida].jug4,"0");
 }
-//Retorna los jugadores de una partida recibida como parametro
-void DameJugadoresPartida(int partida, char jugadores[500]){
+//Retorna los jugadores de una partida recibida como parametro en jugadores i el numero total de jugadores
+int DameJugadoresPartida(int partida, char jugadores[500]){
 	sprintf(jugadores,"%s*%s",tablaP[partida].host,tablaP[partida].jug2);
-	
+	int numJugadores = 2;
 	if (strcmp(tablaP[partida].jug3,"0")!=0){
 		sprintf(jugadores,"%s*%s",jugadores,tablaP[partida].jug3);
-		if(strcmp(tablaP[partida].jug4,"0")!=0)
+		numJugadores++;
+		if(strcmp(tablaP[partida].jug4,"0")!=0){
 			sprintf(jugadores,"%s*%s",jugadores,tablaP[partida].jug4);
+			numJugadores++;
+		}
 	}
+	return numJugadores;
 }
 //Retorna los id de las partidas en las que participa el jugador recibido como parámetro
 void DamePartidasJugador(char nombre[25], char partidas[100]){
@@ -507,6 +522,33 @@ void DamePartidasJugador(char nombre[25], char partidas[100]){
 			sprintf(partidas,"%s%d/",partidas,i);
 		i=i+1;
 	}
+}
+//Retorna el rol de la persona que le toca tirar en nuevoTurno
+void DameSiguienteTurno(char anteriorTurno[10], int numJugadores, char nuevoTurno[10]){
+	if (strcmp(anteriorTurno,"host"))
+		strcpy(nuevoTurno,"jug2");
+	else if (strcmp(anteriorTurno,"jug2")){
+		if(numJugadores==2)
+			strcpy(nuevoTurno,"host");
+		else
+			strcpy(nuevoTurno,"jug3");
+	}
+	else if (strcmp(anteriorTurno,"jug3")){
+		if (numJugadores==3)
+			strcpy(nuevoTurno,"host");
+		else
+			strcpy(nuevoTurno,"jug4");
+	}
+	else{
+		strcpy(nuevoTurno,"host");
+	}
+}
+//Notifica al resto de jugadores el resultado de la tirada del dado de un jugadores
+void NotificaResultadoDado(int idPartida, int resDado, char tirador[25], char siguienteTurno[10]){
+	//construimos el mensaje a enviar "11/idPartida/resDado/nombre_tirador/siguienteTurno(rol)"
+	char notificacion[500];
+	sprintf(notificacion,"11/%d*%d*%s*%s",idPartida,resDado,tirador,siguienteTurno);
+	EnviaNotificacion(notificacion,idPartida);
 }
 
 //Atencion a los diferentes clientes (threads)
@@ -715,6 +757,26 @@ int *AtenderCliente(void *socket){
 				}
 				
 			}
+			//Codigo 8 --> Resultado de lanzar el dado
+			else if (codigo == 8){
+				//Mensaje en buff: 8/idPartida/resDado/rol
+				//Mensaje en buff2: -
+				
+				p = strtok(NULL,"/");
+				int partida = atoi(p);
+				p = strtok(NULL,"/");
+				int resDado = atoi(p);
+				char rol[10];
+				p = strtok(NULL,"/");
+				strcpy(rol,p);
+				
+				char siguienteTurno[10];
+				char v[500]; //unused
+				int numJugadores = DameJugadoresPartida(partida,v);
+				DameSiguienteTurno(rol,numJugadores,siguienteTurno);
+				
+				NotificaResultadoDado(partida,resDado,rol,siguienteTurno);
+			}
 			
 			// Y lo enviamos
 			if (codigo!=0){
@@ -755,7 +817,7 @@ int main(int argc, char *argv[]) {
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port 50051
-	serv_adr.sin_port = htons(9070);
+	serv_adr.sin_port = htons(9080);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind\n");
 	//La cola de peticiones pendientes no podr? ser superior a 4

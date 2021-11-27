@@ -76,7 +76,8 @@ namespace Trivial
             int i = 0;
             while (i < tableros.Count && found == false)
             {
-                if (tableros.ElementAt(i).DameIdPartida() == idPartida)
+                MessageBox.Show(Convert.ToString(tableros[i].DameIdPartida()));
+                if (tableros[i].DameIdPartida() == idPartida)
                     found = true;
                 else
                     i = i + 1;
@@ -225,8 +226,16 @@ namespace Trivial
                             //Enviar esta notificacion al Tablero correspondiente
                             MessageBox.Show("La partida " + mensaje + " ha finalizado.");
                             int numTablero = DamePosicionLista(tableros, Convert.ToInt32(mensaje));
+                            MessageBox.Show(Convert.ToString(numTablero));
                             if(numTablero>=0)
                                 tableros[numTablero].Close();
+                            break;
+
+                        case 11: //Notificación del resultado del dado de un jugador y del siguiente turno
+                            //Enviar al tablero correspondiente "idPartida*resDado*nombreTirador*siguienteTurno(rol)"
+                            int idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
+                            numTablero = DamePosicionLista(tableros, Convert.ToInt32(idPartida));
+                            tableros[numTablero].NuevoMovimiento(mensaje, codigo);
                             break;
                     }
                 }
@@ -248,7 +257,9 @@ namespace Trivial
             Tablero tablero = new Tablero();
             tablero.SetPartida(mensaje,this.server);
             tableros.Add(tablero);
+            MessageBox.Show("1:" + Convert.ToString(tableros.Count));
             tablero.ShowDialog();
+            MessageBox.Show("2:" + Convert.ToString(tableros.Count));
             //En un futur aqui recollirem el historial de la partida
             //En el momento que se cierra el tablero (se acaba el ShowDialog) quitamos el tablero de la lista
             tableros.Remove(tablero);
@@ -273,9 +284,9 @@ namespace Trivial
             
 
             //Se conecta al servidor solamente entrar
-            IPAddress direc = IPAddress.Parse("192.168.56.102");    //@IP_Shiva1: 147.83.117.22
+            IPAddress direc = IPAddress.Parse("147.83.117.22");    //@IP_Shiva1: 147.83.117.22
                                                                     //@IP_LocalHost: 192.168.56.102
-            IPEndPoint ipep = new IPEndPoint(direc, 9070); //#Port_Shiva1: 50051.2.3
+            IPEndPoint ipep = new IPEndPoint(direc, 50051); //#Port_Shiva1: 50051.2.3
                                                            //#Port_localhost: 9080
 
             try
@@ -307,8 +318,8 @@ namespace Trivial
             //Caso Desconectado --> Queremos conectarnos
             if (c == 0)
             {
-                IPAddress direc = IPAddress.Parse("192.168.56.102");
-                IPEndPoint ipep = new IPEndPoint(direc, 9070);
+                IPAddress direc = IPAddress.Parse("147.83.117.22");
+                IPEndPoint ipep = new IPEndPoint(direc, 50051);
 
                 //Creamos el socket 
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
