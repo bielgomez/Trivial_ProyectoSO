@@ -570,6 +570,11 @@ int *AtenderCliente(void *socket){
 	s = (int *) socket;
 	sock_conn = *s;
 	
+	//Datos de este cliente
+	char nombre[25];
+	char contrasenya[20];
+	char mail[100];
+	
 	//Variable para saber si se tiene que desconectar
 	int terminar = 0;
 	while (terminar==0)
@@ -584,11 +589,6 @@ int *AtenderCliente(void *socket){
 		
 		//Escribimos en consola lo que nos ha llegado (buff)
 		printf("[%d] Mensaje Recibido: %s\n",sock_conn,buff);
-		
-		//Datos de este cliente
-		char nombre[25];
-		char contrasenya[20];
-		char mail[100];
 		
 		//Obtenemos el codigo que nos indica el tipo de petición.
 		char *p = strtok(buff,"/");
