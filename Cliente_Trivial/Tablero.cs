@@ -45,14 +45,17 @@ namespace Trivial
             playersGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             playersGridView.SelectAll();
 
-            
+            playersGridView.RowsDefaultCellStyle.BackColor = Color.White;
             for (int i = 0; i < this.jugadores.Count; i++)
             {
                 playersGridView.Rows[i].Cells[0].Value = jugadores[i];
                 playersGridView.Rows[i].Cells[1].Value = "NO";
                 playersGridView.Rows[i].Cells[2].Value = "0";
+                
             }
             playersGridView.Rows[0].Cells[1].Value = "SI";
+            playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Blue;
+
             playersGridView.Show();
 
             //Establecemos el turno inicial
@@ -65,13 +68,12 @@ namespace Trivial
         
         public void SetPartida(string mensaje,Socket server, string userName)
         {
-            string[] trozos = mensaje.Split('*'); //0*maria*biel
+            string[] trozos = mensaje.Split('*'); 
             this.partida = Convert.ToInt32(trozos[0]);
 
             jugadores = new List<string>();
             for (int i = 1; i < trozos.Length-1; i++)
                 jugadores.Add(trozos[i]);
-            MessageBox.Show("Numero de jugadores: "+jugadores.Count.ToString());
             this.rol = trozos[trozos.Length - 1];
             this.server = server;
 
@@ -105,19 +107,25 @@ namespace Trivial
             for (int i = 0; i < playersGridView.RowCount; i++)
                 playersGridView.Rows[i].Cells[1].Value = "NO";
 
+            playersGridView.RowsDefaultCellStyle.BackColor = Color.White;
+
             switch (siguienteTurno)
             {
                 case "host":
                     playersGridView.Rows[0].Cells[1].Value = "SI";
+                    playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Blue;
                     break;
                 case "jug2":
                     playersGridView.Rows[1].Cells[1].Value = "SI";
+                    playersGridView.Rows[1].DefaultCellStyle.BackColor = Color.Blue;
                     break;
                 case "jug3":
                     playersGridView.Rows[2].Cells[1].Value = "SI";
+                    playersGridView.Rows[2].DefaultCellStyle.BackColor = Color.Blue;
                     break;
                 case "jug4":
                     playersGridView.Rows[3].Cells[1].Value = "SI";
+                    playersGridView.Rows[3].DefaultCellStyle.BackColor = Color.Blue;
                     break;
             }
 

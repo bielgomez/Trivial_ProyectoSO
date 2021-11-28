@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Login = new System.Windows.Forms.Button();
             this.PasswordBox = new System.Windows.Forms.TextBox();
@@ -37,7 +38,6 @@
             this.accederBox = new System.Windows.Forms.GroupBox();
             this.candadoBox = new System.Windows.Forms.PictureBox();
             this.conexion = new System.Windows.Forms.Button();
-            this.luz = new System.Windows.Forms.Button();
             this.registroBox = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.password2Box = new System.Windows.Forms.TextBox();
@@ -56,11 +56,14 @@
             this.labelConectados = new System.Windows.Forms.Label();
             this.nameUserTxt = new System.Windows.Forms.Label();
             this.invitarButton = new System.Windows.Forms.Button();
+            this.invitadosGridView = new System.Windows.Forms.DataGridView();
+            this.label6 = new System.Windows.Forms.Label();
             this.accederBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoBox)).BeginInit();
             this.registroBox.SuspendLayout();
             this.consultaBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConectadosGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.invitadosGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // Login
@@ -148,22 +151,13 @@
             this.conexion.BackColor = System.Drawing.Color.Black;
             this.conexion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.conexion.ForeColor = System.Drawing.Color.White;
-            this.conexion.Location = new System.Drawing.Point(1209, 20);
+            this.conexion.Location = new System.Drawing.Point(1217, 19);
             this.conexion.Name = "conexion";
             this.conexion.Size = new System.Drawing.Size(153, 45);
             this.conexion.TabIndex = 8;
             this.conexion.Text = "Conectar";
             this.conexion.UseVisualStyleBackColor = false;
             this.conexion.Click += new System.EventHandler(this.conexion_Click);
-            // 
-            // luz
-            // 
-            this.luz.ForeColor = System.Drawing.Color.Teal;
-            this.luz.Location = new System.Drawing.Point(1176, 32);
-            this.luz.Name = "luz";
-            this.luz.Size = new System.Drawing.Size(27, 26);
-            this.luz.TabIndex = 9;
-            this.luz.UseVisualStyleBackColor = true;
             // 
             // registroBox
             // 
@@ -329,7 +323,7 @@
             this.consultasButton.BackColor = System.Drawing.Color.Black;
             this.consultasButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consultasButton.ForeColor = System.Drawing.Color.White;
-            this.consultasButton.Location = new System.Drawing.Point(1209, 82);
+            this.consultasButton.Location = new System.Drawing.Point(1217, 81);
             this.consultasButton.Name = "consultasButton";
             this.consultasButton.Size = new System.Drawing.Size(153, 45);
             this.consultasButton.TabIndex = 13;
@@ -342,14 +336,14 @@
             this.ConectadosGridView.AllowUserToAddRows = false;
             this.ConectadosGridView.AllowUserToDeleteRows = false;
             this.ConectadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle1;
             this.ConectadosGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.ConectadosGridView.GridColor = System.Drawing.SystemColors.Control;
             this.ConectadosGridView.Location = new System.Drawing.Point(12, 331);
@@ -368,15 +362,16 @@
             this.labelConectados.Size = new System.Drawing.Size(137, 17);
             this.labelConectados.TabIndex = 17;
             this.labelConectados.Text = "Lista de Conectados";
+            this.labelConectados.Click += new System.EventHandler(this.labelConectados_Click);
             // 
             // nameUserTxt
             // 
             this.nameUserTxt.AutoSize = true;
             this.nameUserTxt.BackColor = System.Drawing.Color.Black;
-            this.nameUserTxt.Font = new System.Drawing.Font("Lucida Fax", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameUserTxt.Location = new System.Drawing.Point(264, 623);
+            this.nameUserTxt.Font = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nameUserTxt.Location = new System.Drawing.Point(25, 275);
             this.nameUserTxt.Name = "nameUserTxt";
-            this.nameUserTxt.Size = new System.Drawing.Size(0, 27);
+            this.nameUserTxt.Size = new System.Drawing.Size(0, 22);
             this.nameUserTxt.TabIndex = 18;
             // 
             // invitarButton
@@ -384,13 +379,45 @@
             this.invitarButton.BackColor = System.Drawing.Color.Black;
             this.invitarButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.invitarButton.ForeColor = System.Drawing.Color.White;
-            this.invitarButton.Location = new System.Drawing.Point(12, 241);
+            this.invitarButton.Location = new System.Drawing.Point(488, 567);
             this.invitarButton.Name = "invitarButton";
-            this.invitarButton.Size = new System.Drawing.Size(139, 72);
+            this.invitarButton.Size = new System.Drawing.Size(149, 43);
             this.invitarButton.TabIndex = 19;
             this.invitarButton.Text = "Invitar";
             this.invitarButton.UseVisualStyleBackColor = false;
             this.invitarButton.Click += new System.EventHandler(this.invitarButton_Click);
+            // 
+            // invitadosGridView
+            // 
+            this.invitadosGridView.AllowUserToAddRows = false;
+            this.invitadosGridView.AllowUserToDeleteRows = false;
+            this.invitadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.invitadosGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            this.invitadosGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.invitadosGridView.GridColor = System.Drawing.SystemColors.Control;
+            this.invitadosGridView.Location = new System.Drawing.Point(248, 331);
+            this.invitadosGridView.Name = "invitadosGridView";
+            this.invitadosGridView.RowHeadersWidth = 51;
+            this.invitadosGridView.RowTemplate.Height = 24;
+            this.invitadosGridView.Size = new System.Drawing.Size(230, 281);
+            this.invitadosGridView.TabIndex = 21;
+            this.invitadosGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.invitadosGridView_CellClick);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(248, 316);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(118, 17);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Lista de Invitados";
             // 
             // Acceso
             // 
@@ -399,13 +426,14 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1398, 662);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.invitadosGridView);
             this.Controls.Add(this.invitarButton);
             this.Controls.Add(this.nameUserTxt);
             this.Controls.Add(this.labelConectados);
             this.Controls.Add(this.consultasButton);
             this.Controls.Add(this.consultaBox);
             this.Controls.Add(this.registroBox);
-            this.Controls.Add(this.luz);
             this.Controls.Add(this.conexion);
             this.Controls.Add(this.accederBox);
             this.Controls.Add(this.ConectadosGridView);
@@ -423,6 +451,7 @@
             this.consultaBox.ResumeLayout(false);
             this.consultaBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConectadosGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.invitadosGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -437,7 +466,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox accederBox;
         private System.Windows.Forms.Button conexion;
-        private System.Windows.Forms.Button luz;
         private System.Windows.Forms.GroupBox registroBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox password2Box;
@@ -457,6 +485,8 @@
         private System.Windows.Forms.Label labelConectados;
         private System.Windows.Forms.Label nameUserTxt;
         private System.Windows.Forms.Button invitarButton;
+        private System.Windows.Forms.DataGridView invitadosGridView;
+        private System.Windows.Forms.Label label6;
     }
 }
 

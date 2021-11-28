@@ -47,22 +47,26 @@ namespace Trivial
 
         //Funcion para que un thread pueda modificar objetos del formulario
         public void ListaConectadosGridView(string[] conectados)
-        {
-                //Queremos mostrar los datos en un Data Grid View
-                //Configuracion
-                labelConectados.Visible = true;
-                ConectadosGridView.Visible = true;
-                ConectadosGridView.ColumnCount = 1;
-                ConectadosGridView.RowCount = conectados.Length;
-                ConectadosGridView.ColumnHeadersVisible = false;
-                ConectadosGridView.RowHeadersVisible = false;
-                ConectadosGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                ConectadosGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-                ConectadosGridView.SelectAll();
+    {
+            //Queremos mostrar los datos en un Data Grid View
+            //Configuracion
+            labelConectados.Visible = true;
+            ConectadosGridView.Visible = true;
+            ConectadosGridView.ColumnCount = 1;
+            ConectadosGridView.RowCount = conectados.Length;
+            ConectadosGridView.ColumnHeadersVisible = false;
+            ConectadosGridView.RowHeadersVisible = false;
+            ConectadosGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            ConectadosGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            ConectadosGridView.SelectAll();
 
-                //Introduccion de los datos
-                for (int i = 0; i < conectados.Length; i++)
-                    ConectadosGridView.Rows[i].Cells[0].Value = conectados[i];
+            //Introduccion de los datos
+            for (int i = 0; i < conectados.Length; i++)
+            {
+                ConectadosGridView.Rows[i].DefaultCellStyle.BackColor = Color.Orange;
+                ConectadosGridView.Rows[i].Cells[0].Value = conectados[i];
+            }
+            
 
                 ConectadosGridView.Show();
         }
@@ -117,8 +121,7 @@ namespace Trivial
                                 nameUserTxt.Visible = true;
                                 ConectadosGridView.Visible = true;
                                 labelConectados.Visible = true;
-                                invitarButton.Visible = true;
-                                nameUserTxt.Text = "Estas jugando con: " + userName;
+                                nameUserTxt.Text = "Username: " + userName;
                                 
                             }
 
@@ -199,7 +202,7 @@ namespace Trivial
                                 for (int n = 0; n < noDisponibles.Length; n++)
                                     show = show + noDisponibles[n] + ",";
                                 show = show.Remove(show.Length - 1);
-                                MessageBox.Show("Invitaciones enviadas con exito\n excepto las de: "+show);
+                                MessageBox.Show("Invitaciones enviadas con exito\n excepto las de: "+show+"\nInténtalo de nuevo");
                             }
                             break;
 
@@ -242,10 +245,7 @@ namespace Trivial
                 {
                     MessageBox.Show("Server desconectado");
                 }
-                catch (Exception)
-                {
-                    MessageBox.Show("Error al recibir los datos");
-                }
+
             }
             
         }
@@ -256,9 +256,7 @@ namespace Trivial
             Tablero tablero = new Tablero();
             tablero.SetPartida(mensaje,this.server,this.userName);
             tableros.Add(tablero);
-            MessageBox.Show("Antes de abrir la partida hay " + Convert.ToString(tableros.Count)+ " tableros");
             tablero.ShowDialog();
-            MessageBox.Show("Despues de abrir la partida hay " + Convert.ToString(tableros.Count) + " tableros");
             //En un futur aqui recollirem el historial de la partida
             //En el momento que se cierra el tablero (se acaba el ShowDialog) quitamos el tablero de la lista
             tableros.Remove(tablero);
@@ -276,36 +274,14 @@ namespace Trivial
             labelConectados.Visible = false;
             nameUserTxt.Visible = false;
             invitarButton.Visible = false;
+            conexion.Visible = false;
+            invitadosGridView.Visible = false;
+            label6.Visible = false;
 
             //Fondo
             candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
             candadoBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            
-
-            //Se conecta al servidor solamente entrar
-            IPAddress direc = IPAddress.Parse("192.168.56.102");    //@IP_Shiva1: 147.83.117.22
-                                                                    //@IP_LocalHost: 192.168.56.102
-            IPEndPoint ipep = new IPEndPoint(direc, 9070); //#Port_Shiva1: 50051.2.3
-                                                           //#Port_localhost: 9080
-
-            try
-            {
-                //Creamos el socket 
-                this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                server.Connect(ipep);
-                luz.BackColor = Color.Green;
-                conexion.Text = "Desconectar";
-                c = 1;
-
-                //Ponemos en marcha el thread que atenderá los mensajes de los clientes
-                ThreadStart ts = delegate { AtenderServidor(); };
-                atender = new Thread(ts);
-                atender.Start();
-            }
-            catch (SocketException ex)
-            {
-                            
-            }
+          
         }
 
 
@@ -313,40 +289,8 @@ namespace Trivial
         private void conexion_Click(object sender, EventArgs e)
         {
             //En funcion del estado del sistema (desconectado/conectado), el boton permite conectarse/desconectarse respectivamente
-
-            //Caso Desconectado --> Queremos conectarnos
-            if (c == 0)
-            {
-                IPAddress direc = IPAddress.Parse("192.168.56.102");
-                IPEndPoint ipep = new IPEndPoint(direc, 9070);
-
-                //Creamos el socket 
-                this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                try
-                {
-                    server.Connect(ipep);
-                    luz.BackColor = Color.Green;
-                    conexion.Text = "Desconectar";
-                    c = 1;
-
-                    //Ponemos en marcha el thread que atenderá los mensajes de los clientes
-                    ThreadStart ts = delegate { AtenderServidor(); };
-                    atender = new Thread(ts);
-                    atender.Start();
-                }
-                catch (SocketException)
-                {
-                    MessageBox.Show("No he podido conectar con el servidor");
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Se ha producido un error.");
-                }
-                
-            }
-
             //Caso Conectado --> Queremos desconectarnos
-            else
+            if (c==1)
             {
                 try
                 {
@@ -361,12 +305,11 @@ namespace Trivial
                     //Desconexión del servidor
                     server.Shutdown(SocketShutdown.Both);
                     server.Close();
-                    conexion.Text = "Conectar";
+                    conexion.Visible=false;
                     c = 0;
 
                     //Cambios de color de fondos
                     this.BackColor = Color.DarkSlateGray;
-                    luz.BackColor = Color.DarkSlateGray;
 
                     //Establecemos pantalla inicial
                     consultaBox.Visible = false;
@@ -402,6 +345,30 @@ namespace Trivial
         {
             try
             {
+                //Se conecta al servidor solamente entrar
+
+                IPAddress direc = IPAddress.Parse("192.168.56.102");
+                IPEndPoint ipep = new IPEndPoint(direc, 9080);
+
+                //@IP_Shiva1: 147.83.117.22
+                //@IP_LocalHost: 192.168.56.102
+                //#Port_Shiva1: 50051.2.3
+                //#Port_localhost: 9080
+
+                //Creamos el socket 
+                this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+               
+                server.Connect(ipep);
+                
+                conexion.Text = "Desconectar";
+                conexion.Visible = true;
+                c = 1;
+
+                //Ponemos en marcha el thread que atenderá los mensajes de los clientes
+                ThreadStart ts = delegate { AtenderServidor(); };
+                atender = new Thread(ts);
+                atender.Start();
+                
                 userName = NameBox.Text;
                 //Construimos el mensaje y lo enviamos (Codigo 1/ --> LogIn)
                 string mensaje = "1/" + NameBox.Text + "/" + PasswordBox.Text;
@@ -409,10 +376,15 @@ namespace Trivial
                 server.Send(msg);
 
             }
+            catch (SocketException)
+            {
+                MessageBox.Show("No he podido conectar con el servidor");
+            }
             catch (Exception)
             {
                 MessageBox.Show("ERROR: Compruebe que está conectado al servidor.");
             }
+
         }
 
         //Botón para registrarse 
@@ -555,16 +527,24 @@ namespace Trivial
 
         private void ConectadosGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            //Solo funciona cuando se habilita la funcion de invitar con el boton invitarButton
-            if ((invitarButton.Text == "Enviar\n Invitación") && (invitados.Count <= 3))
+            if (invitadosGridView.Visible == false)
             {
-                string invitado = ConectadosGridView.CurrentCell.Value.ToString();
+                invitados = new List<string>();
+                invitadosGridView.Visible = true;
+                invitarButton.Visible = true;
+                label6.Visible = true;
+            }
 
-                //Comprovamos que no somos nosotros mismos
-                if (invitado == userName)
-                    MessageBox.Show("No te puedes autoinvitar");
-                else
-                {
+            string invitado = ConectadosGridView.CurrentCell.Value.ToString();
+
+            //Comprovamos que no somos nosotros mismos
+            if (invitado == userName)
+                MessageBox.Show("No te puedes autoinvitar");
+            else
+            {
+                if (invitados.Count <= 3)
+                { 
+
                     //Comprovamos que no este ya en la lista para añadirlo
                     int i = 0;
                     bool encontrado = false;
@@ -572,58 +552,76 @@ namespace Trivial
                     {
                         if (invitado == invitados[i])
                             encontrado = true;
+
                         else
                             i = i + 1;
                     }
-                    if (encontrado == true)
-                    {
-                        invitados.Remove(invitado);
-                        MessageBox.Show("Has eliminado a " + invitado);
-                    }
-                    else
+                    if (encontrado == false)
                     {
                         invitados.Add(invitado);
-                        MessageBox.Show("Has añadido a " + invitado);
+                        CrearInvitadosGridView(invitados);
                     }
                 }
+                else
+                    MessageBox.Show("El numero maximo de invitados es 3");
+
             }
-            else if ((invitarButton.Text == "Enviar\n Invitación") && (invitados.Count > 3))
-                MessageBox.Show("El numero maximo de invitados es 3");
+                
             ConectadosGridView.SelectAll();
+        }
+
+
+        private void CrearInvitadosGridView(List<string> invitados)
+        {
+            invitadosGridView.ColumnCount = 1;
+            invitadosGridView.RowCount = invitados.Count;
+            invitadosGridView.ColumnHeadersVisible = false;
+            invitadosGridView.RowHeadersVisible = false;
+            invitadosGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            invitadosGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            invitadosGridView.SelectAll();
+
+            for (int i = 0; i < invitados.Count; i++)
+                invitadosGridView.Rows[i].Cells[0].Value = invitados[i];
+                
         }
 
         private void invitarButton_Click(object sender, EventArgs e)
         {
-            
-            if (invitarButton.Text == "Invitar")
+            //Construimos el mensaje
+            string mensaje = "6/";
+            for (int i = 0; i < invitados.Count; i++)
             {
-                //Iniciamos la recopilacion de invitados
-                MessageBox.Show("Haz click sobre los jugadores que quieras invitar");
-                invitarButton.Text = "Enviar\n Invitación";
-                invitados = new List<string>();
+                mensaje = mensaje + invitados[i] + "*";
+            }
+
+            mensaje = mensaje.Remove(mensaje.Length - 1);
+
+            //Lo enviamos por el socket (Codigo 6 --> Invitar a jugadores)
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            label6.Visible = false;
+            invitadosGridView.Visible = false;
+            invitarButton.Visible = false;
+        }
+
+        private void labelConectados_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void invitadosGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string eliminado = invitadosGridView.CurrentCell.Value.ToString();
+            invitados.Remove(eliminado);
+            if (invitados.Count == 0)
+            {
+                invitadosGridView.Visible = false;
+                invitarButton.Visible = false;
             }
             else
-            {
-                invitarButton.Text = "Invitar";
+                CrearInvitadosGridView(invitados);
 
-                //si no se clica a nadie no hace nada y vuelve al estado inicial
-                if (invitados.Count != 0)
-                {
-                    //Construimos el mensaje
-                    string mensaje = "6/";
-                    for (int i = 0; i < invitados.Count; i++)
-                    {
-                        mensaje = mensaje + invitados[i] + "*";
-                    }
-
-                    mensaje = mensaje.Remove(mensaje.Length - 1);
-
-                    //Lo enviamos por el socket (Codigo 6 --> Invitar a jugadores)
-                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                    server.Send(msg);
-                }
-                              
-            }
         }
     }
 }
