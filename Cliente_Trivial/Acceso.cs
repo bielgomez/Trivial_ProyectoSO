@@ -65,7 +65,6 @@ namespace Trivial
                     ConectadosGridView.Rows[i].Cells[0].Value = conectados[i];
 
                 ConectadosGridView.Show();
-
         }
 
         //Funcion para obtener la posicion en la lista de tableros de un id de partida
@@ -226,7 +225,7 @@ namespace Trivial
                             //Enviar esta notificacion al Tablero correspondiente
                             MessageBox.Show("La partida " + mensaje + " ha finalizado.");
                             int numTablero = DamePosicionLista(tableros, Convert.ToInt32(mensaje));
-                            MessageBox.Show(Convert.ToString(numTablero));
+                            MessageBox.Show("Numero de tablero: "+Convert.ToString(numTablero));
                             if(numTablero>=0)
                                 tableros[numTablero].Close();
                             break;
@@ -257,9 +256,9 @@ namespace Trivial
             Tablero tablero = new Tablero();
             tablero.SetPartida(mensaje,this.server,this.userName);
             tableros.Add(tablero);
-            MessageBox.Show("1:" + Convert.ToString(tableros.Count));
+            MessageBox.Show("Antes de abrir la partida hay " + Convert.ToString(tableros.Count)+ " tableros");
             tablero.ShowDialog();
-            MessageBox.Show("2:" + Convert.ToString(tableros.Count));
+            MessageBox.Show("Despues de abrir la partida hay " + Convert.ToString(tableros.Count) + " tableros");
             //En un futur aqui recollirem el historial de la partida
             //En el momento que se cierra el tablero (se acaba el ShowDialog) quitamos el tablero de la lista
             tableros.Remove(tablero);

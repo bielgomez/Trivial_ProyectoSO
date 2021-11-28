@@ -71,7 +71,7 @@ namespace Trivial
             jugadores = new List<string>();
             for (int i = 1; i < trozos.Length-1; i++)
                 jugadores.Add(trozos[i]);
-            MessageBox.Show(jugadores.Count.ToString());
+            MessageBox.Show("Numero de jugadores: "+jugadores.Count.ToString());
             this.rol = trozos[trozos.Length - 1];
             this.server = server;
 
