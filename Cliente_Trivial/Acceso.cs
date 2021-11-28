@@ -228,7 +228,6 @@ namespace Trivial
                             //Enviar esta notificacion al Tablero correspondiente
                             MessageBox.Show("La partida " + mensaje + " ha finalizado.");
                             int numTablero = DamePosicionLista(tableros, Convert.ToInt32(mensaje));
-                            MessageBox.Show("Numero de tablero: "+Convert.ToString(numTablero));
                             if(numTablero>=0)
                                 tableros[numTablero].Close();
                             break;

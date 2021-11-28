@@ -32,6 +32,8 @@ namespace Trivial
             this.playersGridView = new System.Windows.Forms.DataGridView();
             this.dado = new System.Windows.Forms.PictureBox();
             this.dadolbl = new System.Windows.Forms.Label();
+            this.username_lbl = new System.Windows.Forms.Label();
+            this.partida_lbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).BeginInit();
             this.SuspendLayout();
@@ -50,7 +52,7 @@ namespace Trivial
             // 
             // dado
             // 
-            this.dado.Location = new System.Drawing.Point(1197, 464);
+            this.dado.Location = new System.Drawing.Point(1160, 464);
             this.dado.Name = "dado";
             this.dado.Size = new System.Drawing.Size(101, 97);
             this.dado.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -63,17 +65,43 @@ namespace Trivial
             this.dadolbl.AutoSize = true;
             this.dadolbl.BackColor = System.Drawing.Color.Transparent;
             this.dadolbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dadolbl.Location = new System.Drawing.Point(1185, 427);
+            this.dadolbl.Location = new System.Drawing.Point(1148, 443);
             this.dadolbl.Name = "dadolbl";
             this.dadolbl.Size = new System.Drawing.Size(113, 18);
             this.dadolbl.TabIndex = 15;
             this.dadolbl.Text = "Lanza el dado";
+            // 
+            // username_lbl
+            // 
+            this.username_lbl.AutoSize = true;
+            this.username_lbl.BackColor = System.Drawing.Color.Transparent;
+            this.username_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.username_lbl.ForeColor = System.Drawing.Color.White;
+            this.username_lbl.Location = new System.Drawing.Point(37, 22);
+            this.username_lbl.Name = "username_lbl";
+            this.username_lbl.Size = new System.Drawing.Size(90, 18);
+            this.username_lbl.TabIndex = 16;
+            this.username_lbl.Text = "Username:";
+            // 
+            // partida_lbl
+            // 
+            this.partida_lbl.AutoSize = true;
+            this.partida_lbl.BackColor = System.Drawing.Color.Transparent;
+            this.partida_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.partida_lbl.ForeColor = System.Drawing.Color.White;
+            this.partida_lbl.Location = new System.Drawing.Point(37, 60);
+            this.partida_lbl.Name = "partida_lbl";
+            this.partida_lbl.Size = new System.Drawing.Size(66, 18);
+            this.partida_lbl.TabIndex = 17;
+            this.partida_lbl.Text = "Partida:";
             // 
             // Tablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1351, 596);
+            this.Controls.Add(this.partida_lbl);
+            this.Controls.Add(this.username_lbl);
             this.Controls.Add(this.dadolbl);
             this.Controls.Add(this.dado);
             this.Controls.Add(this.playersGridView);
@@ -92,5 +120,7 @@ namespace Trivial
         private System.Windows.Forms.DataGridView playersGridView;
         private System.Windows.Forms.PictureBox dado;
         private System.Windows.Forms.Label dadolbl;
+        private System.Windows.Forms.Label username_lbl;
+        private System.Windows.Forms.Label partida_lbl;
     }
 }

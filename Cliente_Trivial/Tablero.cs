@@ -34,6 +34,8 @@ namespace Trivial
         private void Tablero_Load(object sender, EventArgs e)
         {
             dado.Image = Image.FromFile("dado1.png");
+            username_lbl.Text = "Username: " + userName;
+            partida_lbl.Text = "Partida: " + partida;
             playersGridView.ColumnCount = 3;
             playersGridView.RowCount = this.jugadores.Count;
             playersGridView.ColumnHeadersVisible = true;
@@ -92,6 +94,7 @@ namespace Trivial
                 else
                 {
                     dadolbl.Text = trozos[2] + " avanza " + trozos[1] + " casillas";
+                    dado.Image = Image.FromFile("dado"+trozos[1]+".png");
                     if (trozos[3] == rol)
                         miTurno = true;
                 }
@@ -168,5 +171,7 @@ namespace Trivial
                 MessageBox.Show("No es tu turno");
             
         }
+
+    
     }
 }
