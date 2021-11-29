@@ -107,6 +107,7 @@ namespace Trivial
             this.Controls.Add(this.playersGridView);
             this.Name = "Tablero";
             this.Text = "Tablero";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Tablero_FormClosing);
             this.Load += new System.EventHandler(this.Tablero_Load);
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).EndInit();

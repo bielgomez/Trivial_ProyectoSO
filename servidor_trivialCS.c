@@ -560,10 +560,7 @@ void NotificaResultadoDado(int idPartida, int resDado, char tirador[25], char si
 
 //Atencion a los diferentes clientes (threads)
 int *AtenderCliente(void *socket){
-	
-	char buff[512];
-	char buff2[512];
-	
+		
 	int ret;
 	int sock_conn;
 	int *s;
@@ -579,6 +576,10 @@ int *AtenderCliente(void *socket){
 	int terminar = 0;
 	while (terminar==0)
 	{
+		
+		char buff[512];
+		char buff2[512];
+		
 		// Informacion recibida almacenada en buff
 		ret=read(sock_conn,buff, sizeof(buff));
 		printf ("[%d] Recibido\n",sock_conn);
@@ -792,9 +793,21 @@ int *AtenderCliente(void *socket){
 				NotificaResultadoDado(partida,resDado,tirador,siguienteTurno);
 				printf("----------\n");
 			}
+			//Codigo 9 --> FInalizar y eliminar una partida.
+			else if(codigo==9){
+				//Mensaje en buff: 9/idPartida
+				//Mensaje en buff2: -
+				
+				p=strtok(NULL,"/");
+				int partida=atoi(p);
+				FinPartida(partida);
+				EliminarPartida(partida);
+				
+			}
+					
 			
 			// Y lo enviamos
-			if (codigo!=0 && codigo!=7 && codigo!=8){
+			if (codigo!=0 && codigo!=7 && codigo!=8 && codigo!=9){
 				write (sock_conn,buff2, strlen(buff2));
 				printf("[%d] Codigo: %d , Resultado: %s\n",sock_conn,codigo,buff2);//Vemos el resultado de la accion.
 			}
@@ -832,7 +845,7 @@ int main(int argc, char *argv[]) {
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port 50051
-	serv_adr.sin_port = htons(9070);
+	serv_adr.sin_port = htons(9080);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind\n");
 	//La cola de peticiones pendientes no podr? ser superior a 4
@@ -853,7 +866,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 	
-	pthread_t thread[100];
+	pthread_t thread;
 	pthread_mutex_init(&mutex,NULL);
 	
 	// Bucle infinito
@@ -863,10 +876,11 @@ int main(int argc, char *argv[]) {
 		sock_conn = accept(sock_listen, NULL, NULL);
 		printf ("[Main] He recibido conexi?n\n");
 		//sock_conn --> socket para este cliente
-		sockets[i] = sock_conn;
+		//sockets[i] = sock_conn;
+		//@MIGUELVALERO: NO ME SIRVE -> HAY QUE METERLO EN LISTA CONECTADOS SIN NOMBRE JAJASALU2
 		
 		//Creamos el thread
-		pthread_create (&thread[i], NULL, AtenderCliente, &sockets[i]);
+		pthread_create (&thread, NULL, AtenderCliente, &sock_conn);
 	}
 	pthread_mutex_destroy(&mutex);
 	exit(0);

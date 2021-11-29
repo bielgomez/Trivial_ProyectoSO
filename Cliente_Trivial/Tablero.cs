@@ -36,26 +36,22 @@ namespace Trivial
             dado.Image = Image.FromFile("dado1.png");
             username_lbl.Text = "Username: " + userName;
             partida_lbl.Text = "Partida: " + partida;
-            playersGridView.ColumnCount = 3;
+            playersGridView.ColumnCount = 2;
             playersGridView.RowCount = this.jugadores.Count;
             playersGridView.ColumnHeadersVisible = true;
             playersGridView.Columns[0].HeaderText = "Jugador";
-            playersGridView.Columns[1].HeaderText = "Turno";
-            playersGridView.Columns[2].HeaderText = "Puntos";
+            playersGridView.Columns[1].HeaderText = "Puntos";
             playersGridView.RowHeadersVisible = false;
             playersGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             playersGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            playersGridView.SelectAll();
 
             playersGridView.RowsDefaultCellStyle.BackColor = Color.White;
             for (int i = 0; i < this.jugadores.Count; i++)
             {
                 playersGridView.Rows[i].Cells[0].Value = jugadores[i];
-                playersGridView.Rows[i].Cells[1].Value = "NO";
-                playersGridView.Rows[i].Cells[2].Value = "0";
+                playersGridView.Rows[i].Cells[1].Value = "0";
                 
             }
-            playersGridView.Rows[0].Cells[1].Value = "SI";
             playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Blue;
 
             playersGridView.Show();
@@ -108,26 +104,24 @@ namespace Trivial
         private void ActualizarTurno(string siguienteTurno)
         {
             for (int i = 0; i < playersGridView.RowCount; i++)
-                playersGridView.Rows[i].Cells[1].Value = "NO";
+            {
+                playersGridView.Rows[i].DefaultCellStyle.BackColor = Color.White;
+            }
+   
 
-            playersGridView.RowsDefaultCellStyle.BackColor = Color.White;
 
             switch (siguienteTurno)
             {
                 case "host":
-                    playersGridView.Rows[0].Cells[1].Value = "SI";
                     playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Blue;
                     break;
                 case "jug2":
-                    playersGridView.Rows[1].Cells[1].Value = "SI";
                     playersGridView.Rows[1].DefaultCellStyle.BackColor = Color.Blue;
                     break;
                 case "jug3":
-                    playersGridView.Rows[2].Cells[1].Value = "SI";
                     playersGridView.Rows[2].DefaultCellStyle.BackColor = Color.Blue;
                     break;
                 case "jug4":
-                    playersGridView.Rows[3].Cells[1].Value = "SI";
                     playersGridView.Rows[3].DefaultCellStyle.BackColor = Color.Blue;
                     break;
             }
@@ -172,6 +166,11 @@ namespace Trivial
             
         }
 
-    
+        private void Tablero_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            string finpartida = "9/" + partida;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(finpartida);
+            server.Send(msg);
+        }
     }
 }
