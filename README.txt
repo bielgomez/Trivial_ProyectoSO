@@ -30,8 +30,8 @@ URL: https://drive.google.com/drive/folders/1RsSXtYWzPNOOo1GmbLi3XYf4MIdl9LBz?us
 
 VERSIÓN 5:
 Multipartida y cross-threading.
-	Manager: Maria Ubiergo
- 	Verificador: Laia Costa
-  	Comunicador: Biel Gómez
+	Manager: Biel Gómez
+ 	Verificador: Maria Ubiergo
+  	Comunicador: Laia Costa
 URL: https://drive.google.com/drive/folders/1--QJ76HBz05wQNCdk-BXKvInKBu2iLxd
 
