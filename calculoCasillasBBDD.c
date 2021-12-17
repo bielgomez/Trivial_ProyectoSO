@@ -123,25 +123,101 @@ int main(int argc, char *argv[]) {
 	
 	//Calculem les branques cap a dins
 	casilla = 100;
-	while (casilla<155){
-		int dado = 1;
-		while(dado<=6){
-			int pos1;
-			int pos2;
-			int pos3;
-			int pos4;
-			int pos5;
-			int pos6;
-			int pos7;
-			
-			
-			dado=dao+1;
+	int rama = 0;
+	while (rama<6){
+		int posRama = casilla-100-rama*10;
+		while(posRama<5){
+			int dado = 1;
+			while(dado<=6){
+				int pos1;
+				int pos2;
+				int pos3;
+				
+				char movimientos[200];
+				
+				//Cap al cercle (pos1 (i pos2))
+				if (dado>(posRama+1)){
+					pos1 = (7*rama)+(dado-posRama);
+					pos2 = (7*rama)-(dado-posRama);
+					
+					//Correccions
+					if (pos1>41)
+						pos1 = pos1-42;
+					if (pos2<0)
+						pos2=42+pos2;
+					
+					sprintf(movimientos,"%d/%d",pos1,pos2);
+				}
+				else if (dado=(posRama+1)){
+					pos1 = (7*rama);
+					sprintf(movimientos,"%d",pos1);
+				}
+				else{
+					pos1 = 100+rama*10+(posRama-dado);
+					sprintf(movimientos,"%d",pos1);
+				}
+				
+				//Cap a l'interior (pos3)
+				if ((dado-posRama)<5){
+					pos3 = 100+rama*10+(dado-posRama);
+					sprintf(movimientos,"%s/%d",movimientos,pos3);
+				}
+				else if ((dado-posRama)==5){
+					pos3 = 1000;
+					sprintf(movimientos,"%s/%d",movimientos,pos3);
+				}
+				else{
+					int n = dado-(5-posRama);
+					
+					int m = rama+1;
+					if (m>5)
+						m = 0;
+					while(m != rama){
+						pos3 = 100+m*10+(5-n);
+						sprintf(movimientos,"%s/%d",movimientos,pos3);
+						m=m+1;
+						if(m>5)
+							m = 0;
+					}
+				}
+				AnadirAListaCasillas(&miLista,casilla,dado,movimientos);
+				dado=dado+1;
+			}
+			posRama=posRama+1;
+			casilla = 100+rama*10+posRama;
 		}
-		casilla=casilla+1;
+		rama=rama+1;
+		casilla=100+rama*10;
 	}
 	
+	//Casella central
+	casilla = 1000;
+	char movimientos[200];
+	int n = 0;
+	int dado = 1;
+	while(dado<=6){
+		if (dado==6){
+			while(n<6){
+				sprintf(movimientos,"%s%d/",movimientos,n*7);
+				n=n+1;
+			}
+			movimientos[strlen(movimientos)-1] = '\0';
+		}
+		else{
+			while(n<6){
+				int pos = 100+n*7+(5-dado);
+				sprintf(movimientos,"%s%d/",movimientos,pos);
+				n=n+1;
+			}
+			movimientos[strlen(movimientos)-1]= '\0';
+		}
+		AnadirAListaCasillas(&miLista,casilla,dado,movimientos);
+		dado=dado+1;
+	}
+	
+	
 	int i;
-	printf("num: %d\n",miLista.num);
+	printf("num: %d\n",miLista.num); //283
 	for(i=0;i<miLista.num;i++){
 		printf("-Nueva Combinacion-----------------\n");
 		printf("Id: %d\n",miLista.casillas[i].id);
