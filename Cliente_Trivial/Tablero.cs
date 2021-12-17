@@ -20,6 +20,8 @@ namespace Trivial
         bool miTurno;
         Socket server;
         List<string> jugadores;
+        ListaCasillas casillas;
+        int miCasilla;
         
         public Tablero()
         {
@@ -28,7 +30,10 @@ namespace Trivial
             this.BackgroundImage = tablero;
             this.BackgroundImageLayout = ImageLayout.Stretch;
             PictureBox dado = new PictureBox();
-
+            casillas = new ListaCasillas();
+            casillas.PonerTodasLasCasillas();
+            casillas.CalcularMovimientos();
+            miCasilla = 1000; //Casilla central
         }
 
         private void Tablero_Load(object sender, EventArgs e)
@@ -154,6 +159,12 @@ namespace Trivial
                 else if (num == 6)
                     dado.Image = Image.FromFile("dado6.png");
 
+                int[] movimientos = casillas.DameMovimientosPosibles(miCasilla,num);
+                string texto = "";
+                foreach (int posicion in movimientos)
+                    texto = texto + posicion + ",";
+                texto.Remove(texto.Length - 1);
+                movimientosLbl.Text = "Posibles movimientos: " + texto;
                 dadolbl.Text = "Avanza " + num.ToString() + " casillas.";
 
                 //Construimos el mensaje para enviar el resultado del dado

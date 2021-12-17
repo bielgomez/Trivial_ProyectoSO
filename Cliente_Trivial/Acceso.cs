@@ -252,6 +252,7 @@ namespace Trivial
         //Funcion para ejecutar un nuevo thread con el formulario de una partida
         private void NuevaPartida(string mensaje)
         {
+            //Creamos el nuevo formulario tablero para la nueva partida
             Tablero tablero = new Tablero();
             tablero.SetPartida(mensaje,this.server,this.userName);
             tableros.Add(tablero);
@@ -346,8 +347,8 @@ namespace Trivial
             {
                 //Se conecta al servidor solamente entrar
 
-                IPAddress direc = IPAddress.Parse("192.168.56.102");
-                IPEndPoint ipep = new IPEndPoint(direc, 9080);
+                IPAddress direc = IPAddress.Parse("147.83.117.22");
+                IPEndPoint ipep = new IPEndPoint(direc, 50051);
 
                 //@IP_Shiva1: 147.83.117.22
                 //@IP_LocalHost: 192.168.56.102

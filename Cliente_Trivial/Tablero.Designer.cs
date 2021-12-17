@@ -34,6 +34,7 @@ namespace Trivial
             this.dadolbl = new System.Windows.Forms.Label();
             this.username_lbl = new System.Windows.Forms.Label();
             this.partida_lbl = new System.Windows.Forms.Label();
+            this.movimientosLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).BeginInit();
             this.SuspendLayout();
@@ -95,11 +96,23 @@ namespace Trivial
             this.partida_lbl.TabIndex = 17;
             this.partida_lbl.Text = "Partida:";
             // 
+            // movimientosLbl
+            // 
+            this.movimientosLbl.AutoSize = true;
+            this.movimientosLbl.BackColor = System.Drawing.Color.Transparent;
+            this.movimientosLbl.ForeColor = System.Drawing.Color.White;
+            this.movimientosLbl.Location = new System.Drawing.Point(37, 107);
+            this.movimientosLbl.Name = "movimientosLbl";
+            this.movimientosLbl.Size = new System.Drawing.Size(154, 17);
+            this.movimientosLbl.TabIndex = 18;
+            this.movimientosLbl.Text = "Possibles movimientos:";
+            // 
             // Tablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1351, 596);
+            this.Controls.Add(this.movimientosLbl);
             this.Controls.Add(this.partida_lbl);
             this.Controls.Add(this.username_lbl);
             this.Controls.Add(this.dadolbl);
@@ -123,5 +136,6 @@ namespace Trivial
         private System.Windows.Forms.Label dadolbl;
         private System.Windows.Forms.Label username_lbl;
         private System.Windows.Forms.Label partida_lbl;
+        private System.Windows.Forms.Label movimientosLbl;
     }
 }
