@@ -68,7 +68,7 @@ namespace Trivial
             }
         }
 
-        public int[] DameMovimientosPosibles(int idCasilla, int dado)
+        public List<int> DameMovimientosPosibles(int idCasilla, int dado)
         {
             //Retorna null si no puede retornar lo que le piden
             int i = 0;

@@ -11,7 +11,7 @@ namespace Trivial
 		//Atributos
 		int id;
 		int dado;
-		int[] movimientos;
+		List<int> movimientos;
 
 		//Constructor
 		public Casilla(int id, int dado)
@@ -29,7 +29,7 @@ namespace Trivial
         {
 			return this.dado;
         }
-		public int[] GetMovimientos()
+		public List<int> GetMovimientos()
         {
 			return this.movimientos;
         }
@@ -42,7 +42,7 @@ namespace Trivial
 
 		public void CalculaPosiblesMovimientos()
         {
-			movimientos = new int[10];
+			movimientos = new List<int>();
 
 			//Casilla forma parte del circulo exterior (ids de 1 a 41)
 			if (id>=0 && id < 42)
@@ -58,17 +58,17 @@ namespace Trivial
 					pos2 = 42 + pos2;
 
 				//Lo metemos en el vector
-				this.movimientos[0] = pos1;
-				this.movimientos[1] = pos2;
+				this.movimientos.Add(pos1);
+				this.movimientos.Add(pos2);
 
 				//Movimientos hacia el interior del tablero
 				//Desde casilla del "quesito"
 				if ((id%7) == 0)
                 {
 					if (dado == 6)
-						this.movimientos[2] = 1000;
+						this.movimientos.Add(1000);
 					else
-						this.movimientos[2] = 100 + (id / 7) + (dado-1);
+						this.movimientos.Add(100 + (id / 7) + (dado-1));
                 }
 				//Desde casillas mas cercanas al "quesito inferior"
 				else if ((id%7)==1 || (id%7)==2 || (id % 7) == 3)
@@ -78,13 +78,13 @@ namespace Trivial
 						int n = dado - (id % 7); //n es el que et sobra per pujar
 						int m = (id - (id % 7)) / 7; //casella del "quesito"
 
-						this.movimientos[2] = 100 + m * 10 + (n-1);
+						this.movimientos.Add(100 + m * 10 + (n-1));
 
 						if (((id%7)==2 || (id % 7) == 3) && (dado>(7-(id%7))))
                         {
 							n = dado - (7 - (id % 7));
 							m = (id + (7 - (id % 7)) / 7);
-                            this.movimientos[3] = 100 + m * 10 + (n-1);
+                            this.movimientos.Add(100 + m * 10 + (n-1));
                         }
 					}
 
@@ -97,14 +97,14 @@ namespace Trivial
 						int n = dado - (7-(id % 7));
 						int m = (id + (7 - id % 7)) / 7;
 
-						this.movimientos[2] = 100 + m * 10 + (n-1);
+						this.movimientos.Add(100 + m * 10 + (n-1));
 
 						if (((id%7)==4 || (id%7)==5) && (dado > (id % 7)))
                         {
 							n = dado - (id % 7);
 							m = (id - (7 - id % 7)) / 7;
 
-							this.movimientos[3] = 100 + m * 10 + (n-1);
+							this.movimientos.Add(100 + m * 10 + (n-1));
                         }
 
                     }
@@ -117,20 +117,16 @@ namespace Trivial
 				int rama;
 				if (dado == 6)
                 {
-					int i = 0;
 					for(rama = 0; rama < 6; rama++)
                     {
-						this.movimientos[i] = rama * 7;
-						i++;
+						this.movimientos.Add(rama * 7);
                     }
                 }
                 else
                 {
-					int i = 0;
                     for (rama = 0; rama < 6; rama++)
                     {
-						this.movimientos[i] = 100 + rama * 10 + (5 - dado);
-						i++;
+						this.movimientos.Add(100 + rama * 10 + (5 - dado));
                     }
                 }
             }
@@ -140,7 +136,6 @@ namespace Trivial
             {
 				int posRama = id % 10; //(0-1-2-3-4)
 				int rama = (id - posRama) % 100; //(0-1-2-3-4-5)
-				int i = 0;
 
 				//Moviments cap al cercle exterior
 				if (dado > (posRama + 1))
@@ -154,32 +149,26 @@ namespace Trivial
 					if (pos2 < 0)
 						pos2 = 42 + pos2;
 
-					this.movimientos[i] = pos1;
-					i++;
-					this.movimientos[i] = pos2;
-					i++;
+					this.movimientos.Add(pos1);
+					this.movimientos.Add(pos2);
 				}
 				else if (dado == (posRama + 1))
                 {
-					this.movimientos[i] = (7 * rama);
-					i++;
+					this.movimientos.Add(7 * rama);
                 }
                 else
                 {
-					this.movimientos[i] = 100 + rama * 10 + (posRama - dado);
-					i++;
+					this.movimientos.Add(100 + rama * 10 + (posRama - dado));
                 }
 
 				//Cap a l'interior del taulell
 				if (dado < 5-posRama)
                 {
-					this.movimientos[i] = 100 + 10 * rama + (dado+posRama);
-					i++;
+					this.movimientos.Add(100 + 10 * rama + (dado + posRama));
                 }
 				else if (dado == 5 - posRama)
                 {
-					this.movimientos[i] = 1000;
-					i++;
+					this.movimientos.Add(1000);
                 }
                 else
                 {
@@ -189,7 +178,7 @@ namespace Trivial
 						m = 0;
 					while (m != rama)
                     {
-						this.movimientos[i] = 100 + m * 10 + (5 - n);
+						this.movimientos.Add(100 + m * 10 + (5 - n));
 						m++;
 						if (m > 5)
 							m = 0;
