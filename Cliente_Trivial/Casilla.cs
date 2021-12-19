@@ -43,6 +43,7 @@ namespace Trivial
 		public void CalculaPosiblesMovimientos()
         {
 			movimientos = new int[10];
+
 			//Casilla forma parte del circulo exterior (ids de 1 a 41)
 			if (id>=0 && id < 42)
             {
@@ -67,23 +68,23 @@ namespace Trivial
 					if (dado == 6)
 						this.movimientos[2] = 1000;
 					else
-						this.movimientos[2] = 100 + (id / 7) + dado;
+						this.movimientos[2] = 100 + (id / 7) + (dado-1);
                 }
 				//Desde casillas mas cercanas al "quesito inferior"
 				else if ((id%7)==1 || (id%7)==2 || (id % 7) == 3)
                 {
 					if (dado > (id % 7))
 					{
-						int n = dado - (id % 7);
-						int m = (id - (id % 7)) % 7;
+						int n = dado - (id % 7); //n es el que et sobra per pujar
+						int m = (id - (id % 7)) / 7; //casella del "quesito"
 
-						this.movimientos[2] = 100 + m * 10 + n;
+						this.movimientos[2] = 100 + m * 10 + (n-1);
 
 						if (((id%7)==2 || (id % 7) == 3) && (dado>(7-(id%7))))
                         {
 							n = dado - (7 - (id % 7));
-							m = (id + (7 - (id % 7)) % 7);
-							this.movimientos[3] = 100 + m * 10 + n;
+							m = (id + (7 - (id % 7)) / 7);
+                            this.movimientos[3] = 100 + m * 10 + (n-1);
                         }
 					}
 
@@ -94,21 +95,22 @@ namespace Trivial
 					if (dado > (7 - id % 7))
                     {
 						int n = dado - (7-(id % 7));
-						int m = (id + (7 - id % 7)) % 7;
+						int m = (id + (7 - id % 7)) / 7;
 
-						this.movimientos[2] = 100 + m * 10 + n;
+						this.movimientos[2] = 100 + m * 10 + (n-1);
 
 						if (((id%7)==4 || (id%7)==5) && (dado > (id % 7)))
                         {
 							n = dado - (id % 7);
-							m = (id - (7 - id % 7)) % 7;
+							m = (id - (7 - id % 7)) / 7;
 
-							this.movimientos[3] = 100 + m * 10 + n;
+							this.movimientos[3] = 100 + m * 10 + (n-1);
                         }
 
                     }
                 }
             }
+
 			//Casella central
 			else if (id==1000)
             {
@@ -132,17 +134,19 @@ namespace Trivial
                     }
                 }
             }
+
             //Caselles interiors (100-104,110-114,120-124,130-134,140-144,150-154)
             else
             {
-				int posRama = id % 10;
-				int rama = (id - posRama) % 10;
+				int posRama = id % 10; //(0-1-2-3-4)
+				int rama = (id - posRama) % 100; //(0-1-2-3-4-5)
 				int i = 0;
+
 				//Moviments cap al cercle exterior
 				if (dado > (posRama + 1))
                 {
-					int pos1 = (7 * rama) + (dado + posRama);
-					int pos2= (7 * rama) - (dado - posRama);
+					int pos1 = (7 * rama) + (dado - (posRama+1));
+					int pos2= (7 * rama) - (dado - (posRama+1));
 
 					//Correcciones
 					if (pos1 > 42)

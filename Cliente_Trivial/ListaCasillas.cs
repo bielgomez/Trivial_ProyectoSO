@@ -39,11 +39,12 @@ namespace Trivial
                 }
                 i++;
             }
+
             //Caselles interiors
             i = 100;
             while (i < 155)
             {
-                if ((((i % 10) % 5) == 0) && (i!=100))
+                if ((((i % 10) % 5) == 0) && ((i%10)!=0))
                     i = i + 5;
                 for (int dau = 0; dau <= 6; dau++)
                 {
