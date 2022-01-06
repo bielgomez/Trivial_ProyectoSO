@@ -13,6 +13,8 @@ namespace Trivial
 		int dado;
 		List<int> movimientos;
 		string categoria; //Geografia,Historia,...,Tira otra vez
+		double x;
+		double y;
 
 		//Constructor
 		public Casilla(int id, int dado)
@@ -187,5 +189,7 @@ namespace Trivial
                 }
             }
         }
+
+		//
 	}
 }

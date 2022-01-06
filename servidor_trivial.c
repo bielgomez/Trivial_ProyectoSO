@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <mysql.h>
 #include <pthread.h>
+#include <time.h>
 
 //Variables globales
 	//Para la BBDD
@@ -38,6 +39,7 @@ typedef struct{
 	int puntosJug3;
 	char jug4[25];
 	int puntosJug4;
+	char horaInicio;
 }Partidas;
 
 
@@ -246,6 +248,30 @@ int DameListaConectados(char lista[512]){
 		return -1;
 	
 }
+//Retorna la fecha y hora actuales
+int DameTiempo(char fecha[10],char hora[10]){
+	//Retorna la hora en segundos
+	
+	time_t tiempo = time(0);
+	struct tm *tlocal = localtime(&tiempo);
+	strftime(fecha,10,"%d/%m/%y",tlocal);
+	strftime(hora,10,"%H:%M:%S",tlocal);
+	printf("%s %s\n",fecha,hora);
+	
+	//Transformamos la hora a segundos
+	int segundos;
+	char horaSeg[10];
+	strcpy(horaSeg,hora);
+	char *p = strtok(horaSeg,":");
+	segundos = atoi(p)*3600;
+	p=strtok(NULL,":");
+	segundos = segundos+atoi(p)*60;
+	p=strtok(NULL,":");
+	segundos=segundos+atoi(p);
+	
+	return segundos;
+	
+}
 //Añadir a la lista de conectados
 void AnadirAListaConectados (char nombre[25],int *socket){
 	
@@ -393,7 +419,8 @@ int CrearPartida(char nombre[25]){
 			strcpy(tablaP[i].jug3,"0");
 			tablaP[i].puntosJug3 = 0;
 			strcpy(tablaP[i].jug4,"0");
-			tabla[i].puntosJug4 = 0;
+			tablaP[i].puntosJug4 = 0;
+			tablaP[i].horaInicio = 0;			
 			encontrado=1;
 		}
 		else 
@@ -464,7 +491,14 @@ void IniciarPartida (int partida, char jugadores_partida[500]){
 			printf("%s\n",ini2);
 			write(socket4,ini2,strlen(ini2));
 		}
-	}	
+	}
+	
+	//Determinamos la hora de inicio de la partida
+	char a[10]; //unused
+	char b[10]; //unused
+	int horaInicio = DameTiempo(a,b); //en segundos
+	tablaP[partida].horaInicio = horaInicio;
+	
 }
 //Envia notificacion a todos menos al que notifica (si queremos que envie a todos en el parametro socket introducimos -1)
 void EnviaNotificacion(char notificacion[500],int partida,int socket){
@@ -512,7 +546,8 @@ void EliminarPartida(int partida){
 	strcpy(tablaP[partida].jug3,"0");
 	tablaP[partida].puntosJug3 = 0;
 	strcpy(tablaP[partida].jug4,"0");
-	tablaP[partida].puntosJug3 = 0;
+	tablaP[partida].puntosJug4 = 0;
+	tablaP[partida].horaInicio = 0;
 }
 //Retorna los jugadores de una partida recibida como parametro en jugadores i el numero total de jugadores
 int DameJugadoresPartida(int partida, char jugadores[500]){
@@ -598,6 +633,186 @@ int SumaPuntos(int idPartida, char rol){
 		}
 	}
 	return ganador;
+}
+//Retorna el id de la BBDD (Historico) que le corresponde a la partida
+int DameIdHistorico(){
+	//Retorna idHistorico-> Historico guardado correctamente; -1-> Error en de BBDD
+	
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	int err;
+	
+	//Buscamos la ultima fila
+	int idHistorico;
+	err=mysql_query (conn, "SELECT MAX(id) FROM partidas");
+	if (err!=0){
+		return -1;
+	}
+	else{
+		resultado = mysql_store_result(conn);
+		row = mysql_fetch_row(resultado);
+		
+		if (row==NULL){
+			idHistorico = 0;
+		}
+		else{
+			idHistorico = atoi(row[0])+1;
+		}
+		return idHistorico;
+	}
+	
+}
+//Guarda los registros de los jugadores en una partida
+int GuardarRegistros(int idPartida){
+	//Retorna 0-> todo OK ; -1 -> Error BBDD
+	
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	int err;
+	
+	//Añadimos los resultados de los jugadores a la tabla registros
+	char consulta[500];
+	
+	//Host
+	sprintf(consulta,"SELECT id FROM jugadores WHERE nombre=%s;",tablaP[idPartida].host);
+	err=mysql_query (conn, consulta);
+	if (err!=0){
+		return -1;
+	}
+	else{
+		resultado = mysql_store_result(conn);
+		row = mysql_fetch_row(resultado);
+		sprintf(consulta,"INSERT INTO registro VALUES ('%s','%d','%d');",row[0],idPartida,tablaP[idPartida].puntosHost);
+		err=mysql_query (conn, consulta);
+		if (err!=0){
+			return -1;
+		}
+	}
+	
+	//Jug2
+	sprintf(consulta,"SELECT id FROM jugadores WHERE nombre=%s;",tablaP[idPartida].jug2);
+	err=mysql_query (conn, consulta);
+	if (err!=0){
+		return -1;
+	}
+	else{
+		resultado = mysql_store_result(conn);
+		row = mysql_fetch_row(resultado);
+		sprintf(consulta,"INSERT INTO registro VALUES ('%s','%d','%d');",row[0],idPartida,tablaP[idPartida].puntosJug2);
+		err=mysql_query (conn, consulta);
+		if (err!=0){
+			return -1;
+		}
+	}
+	
+	//Jug3 (si hay)
+	if (strcmp(tablaP[idPartida].jug3,"0")!=0){
+		sprintf(consulta,"SELECT id FROM jugadores WHERE nombre=%s;",tablaP[idPartida].jug3);
+		err=mysql_query (conn, consulta);
+		if (err!=0){
+			return -1;
+		}
+		else{
+			resultado = mysql_store_result(conn);
+			row = mysql_fetch_row(resultado);
+			sprintf(consulta,"INSERT INTO registro VALUES ('%s','%d','%d');",row[0],idPartida,tablaP[idPartida].puntosJug3);
+			err=mysql_query (conn, consulta);
+			if (err!=0){
+				return -1;
+			}
+		}
+		
+		//Jug4 (si hay)
+		if (strcmp(tablaP[idPartida].jug4,"0")!=0){
+			sprintf(consulta,"SELECT id FROM jugadores WHERE nombre=%s;",tablaP[idPartida].jug4);
+			err=mysql_query (conn, consulta);
+			if (err!=0){
+				return -1;
+			}
+			else{
+				resultado = mysql_store_result(conn);
+				row = mysql_fetch_row(resultado);
+				sprintf(consulta,"INSERT INTO registro VALUES ('%s','%d','%d');",row[0],idPartida,tablaP[idPartida].puntosJug4);
+				err=mysql_query (conn, consulta);
+				if (err!=0){
+					return -1;
+				}
+			}
+		}
+	}
+	
+}
+//Retorna la duracion de una partida en minutos
+int DameDuracion(int horaInicial){
+	//Retorna la duracion de la partida en minutos
+	
+	char fecha[10]; //unused
+	char hora[10]; //unused
+	int horaFinal = DameTiempo(fecha,hora);
+	int duracion;
+	
+	if (horaInicial>horaFinal){
+		//Si la partida se juega entre antes de las 00 i despues.
+		duracion = 24*3600-horaInicial+horaFinal;
+	}
+	else{
+		duracion = horaFinal-horaInicial;
+	}
+	
+	//Cambio de segundos a minutos
+	duracion = round(duracion/60);
+	return duracion;
+}
+//Guardar datos partida
+int GuardarPartida(int idHistorico, int duracion ,char ganador[25]){
+	//Retorna 0-> Todo ok : -1 -> Error BBDD
+	
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	int err;
+	
+	//Llenamos la fila correspondiente al idHistorico
+	//Obtenemos la fecha de la partida
+	char fecha[10];
+	char hora[10];
+	int segundos = DameTiempo(fecha,hora);
+	//Insertamos los datos
+	char consulta[500];
+	sprintf(consulta,"INSERT INTO partidas VALUES ('%d','%s','%s','%d');",idHistorico,fecha,ganador,duracion);
+	err=mysql_query (conn, consulta);
+	if (err!=0){
+		return -1;
+	}
+	else{
+		return 0;
+	}
+	
+}
+//Gurdar historico de la partida
+int GuardarHistorico(int idPartida, char ganador[25]){
+	//Retorna idHistorico-> Historico guardado correctamente; -1-> Error en de BBDD
+	
+	//Guardamos una fila en la tabla partidas para nuestra partida
+	int idHistorico = DameIdHistorico();
+	if (idHistorico==-1)
+		return -1;
+	
+	//Guardamos los registros de los jugadores de la Partidas
+	int res = GuardarRegistros(idPartida);
+	if (res==-1)
+		return -1;
+	
+	
+	//Guardamos los datos de la partida en la BBDD
+	int duracion = DameDuracion(tablaP[idPartida].horaInicio);
+	res = GuardarPartida(idHistorico,duracion,ganador);
+	if (res==0){
+		return idHistorico;
+	}
+	else{
+		return -1;
+	}
+
 }
 
 //Atencion a los diferentes clientes (threads)
@@ -884,7 +1099,9 @@ int *AtenderCliente(void *socket){
 				char notificacion[500];
 				sprintf(notificacion,"13/%d*%s*%d",partida,nombre,resultado);
 				if(resultado == 0){
-					int numJugadores = DameJugadoresPartida(partida,char jugadores[500]);
+					char jugadores[500]; //unused
+					int numJugadores = DameJugadoresPartida(partida,jugadores);
+					char siguienteTurno[10];
 					DameSiguienteTurno(miRol,numJugadores,siguienteTurno);
 					sprintf(notificacion,"%s*%s",notificacion,siguienteTurno);
 				}
@@ -901,9 +1118,16 @@ int *AtenderCliente(void *socket){
 					if (ganador == 1){
 						//Se acaba la partida con un ganador
 						sprintf(notificacion,"14/%d*%s",partida,nombre);
-						EnviaNotificacion(notificacion,partida,-1); //Enviamos tmb al ganador para que sepa que ha ganado
+						EnviaNotificacion(notificacion,partida,-1); //Enviamos tmb al ganador para que se sepa quien ha ganado
 						FinPartida(partida);
-						//Habra que guardar el historico en BBDD
+						//Guardamos el historico
+						pthread_mutex_lock(&mutex);
+						int guardar = GuardarHistorico(partida,nombre);
+						pthread_mutex_unlock(&mutex);
+						if(guardar == -1){
+							printf("No se han podido guardar los datos de esta partida.\nPartida Perdida.\n");
+						}
+						//Eliminamos la partida
 						pthread_mutex_lock(&mutex);
 						EliminarPartida(partida);
 						pthread_mutex_unlock(&mutex);
