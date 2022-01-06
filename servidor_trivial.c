@@ -31,9 +31,13 @@ typedef struct{
 	int estado;
 	int numInvitados;
 	char host[25];
+	int puntosHost;
 	char jug2[25];
+	int puntosJug2;
 	char jug3[25];
+	int puntosJug3;
 	char jug4[25];
+	int puntosJug4;
 }Partidas;
 
 
@@ -381,11 +385,15 @@ int CrearPartida(char nombre[25]){
 		pthread_mutex_lock(&mutex);
 		if(tablaP[i].estado==0)
 		{
-			strcpy(tablaP[i].host,nombre);
 			tablaP[i].estado=1;
+			strcpy(tablaP[i].host,nombre);
+			tablaP[i].puntosHost = 0;
 			strcpy(tablaP[i].jug2,"0");
+			tablaP[i].puntosJug2 = 0;
 			strcpy(tablaP[i].jug3,"0");
+			tablaP[i].puntosJug3 = 0;
 			strcpy(tablaP[i].jug4,"0");
+			tabla[i].puntosJug4 = 0;
 			encontrado=1;
 		}
 		else 
@@ -458,22 +466,22 @@ void IniciarPartida (int partida, char jugadores_partida[500]){
 		}
 	}	
 }
-//Envia notificacion a toods
-void EnviaNotificacion(char notificacion[500],int partida){
+//Envia notificacion a todos menos al que notifica (si queremos que envie a todos en el parametro socket introducimos -1)
+void EnviaNotificacion(char notificacion[500],int partida,int socket){
 	int socket1=DameSocketConectado(tablaP[partida].host);
-	if(socket1!=-1){
+	if((socket1!=-1) && (socket1!=socket)){
 		write(socket1,notificacion,strlen(notificacion));
 		printf("Notificación: %s enviada a socket:%d \n",notificacion,socket1);
 	}
 	int socket2=DameSocketConectado(tablaP[partida].jug2);
-	if (socket2!=-1){
+	if ((socket2!=-1) && (socket2!=socket)){
 		write(socket2,notificacion,strlen(notificacion));
 		printf("Notificación: %s enviada a socket:%d \n",notificacion,socket2);
 	}
 	
 	if (strcmp(tablaP[partida].jug3,"0")!=0){
 		int socket3=DameSocketConectado(tablaP[partida].jug3);
-		if(socket3!=-1)
+		if((socket3!=-1) && (socket3!=socket))
 		{
 			write(socket3,notificacion,strlen(notificacion));
 			printf("Notificación: %s enviada a socket:%d \n",notificacion,socket3);
@@ -481,7 +489,7 @@ void EnviaNotificacion(char notificacion[500],int partida){
 	}
 	if (strcmp(tablaP[partida].jug4,"0")!=0){
 		int socket4=DameSocketConectado(tablaP[partida].jug4);
-		if(socket4!=-1){
+		if((socket4!=-1) && (socket4!=socket)){
 			write(socket4,notificacion,strlen(notificacion));
 			printf("Notificación: %s enviada a socket:%d \n",notificacion,socket4);
 		}
@@ -491,16 +499,20 @@ void EnviaNotificacion(char notificacion[500],int partida){
 void FinPartida(int partida){
 	char fin[500];
 	sprintf(fin,"10/%d", partida);
-	EnviaNotificacion(fin,partida);
+	EnviaNotificacion(fin,partida,-1); //-1 en socket para enviar a todos
 }
 //Eliminia una partida de la tabla de partidas.
 void EliminarPartida(int partida){
 	tablaP[partida].estado=0;
 	tablaP[partida].numInvitados=-1;
 	strcpy(tablaP[partida].host,"0");
+	tablaP[partida].puntosHost = 0;
 	strcpy(tablaP[partida].jug2,"0");
+	tablaP[partida].puntosJug2 = 0;
 	strcpy(tablaP[partida].jug3,"0");
+	tablaP[partida].puntosJug3 = 0;
 	strcpy(tablaP[partida].jug4,"0");
+	tablaP[partida].puntosJug3 = 0;
 }
 //Retorna los jugadores de una partida recibida como parametro en jugadores i el numero total de jugadores
 int DameJugadoresPartida(int partida, char jugadores[500]){
@@ -555,7 +567,37 @@ void NotificaResultadoDado(int idPartida, int resDado, char tirador[25], char si
 	//construimos el mensaje a enviar "11/idPartida/resDado/nombre_tirador/siguienteTurno(rol)"
 	char notificacion[500];
 	sprintf(notificacion,"11/%d*%d*%s*%s",idPartida,resDado,tirador,siguienteTurno);
-	EnviaNotificacion(notificacion,idPartida);
+	EnviaNotificacion(notificacion,idPartida,-1); //-1 en socket para enviar a todos
+}
+//Suma puntos al jugador que ha acertado en una casilla de quesito
+int SumaPuntos(int idPartida, char rol){
+	//Retorna 1 si despues de sumar alguien llega a 6 puntos (GANA), 0 si no.
+	int ganador = 0;
+	if (strcmp(rol,"host")==0){
+		tablaP[idPartida].puntosHost = tablaP[idPartida].puntosHost + 1;
+		if(tablaP[idPartida].puntosHost>=6){
+			ganador = 1;
+		}
+	}
+	else if (strcmp(rol,"jug2")==0){
+		tablaP[idPartida].puntosJug2 = tablaP[idPartida].puntosJug2 + 1;
+		if(tablaP[idPartida].puntosJug2>=6){
+			ganador = 1;
+		}
+	}
+	else if (strcmp(rol,"jug3")==0){
+		tablaP[idPartida].puntosJug3 = tablaP[idPartida].puntosJug3 + 1;
+		if(tablaP[idPartida].puntosJug3>=6){
+			ganador = 1;
+		}
+	}
+	else{
+		tablaP[idPartida].puntosJug4 = tablaP[idPartida].puntosJug4 + 1;
+		if(tablaP[idPartida].puntosJug4>=6){
+			ganador = 1;
+		}
+	}
+	return ganador;
 }
 
 //Atencion a los diferentes clientes (threads)
@@ -752,7 +794,9 @@ int *AtenderCliente(void *socket){
 				if (strcmp(respuesta,"NO")==0){
 					printf("[%d]\n",sock_conn);
 					FinPartida(id_partida);
+					pthread_mutex_lock(&mutex);
 					EliminarPartida(id_partida);
+					pthread_mutex_unlock(&mutex);
 					printf("-------------\n");
 				}
 				else{
@@ -793,7 +837,7 @@ int *AtenderCliente(void *socket){
 				NotificaResultadoDado(partida,resDado,tirador,siguienteTurno);
 				printf("----------\n");
 			}
-			//Codigo 9 --> FInalizar y eliminar una partida.
+			//Codigo 9 --> Finalizar y eliminar una partida.
 			else if(codigo==9){
 				//Mensaje en buff: 9/idPartida
 				//Mensaje en buff2: -
@@ -801,13 +845,74 @@ int *AtenderCliente(void *socket){
 				p=strtok(NULL,"/");
 				int partida=atoi(p);
 				FinPartida(partida);
+				//Habra que guardar la partida en el historico de la BBDD
+				pthread_mutex_lock(&mutex);
 				EliminarPartida(partida);
-				
+				pthread_mutex_unlock(&mutex);
+			}
+			//Codigo 10 --> Nuevo movimiento del Jugador
+			else if(codigo==10){
+				//Mensaje en buff: 10/idPartida/idNuevaCasilla/rol
+				//Mensaje en buff2: -
+
+				p=strtok(NULL,"/");
+				int partida = atoi(p);
+				p=strtok(NULL,"/");
+				int nuevaCasilla = atoi(p);
+				p=strtok(NULL,"/");
+				char miRol[10];
+				strcpy(miRol,p);
+
+				//Notificamos al resto de jugadores el movimiento
+				char notificacion[500];
+				sprintf(notificacion,"12/%d*%s*%s*%d",partida,nombre,miRol,nuevaCasilla);
+				EnviaNotificacion(notificacion,partida,sock_conn);
+			}
+			//Codigo 11 --> Resultado Pregunta
+			else if(codigo==11){
+				//Mensaje en buff: 11/idPartida/rol/resultadoPregunta (1-> OK, 2-> OK + quesito, 0-> Mal)
+				//Mensaje en buff2: -
+
+				p=strtok(NULL,"/");
+				int partida = atoi(p);
+				p=strtok(NULL,"/");
+				char miRol[10];
+				strcpy(miRol,p);
+				p=strtok(NULL,"/");
+				int resultado = atoi(p);
+
+				char notificacion[500];
+				sprintf(notificacion,"13/%d*%s*%d",partida,nombre,resultado);
+				if(resultado == 0){
+					int numJugadores = DameJugadoresPartida(partida,char jugadores[500]);
+					DameSiguienteTurno(miRol,numJugadores,siguienteTurno);
+					sprintf(notificacion,"%s*%s",notificacion,siguienteTurno);
+				}
+				EnviaNotificacion(notificacion,partida,sock_conn);
+
+				//Sumamos quesito (1 punto) en el caso de recibir un 2
+				//En el caso que alguien llegeue a 6 puntos (6 quesitos) se acaba la partida porque
+				//este jugador ha ganado.
+				if(resultado == 2){
+					pthread_mutex_lock(&mutex);
+					int ganador = SumaPuntos(partida,miRol);
+					pthread_mutex_unlock(&mutex);
+
+					if (ganador == 1){
+						//Se acaba la partida con un ganador
+						sprintf(notificacion,"14/%d*%s",partida,nombre);
+						EnviaNotificacion(notificacion,partida,-1); //Enviamos tmb al ganador para que sepa que ha ganado
+						FinPartida(partida);
+						//Habra que guardar el historico en BBDD
+						pthread_mutex_lock(&mutex);
+						EliminarPartida(partida);
+						pthread_mutex_unlock(&mutex);
+					}
+				}
 			}
 					
-			
 			// Y lo enviamos
-			if (codigo!=0 && codigo!=7 && codigo!=8 && codigo!=9){
+			if (codigo!=0 && codigo!=7 && codigo!=8 && codigo!=9 && codigo!=10 && codigo!=11){
 				write (sock_conn,buff2, strlen(buff2));
 				printf("[%d] Codigo: %d , Resultado: %s\n",sock_conn,codigo,buff2);//Vemos el resultado de la accion.
 			}

@@ -26,27 +26,6 @@ CREATE TABLE registro (
 	puntos INT not NULL
 )ENGINE = InnoDB;
 
-CREATE TABLE movimientos (
-	actual INT not NULL,
-	dado INT not NULL,
-	posibles VARCHAR(100)
-)ENGINE = InnoDB;
-
-CREATE TABLE casillas (
-	id INT not NULL,
-	x REAL,
-	y REAL,
-	categoria VARCHAR(50)
-)ENGINE = InnoDB;
-
-CREATE TABLE preguntas (
-	categoria VARCHAR(50),
-	enunciado VARCHAR(1000),
-	posibles VARCHAR(5000),
-	correcta VARCHAR(1000)
-)ENGINE = InnoDB;
-	
-
 INSERT INTO jugadores VALUES (1, 'Miguel', 'mimara','miguel.valero@upc.edu');
 INSERT INTO jugadores VALUES (2, 'Laia', 'telecos','laia.costa.cid@estudiantat.upc.edu');
 INSERT INTO jugadores VALUES (3, 'Maria', 'telematica','maria.ubiergo@estudiantat.upc.edu');

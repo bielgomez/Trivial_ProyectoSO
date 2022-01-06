@@ -22,6 +22,13 @@ namespace Trivial
         List<string> jugadores;
         ListaCasillas casillas;
         int miCasilla;
+
+        ListaPreguntas geografia;
+        ListaPreguntas historia;
+        ListaPreguntas ciencia;
+        ListaPreguntas deportes;
+        ListaPreguntas literatura;
+        ListaPreguntas cultura;
         
         public Tablero()
         {
@@ -30,10 +37,16 @@ namespace Trivial
             this.BackgroundImage = tablero;
             this.BackgroundImageLayout = ImageLayout.Stretch;
             PictureBox dado = new PictureBox();
+
             casillas = new ListaCasillas();
-            casillas.PonerTodasLasCasillas();
             casillas.CalcularMovimientos();
-            
+
+            geografia = new ListaPreguntas(@"\geografia.txt");
+            historia = new ListaPreguntas(@"\historia.txt");
+            ciencia = new ListaPreguntas(@"\ciencia.txt");
+            deportes = new ListaPreguntas(@"\deportes.txt");
+            literatura = new ListaPreguntas(@"\literatura.txt");
+            cultura = new ListaPreguntas(@"\cultura.txt");
         }
 
         private void Tablero_Load(object sender, EventArgs e)

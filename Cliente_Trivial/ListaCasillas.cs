@@ -17,24 +17,16 @@ namespace Trivial
         {
             this.lista = new List<Casilla>();
             this.num = 0;
-        }
 
-        //Métodos
-        public void AnadirCasilla(Casilla casilla)
-        {
-            lista.Add(casilla);
-            num = num + 1;
-        }
+            //Crear las casillas que existen
 
-        public void PonerTodasLasCasillas()
-        {
             int i = 0;
             //Caselles exteriors (cercle)
             while (i < 42)
             {
-                for(int dau = 0; dau <= 6; dau++)
+                for (int dau = 0; dau <= 6; dau++)
                 {
-                    Casilla nuevaCasilla = new Casilla(i,dau);
+                    Casilla nuevaCasilla = new Casilla(i, dau);
                     AnadirCasilla(nuevaCasilla);
                 }
                 i++;
@@ -44,7 +36,7 @@ namespace Trivial
             i = 100;
             while (i < 155)
             {
-                if ((((i % 10) % 5) == 0) && ((i%10)!=0))
+                if ((((i % 10) % 5) == 0) && ((i % 10) != 0))
                     i = i + 5;
                 for (int dau = 0; dau <= 6; dau++)
                 {
@@ -60,6 +52,14 @@ namespace Trivial
                 AnadirCasilla(nuevaCasilla);
             }
         }
+
+        //Métodos
+        public void AnadirCasilla(Casilla casilla)
+        {
+            lista.Add(casilla);
+            num = num + 1;
+        }
+
         public void CalcularMovimientos()
         {
             foreach (Casilla casilla in lista)

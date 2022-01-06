@@ -61,6 +61,8 @@
       <DependentUpon>Invitacion.cs</DependentUpon>
     </Compile>
     <Compile Include="ListaCasillas.cs" />
+    <Compile Include="ListaPreguntas.cs" />
+    <Compile Include="Pregunta.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tablero.cs">
