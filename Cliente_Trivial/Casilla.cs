@@ -37,17 +37,11 @@ namespace Trivial
 			return this.movimientos;
         }
 
-		public void NuevaCasilla(int id, int dado)
-        {
-			this.id = id;
-			this.dado = dado;
-        }
-
 		public void CalculaPosiblesMovimientos()
         {
 			movimientos = new List<int>();
 
-			//Casilla forma parte del circulo exterior (ids de 1 a 41)
+			//Casilla forma parte del circulo exterior (ids de 0 a 41)
 			if (id>=0 && id < 42)
             {
 				//Movimientos dentro del circulo
@@ -138,7 +132,7 @@ namespace Trivial
             else
             {
 				int posRama = id % 10; //(0-1-2-3-4)
-				int rama = (id - posRama) % 100; //(0-1-2-3-4-5)
+				int rama = ((id - posRama) % 100)/10; //(0-1-2-3-4-5)
 
 				//Moviments cap al cercle exterior
 				if (dado > (posRama + 1))
@@ -175,13 +169,14 @@ namespace Trivial
                 }
                 else
                 {
-					int n = dado - (5 - posRama);
+					int n = dado - (5 - posRama); //moviments que em queden
 					int m = rama + 1;
 					if (m > 5)
 						m = 0;
 					while (m != rama)
                     {
-						this.movimientos.Add(100 + m * 10 + (5 - n));
+						int a = 100 + m * 10 + (5 - n);
+						this.movimientos.Add(a);
 						m++;
 						if (m > 5)
 							m = 0;

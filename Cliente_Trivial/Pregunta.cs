@@ -19,9 +19,9 @@ namespace Trivial
             this.pregunta = datos[0];
             this.opciones = new string[4];
             int i = 0;
-            foreach (string opcion in datos)
+            while(i<4)
             {
-                this.opciones[i] = opcion;
+                this.opciones[i] = datos[i + 1];
                 i++;
             }
             this.correcta = Convert.ToInt32(datos[5]);

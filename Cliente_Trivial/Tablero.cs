@@ -41,12 +41,12 @@ namespace Trivial
             casillas = new ListaCasillas();
             casillas.CalcularMovimientos();
 
-            geografia = new ListaPreguntas(@"\geografia.txt");
-            historia = new ListaPreguntas(@"\historia.txt");
-            ciencia = new ListaPreguntas(@"\ciencia.txt");
-            deportes = new ListaPreguntas(@"\deportes.txt");
-            literatura = new ListaPreguntas(@"\literatura.txt");
-            cultura = new ListaPreguntas(@"\cultura.txt");
+            geografia = new ListaPreguntas(@".\\geografia.txt");
+            historia = new ListaPreguntas(@".\\historia.txt");
+            ciencia = new ListaPreguntas(@".\\ciencia.txt");
+            deportes = new ListaPreguntas(@".\\deportes.txt");
+            literatura = new ListaPreguntas(@".\\literatura.txt");
+            cultura = new ListaPreguntas(@".\\cultura.txt");
         }
 
         private void Tablero_Load(object sender, EventArgs e)

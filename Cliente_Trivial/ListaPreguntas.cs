@@ -22,7 +22,7 @@ namespace Trivial
             lista = new Pregunta[numPreguntas];
             StreamReader r = new StreamReader(fichero);
             string linea = r.ReadLine();
-            while (linea != null)
+            while ((linea != null) && (linea != ""))
             {
                 string[] trozos = linea.Split('/');
                 Pregunta nuevaPregunta = new Pregunta(trozos);
