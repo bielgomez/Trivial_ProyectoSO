@@ -29,6 +29,8 @@ namespace Trivial
         ListaPreguntas deportes;
         ListaPreguntas literatura;
         ListaPreguntas cultura;
+
+        Queue<string> chat;
         
         public Tablero()
         {
@@ -49,6 +51,7 @@ namespace Trivial
             cultura = new ListaPreguntas(@".\\cultura.txt");
 
             ChatBox.Multiline = true;
+            chat = new Queue<string>();
         }
 
         private void Tablero_Load(object sender, EventArgs e)
@@ -212,8 +215,29 @@ namespace Trivial
                 server.Send(msg);
 
                 //Escribimos en el chat lo que enviamos
-                string chat = "Yo: " + ChatTxt.Text;
-                ChatBox.Text = ChatBox.Text + chat + Environment.NewLine;
+                string mchat = "Yo: " + ChatTxt.Text;
+                if (chat.Count >= 9)
+                {
+                    chat.Dequeue();
+                    chat.Enqueue(mchat);
+
+                    ChatBox.Clear();
+                    foreach(string msgChat in chat)
+                    {
+                        ChatBox.Text = ChatBox.Text + msgChat + Environment.NewLine;
+                    }
+                }
+                else if (chat.Count == 8)
+                {
+                    chat.Enqueue(mchat);
+                    ChatBox.Text = ChatBox.Text + mchat;
+                }
+                else
+                {
+                    chat.Enqueue(mchat);
+                    ChatBox.Text = ChatBox.Text + mchat + Environment.NewLine;
+                }
+                
 
                 //RichTextBox bold = ChatBox;
                 //foreach (string line in bold.Lines)
@@ -233,8 +257,30 @@ namespace Trivial
         public void NuevoMensajeChat(string datos)
         {
             string mensaje = datos.Split('*')[1] + ": "+ datos.Split('*')[2];
-            ChatBox.Text = ChatBox.Text + mensaje + Environment.NewLine;
-            ChatBox.ScrollToCaret(); //no lo hace
+          
+            if (chat.Count >= 9)
+            {
+                chat.Dequeue();
+                chat.Enqueue(mensaje);
+
+                ChatBox.Clear();
+                foreach (string msgChat in chat)
+                {
+                    ChatBox.Text = ChatBox.Text + msgChat + Environment.NewLine;
+                }
+            }
+            else if (chat.Count == 8)
+            {
+                chat.Enqueue(mensaje);
+                ChatBox.Text = ChatBox.Text + mensaje;
+            }
+            else
+            {
+                chat.Enqueue(mensaje);
+                ChatBox.Text = ChatBox.Text + mensaje + Environment.NewLine;
+            }
+
+            //ChatBox.ScrollToCaret(); //no lo hace
 
             //ChatBox -> 9 lineas
 
@@ -248,5 +294,6 @@ namespace Trivial
             //}
         }
 
+        
     }
 }

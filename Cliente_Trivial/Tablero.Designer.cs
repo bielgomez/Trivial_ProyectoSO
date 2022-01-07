@@ -144,6 +144,7 @@ namespace Trivial
             // 
             this.ChatBox.Location = new System.Drawing.Point(40, 376);
             this.ChatBox.Name = "ChatBox";
+            this.ChatBox.ReadOnly = true;
             this.ChatBox.Size = new System.Drawing.Size(297, 157);
             this.ChatBox.TabIndex = 23;
             this.ChatBox.Text = "";
