@@ -13,15 +13,157 @@ namespace Trivial
 		int dado;
 		List<int> movimientos;
 		string categoria; //Geografia,Historia,...,Tira otra vez
-		double x;
-		double y;
+		int x; // Para ubicar pictureBox no acepta double
+		int y;
+        //int xubi;             this.xubi = Convert.ToInt32(x - ubiBox.Size.Width / 2);
+        //int yubi;             this.yubi = Convert.ToInt32(y - ubiBox.Size.Height);
 
-		//Constructor
-		public Casilla(int id, int dado)
-		{
-			this.id = id;
-			this.dado = dado;
-		}
+        //Constructor
+        public Casilla(int id, int dado, int xorigen, int yorigen)
+        // es necessita size de tableroBox i ubiBox
+        {
+            this.id = id;
+            this.dado = dado;
+
+            // Determinar categoria
+            if (this.id == 1000)
+                this.categoria = "Casilla Central";
+            else
+            {
+                bool encontrado = false;
+                List<int> amarillas = new List<int>();
+                int[] camarillas = new int[] { 1, 10, 21, 32, 41, 100, 124, 133, 142, 151 };
+                amarillas.AddRange(camarillas);
+                foreach (int i in amarillas)
+                {
+                    if (i == this.id)
+                    {
+                        encontrado = true;
+                        this.categoria = "Amarilla";
+                    }
+                }
+                if (encontrado == false)
+                {
+                    List<int> azules = new List<int>();
+                    int[] cazules = new int[] { 0, 11, 20, 22, 31, 103, 112, 121, 130, 154 };
+                    azules.AddRange(cazules);
+                    foreach (int i in azules)
+                    {
+                        if (i == this.id)
+                        {
+                            encontrado = true;
+                            this.categoria = "Azul";
+                        }
+                    }
+                    if (encontrado == false)
+                    {
+                        List<int> rojas = new List<int>();
+                        int[] crojo = new int[] { 3, 14, 25, 36, 34, 114, 123, 132, 141, 150 };
+                        rojas.AddRange(crojo);
+                        foreach (int i in rojas)
+                        {
+                            if (i == this.id)
+                            {
+                                encontrado = true;
+                                this.categoria = "Rojas";
+                            }
+                        }
+                        if (encontrado == false)
+                        {
+                            List<int> lilas = new List<int>();
+                            int[] clila = new int[] { 4, 13, 15, 24, 35, 103, 112, 120, 144, 153 };
+                            lilas.AddRange(clila);
+                            foreach (int i in lilas)
+                            {
+                                if (i == this.id)
+                                {
+                                    encontrado = true;
+                                    this.categoria = "Lila";
+                                }
+                            }
+                            if (encontrado==false)
+                            {
+                                List<int> naranjas = new List<int>();
+                                int[] cnara = new int[] { 6, 8, 17, 28, 39, 101, 110, 134, 143, 152 };
+                                naranjas.AddRange(cnara);
+                                foreach (int i in naranjas)
+                                {
+                                    if (i == this.id)
+                                    {
+                                        encontrado = true;
+                                        this.categoria = "Naranja";
+                                    }
+                                }
+                                if (encontrado == false)
+                                {
+                                    List<int> verdes = new List<int>();
+                                    int[] cverde = new int[] { 7, 18, 20, 22, 38, 104, 113, 122, 131, 140 };
+                                    verdes.AddRange(cverde);
+                                    foreach (int i in verdes)
+                                    {
+                                        if (i == this.id)
+                                        {
+                                            encontrado = true;
+                                            this.categoria = "Verde";
+                                        }
+                                    }
+                                    if (encontrado == false) // { 2, 5, 9, 12, 16, 19, 23, 26, 30, 33, 37, 40 };
+                                        this.categoria = "Vuelve a tirar";
+                                }
+                            }
+                        }
+                    }
+                }
+            }         
+            
+            // Calculo coordenadas
+            double x, y;
+            double espesor = 45; // Diferencia entre la 00 y la 01
+            double radi = 675 / 2; // Cuestiones esteticas
+            double alpha = 8.57; // El incremento de angulo que debería haber entre casillas perimetro       
+            double r04 = 2 * espesor;
+            double r03 = 3 * espesor;
+            double r02 = 4 * espesor;
+            double r01 = 5 * espesor;
+            double r00 = 6 * espesor;
+            double rtotal = radi; //Radio del tablero
+            if (id == 1000)
+            {
+                x = xorigen;
+                y = yorigen;
+            }
+            else
+            {
+                double beta;
+                double dist_origen;
+                if ((id < 42) && (id >= 0)) // Significa que estas en el perimetro
+                {
+                    dist_origen = rtotal - (rtotal - r00) / 2;
+                    beta = id * alpha;
+                }
+                else
+                {
+                    int ppiso = id % 10;
+                    int rriera = (id - ppiso) % 100 / 10;
+                    beta = rriera * 7 * alpha;
+                    if (ppiso == 0)
+                        dist_origen = r00 - espesor / 2;
+                    else if (ppiso == 1)
+                        dist_origen = r01 - espesor / 2;
+                    else if (ppiso == 2)
+                        dist_origen = r02 - espesor / 2;
+                    else if (ppiso == 3)
+                        dist_origen = r03 - espesor / 2;
+                    else
+                        dist_origen = r04 - espesor / 2;
+                }
+                x = xorigen + dist_origen * Math.Sin(beta * Math.PI / 180);
+                y = yorigen - dist_origen * Math.Cos(beta * Math.PI / 180);
+
+            }
+            this.x = Convert.ToInt32(x);
+            this.y = Convert.ToInt32(y);
+        }
 
 		//Métodos
 		public int GetId()
@@ -32,11 +174,22 @@ namespace Trivial
         {
 			return this.dado;
         }
-		public List<int> GetMovimientos()
+        public string GetCategoria()
+        {
+            return this.categoria;
+        }
+        public int GetX()
+        {
+            return this.x;
+        }
+        public int GetY()
+        {
+            return this.y;
+        }
+        public List<int> GetMovimientos()
         {
 			return this.movimientos;
         }
-
 		public void CalculaPosiblesMovimientos()
         {
 			movimientos = new List<int>();
@@ -84,7 +237,6 @@ namespace Trivial
                             this.movimientos.Add(100 + m * 10 + (n-1));
                         }
 					}
-
                 }
 				//Desde las casillas mas cercanas al "quesito" superior
                 else
@@ -184,6 +336,5 @@ namespace Trivial
                 }
             }
         }
-        //
     }
 }

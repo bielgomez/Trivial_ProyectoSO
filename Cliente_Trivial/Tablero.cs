@@ -21,6 +21,7 @@ namespace Trivial
         Socket server;
         List<string> jugadores;
         ListaCasillas casillas;
+        List<int> movimientos; //New, esperem que no doni problemes. Definida quan el dau. Usada again quan piques on vols anar
         int miCasilla;
 
         ListaPreguntas geografia;
@@ -31,16 +32,24 @@ namespace Trivial
         ListaPreguntas cultura;
 
         Queue<string> chat;
-        
+        int xorigen;
+        int yorigen;
+
         public Tablero()
         {
             InitializeComponent();
-            Bitmap tablero = new Bitmap(Application.StartupPath + @"\tablero.png");
-            this.BackgroundImage = tablero;
-            this.BackgroundImageLayout = ImageLayout.Stretch;
             PictureBox dado = new PictureBox();
 
-            casillas = new ListaCasillas();
+            Bitmap tablero = new Bitmap(Application.StartupPath + @"\Tablero.png");
+            tableroBox.Image = (Image)tablero;
+            tableroBox.SizeMode = PictureBoxSizeMode.AutoSize;
+            tableroBox.Location = new Point(0, 0);
+            this.Size = tableroBox.Size;
+
+            this.xorigen = (tableroBox.Size.Width / 2) + tableroBox.Location.X;
+            this.yorigen = tableroBox.Size.Height / 2 + tableroBox.Location.Y;
+
+            casillas = new ListaCasillas(xorigen,yorigen);
             casillas.CalcularMovimientos();
 
             geografia = new ListaPreguntas(@".\\geografia.txt");
@@ -133,9 +142,6 @@ namespace Trivial
             {
                 playersGridView.Rows[i].DefaultCellStyle.BackColor = Color.White;
             }
-   
-
-
             switch (siguienteTurno)
             {
                 case "host":
@@ -177,13 +183,23 @@ namespace Trivial
                     dado.Image = Image.FromFile("dado4.png");
                 else if (num == 5)
                     dado.Image = Image.FromFile("dado5.png");
-                else if (num == 6)
+                else
                     dado.Image = Image.FromFile("dado6.png");
 
-                List<int> movimientos = casillas.DameMovimientosPosibles(miCasilla,num);
-                string texto = "";
+                List<int> movimientos = casillas.DameMovimientosPosibles(miCasilla, num); 
+                string texto = " ";
                 foreach (int posicion in movimientos)
+                {
                     texto = texto + posicion + ",";
+                    Casilla c = new Casilla(posicion, 1, xorigen, yorigen);
+                    Bitmap ubi = new Bitmap(Application.StartupPath + @"\ubicacion.png");
+                    PictureBox p = new PictureBox {
+                        Name = "pictureBox" + Convert.ToString(posicion),
+                        Image = (Image)ubi,
+                        Size = new Size(60, 90),
+                        Location = new Point(c.GetX() - p.Size.Width / 2, c.GetY() - p.Size.Height),
+                    };
+                }
                 texto.Remove(texto.Length - 1);
                 movimientosLbl.Text = "Posibles movimientos: " + texto;
                 dadolbl.Text = "Avanza " + num.ToString() + " casillas.";
@@ -294,6 +310,170 @@ namespace Trivial
             //}
         }
 
-        
+        private void tableroBox_Click(object sender, EventArgs e)
+        {
+            // Pasos:
+            // 1. Comprobar si es tu turno
+            // 2. Mirar en qué casilla has picado = idcasilla
+            // 3. Comprobar si esa está en posibles movimientos
+            // 4. If yes: Ubicar tu pieza en idcasilla.x;
+
+            if (miTurno==true) //1
+            {
+                int idcasilla; //2
+
+                MouseEventArgs me = (MouseEventArgs)e;
+                Point coordinates = me.Location;
+                double xclick = coordinates.X;
+                double yclick = coordinates.Y;
+
+                double a = xclick - xorigen;
+                double b = yclick - yorigen;
+
+                double distOrigen = Math.Sqrt(a * a + b * b);
+
+                double espesor = 45; // Diferencia entre la 00 y la 01
+                double ancho = 25;   // Como de anchas son las rieras
+                double radi = 675 / 2; // Cuestiones esteticas
+                double alpha = 8.57; // El incremento de angulo que debería haber entre casillas perimetro       
+                double radians = Math.Atan2(a, b);
+                double angle_pos = radians * (180 / Math.PI);  // Calculamos el angulo en el que estamos
+                double angle_girat = 180 - angle_pos;   // El que realment és pel nostre sistema (siempre positivo)
+
+                double r04 = 2 * espesor;
+                double r03 = 3 * espesor;
+                double r02 = 4 * espesor;
+                double r01 = 5 * espesor;
+                double r00 = 6 * espesor;
+                double rtotal = radi; //Radio del tablero
+
+                //Determinar casella 
+                string piso;
+                string riera;
+                
+                if (distOrigen < rtotal) // Determinar dentro tablero
+                {
+                    double multiple = angle_girat / alpha;  // Quantes vegades s'ha multiplicat per alpha determinarà quin numero és de casella
+
+                    if ((distOrigen > r00) && (distOrigen <= rtotal)) // Determinar si estas en el perimetro
+                    {
+                        if (Math.Abs(a) <= ancho) //Determinar si es la de arriba (0) o abajo (21)
+                        {
+                            if (b > 0)
+                                idcasilla = 21;
+                            else
+                                idcasilla = 0;
+                        }
+                        else
+                        {
+                            double m = Math.Round(multiple, 0);
+                            idcasilla = Convert.ToInt32(m);
+                        }
+                    }
+                    else
+                    {
+                        // Si no estàs en el perímetre, has de determinar si estàs en la central o a quina fila, i llavors determinar quina riera
+                        if (distOrigen <= espesor)
+                        {
+                            idcasilla = 1000;
+                        }
+                        else
+                        {
+                            if ((distOrigen > espesor) && (distOrigen <= r04))
+                            {
+                                piso = "4";
+                            }
+                            else if ((distOrigen > r04) && (distOrigen <= r03))
+                            {
+                                piso = "3";
+                            }
+                            else if ((distOrigen > r03) && (distOrigen <= r02))
+                            {
+                                piso = "2";
+                            }
+                            else if ((distOrigen > r02) && (distOrigen <= r01))
+                            {
+                                piso = "1";
+                            }
+                            else
+                            {
+                                piso = "0";
+                            }
+                            if (Math.Abs(a) <= ancho) //Determinar si es la de arriba (0) o abajo (21)
+                            {
+                                if (b > 0)
+                                    riera = "13";
+                                else
+                                    riera = "10";
+                                string c = riera + piso;
+                                idcasilla = Convert.ToInt32(c);
+                            }
+                            else
+                            // Calcules els límits que ha de tenir en aquella x
+                            {
+                                if (((angle_pos > 0) && (angle_girat < 90)) || ((angle_pos < 0) && (angle_girat < 3 * 90)))
+                                //Arriba derecha or abajo abajo izq
+                                {
+                                    double yupper = -Math.Tan(Math.PI / 6) * xclick + yorigen + Math.Tan(Math.PI / 6) * xorigen - ancho / Math.Sin(Math.PI / 3);
+                                    double ydown = -Math.Tan(Math.PI / 6) * xclick + yorigen + Math.Tan(Math.PI / 6) * xorigen + ancho / Math.Sin(Math.PI / 3);
+
+                                    if ((yclick > yupper) && (yclick < ydown))
+                                    {
+                                        if (angle_pos > 0)
+                                            riera = "11";
+                                        else
+                                            riera = "14";
+                                        string c = riera + piso;
+                                        idcasilla = Convert.ToInt32(c);
+                                    }
+                                    else
+                                        idcasilla = -1;
+                                }
+                                else
+                                {
+                                    double yupper = Math.Tan(Math.PI / 6) * xclick + yorigen - Math.Tan(Math.PI / 6) * xorigen + ancho / Math.Sin(Math.PI / 3);
+                                    double ydown = Math.Tan(Math.PI / 6) * xclick + yorigen - Math.Tan(Math.PI / 6) * xorigen - ancho / Math.Sin(Math.PI / 3);
+
+                                    if ((yclick < yupper) && (yclick > ydown))
+                                    {
+                                        if (angle_pos > 0)
+                                            riera = "12";
+                                        else
+                                            riera = "15";
+                                        string c = riera + piso;
+                                        idcasilla = Convert.ToInt32(c);
+                                    }
+                                    else
+                                        idcasilla = -1;
+                                }
+
+                            }
+
+
+                        }
+
+                    }
+                    MessageBox.Show("Estás en la casilla: " + Convert.ToString(idcasilla));
+
+                    bool encontrado = false; //3
+                    foreach (int posicion in movimientos)
+                    {
+                        if (posicion == idcasilla)
+                            encontrado = true;
+                    }
+                    if (encontrado == true)
+                    {
+                        Casilla c = new Casilla(idcasilla, 1, xorigen, yorigen);
+                        // TOCA COLOCAR
+                    }
+                }
+                else
+                    MessageBox.Show("Fuera del tablero");
+            
+                
+            }
+
+        }
+
     }
 }

@@ -39,8 +39,10 @@ namespace Trivial
             this.ChatBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.ChatBox = new System.Windows.Forms.RichTextBox();
+            this.tableroBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tableroBox)).BeginInit();
             this.SuspendLayout();
             // 
             // playersGridView
@@ -149,11 +151,24 @@ namespace Trivial
             this.ChatBox.TabIndex = 23;
             this.ChatBox.Text = "";
             // 
+            // tableroBox
+            // 
+            this.tableroBox.BackColor = System.Drawing.Color.Transparent;
+            this.tableroBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.tableroBox.Location = new System.Drawing.Point(393, 84);
+            this.tableroBox.Name = "tableroBox";
+            this.tableroBox.Size = new System.Drawing.Size(749, 433);
+            this.tableroBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.tableroBox.TabIndex = 24;
+            this.tableroBox.TabStop = false;
+            this.tableroBox.Click += new System.EventHandler(this.tableroBox_Click);
+            // 
             // Tablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1351, 596);
+            this.Controls.Add(this.tableroBox);
             this.Controls.Add(this.ChatBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ChatBtn);
@@ -170,6 +185,7 @@ namespace Trivial
             this.Load += new System.EventHandler(this.Tablero_Load);
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tableroBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -187,5 +203,6 @@ namespace Trivial
         private System.Windows.Forms.Button ChatBtn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox ChatBox;
+        protected System.Windows.Forms.PictureBox tableroBox;
     }
 }

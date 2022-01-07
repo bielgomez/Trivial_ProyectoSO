@@ -13,7 +13,7 @@ namespace Trivial
         int num;
 
         //Constructor
-        public ListaCasillas()
+        public ListaCasillas(int xorigen, int yorigen)
         {
             this.lista = new List<Casilla>();
             this.num = 0;
@@ -26,7 +26,7 @@ namespace Trivial
             {
                 for (int dau = 1; dau <= 6; dau++)
                 {
-                    Casilla nuevaCasilla = new Casilla(i, dau);
+                    Casilla nuevaCasilla = new Casilla(i, dau, xorigen, yorigen);
                     this.lista.Add(nuevaCasilla);
                     num++;
                 }
@@ -41,7 +41,7 @@ namespace Trivial
                     i = i + 5;
                 for (int dau = 1; dau <= 6; dau++)
                 {
-                    Casilla nuevaCasilla = new Casilla(i, dau);
+                    Casilla nuevaCasilla = new Casilla(i, dau, xorigen, yorigen);
                     this.lista.Add(nuevaCasilla);
                     num++;
                 }
@@ -50,7 +50,7 @@ namespace Trivial
             //Casella central
             for (int dau = 1; dau <= 6; dau++)
             {
-                Casilla nuevaCasilla = new Casilla(1000, dau);
+                Casilla nuevaCasilla = new Casilla(1000, dau, xorigen, yorigen);
                 this.lista.Add(nuevaCasilla);
                 num++;
             }
