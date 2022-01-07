@@ -1134,9 +1134,26 @@ int *AtenderCliente(void *socket){
 					}
 				}
 			}
-					
+			//Codigo 12 -> Nuevo mensaje para el chat
+			else if (codigo==12){
+				//Mensaje en buff: 12/idPartida/mensaje
+				//Mensaje en buff2: -
+				
+				p = strtok(NULL,"/");
+				int partida = atoi(p);
+				p = strtok(NULL,"/");
+				char mensaje[500];
+				strcpy(mensaje,p);
+				
+				//Notificamos a todos menos a uno mismo (envia el cliente de este thread -> nombre)
+				char notificacion[500];
+				sprintf(notificacion,"15/%d*%s*%s",partida,nombre,mensaje);
+				EnviaNotificacion(notificacion,partida,sock_conn);
+				
+			}
+
 			// Y lo enviamos
-			if (codigo!=0 && codigo!=7 && codigo!=8 && codigo!=9 && codigo!=10 && codigo!=11){
+			if (codigo!=0 && codigo!=7 && codigo!=8 && codigo!=9 && codigo!=10 && codigo!=11 && codigo!=12){
 				write (sock_conn,buff2, strlen(buff2));
 				printf("[%d] Codigo: %d , Resultado: %s\n",sock_conn,codigo,buff2);//Vemos el resultado de la accion.
 			}

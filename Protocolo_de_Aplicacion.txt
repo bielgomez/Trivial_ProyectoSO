@@ -22,4 +22,6 @@ PROTOCOLO DE APLICACIÓN
     "11/idPartida/miRol/1 o 2 o 0" (Resultado Pregunta) [1-OK,2-OK(quesito),0-Mal]	->    						-
 			    -								<-    "13/idPartida*nombreJugador*resultado(*siguienteTurno(rol))" (Notificacion del resultado de un jugador) [si el resultado es 0(Mal) se actualiza el turno]
 			    -								<-    "14/idPartida*ganador (Notifica que alguien ha conseguido los 6 quesitos)
+    "12/idPartida/mnesaje" (Enviar mensaje al chat) 					->    						-
+			    - 								<-    "15/idPartida*nombre*mensaje" (Notificación de mensaje nuevo en el chat)
 

@@ -35,6 +35,10 @@ namespace Trivial
             this.username_lbl = new System.Windows.Forms.Label();
             this.partida_lbl = new System.Windows.Forms.Label();
             this.movimientosLbl = new System.Windows.Forms.Label();
+            this.ChatTxt = new System.Windows.Forms.TextBox();
+            this.ChatBtn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ChatBox = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).BeginInit();
             this.SuspendLayout();
@@ -44,7 +48,7 @@ namespace Trivial
             this.playersGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.playersGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.playersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.playersGridView.Location = new System.Drawing.Point(40, 360);
+            this.playersGridView.Location = new System.Drawing.Point(40, 154);
             this.playersGridView.Name = "playersGridView";
             this.playersGridView.RowHeadersWidth = 51;
             this.playersGridView.RowTemplate.Height = 24;
@@ -107,11 +111,52 @@ namespace Trivial
             this.movimientosLbl.TabIndex = 18;
             this.movimientosLbl.Text = "Possibles movimientos:";
             // 
+            // ChatTxt
+            // 
+            this.ChatTxt.Location = new System.Drawing.Point(40, 539);
+            this.ChatTxt.Name = "ChatTxt";
+            this.ChatTxt.Size = new System.Drawing.Size(297, 22);
+            this.ChatTxt.TabIndex = 19;
+            // 
+            // ChatBtn
+            // 
+            this.ChatBtn.Location = new System.Drawing.Point(355, 539);
+            this.ChatBtn.Name = "ChatBtn";
+            this.ChatBtn.Size = new System.Drawing.Size(75, 23);
+            this.ChatBtn.TabIndex = 20;
+            this.ChatBtn.Text = "Enviar";
+            this.ChatBtn.UseVisualStyleBackColor = true;
+            this.ChatBtn.Click += new System.EventHandler(this.ChatBtn_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(163, 355);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 18);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "CHAT";
+            // 
+            // ChatBox
+            // 
+            this.ChatBox.Location = new System.Drawing.Point(40, 376);
+            this.ChatBox.Name = "ChatBox";
+            this.ChatBox.Size = new System.Drawing.Size(297, 157);
+            this.ChatBox.TabIndex = 23;
+            this.ChatBox.Text = "";
+            // 
             // Tablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1351, 596);
+            this.Controls.Add(this.ChatBox);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.ChatBtn);
+            this.Controls.Add(this.ChatTxt);
             this.Controls.Add(this.movimientosLbl);
             this.Controls.Add(this.partida_lbl);
             this.Controls.Add(this.username_lbl);
@@ -137,5 +182,9 @@ namespace Trivial
         private System.Windows.Forms.Label username_lbl;
         private System.Windows.Forms.Label partida_lbl;
         private System.Windows.Forms.Label movimientosLbl;
+        private System.Windows.Forms.TextBox ChatTxt;
+        private System.Windows.Forms.Button ChatBtn;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox ChatBox;
     }
 }

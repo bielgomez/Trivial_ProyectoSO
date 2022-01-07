@@ -47,6 +47,8 @@ namespace Trivial
             deportes = new ListaPreguntas(@".\\deportes.txt");
             literatura = new ListaPreguntas(@".\\literatura.txt");
             cultura = new ListaPreguntas(@".\\cultura.txt");
+
+            ChatBox.Multiline = true;
         }
 
         private void Tablero_Load(object sender, EventArgs e)
@@ -199,5 +201,49 @@ namespace Trivial
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(finpartida);
             server.Send(msg);
         }
+
+        //Enviar mensajes al chat
+        private void ChatBtn_Click(object sender, EventArgs e)
+        {
+            string mensaje = "12/"+partida+"/"+ChatTxt.Text;
+            if (mensaje != "")
+            {
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+            }
+            //Escribimos en el chat lo que enviamos
+            string chat = "Yo: "+ChatTxt.Text;
+            ChatBox.Text = ChatBox.Text+Environment.NewLine+chat;
+
+            //RichTextBox bold = ChatBox;
+            //foreach (string line in bold.Lines)
+            //{
+            //    string user = line.Split(' ')[0];
+            //    int srt = bold.Find(user);
+            //    bold.Select(srt, user.Length);
+            //    bold.SelectionFont = new Font(bold.Font, FontStyle.Bold);
+            //}
+
+            //Borramos lo escrito una vez enviado
+            ChatTxt.Clear();
+        }
+
+        //Recibir mensajes chat
+        public void NuevoMensajeChat(string datos)
+        {
+            string mensaje = datos.Split('*')[1] + ": "+ datos.Split('*')[2];
+            ChatBox.Text = ChatBox.Text + Environment.NewLine + mensaje;
+            ChatBox.ScrollToCaret();
+
+            //RichTextBox bold = ChatBox;
+            //foreach (string line in bold.Lines)
+            //{
+            //    string user = line.Split(' ')[0];
+            //    int srt = bold.Find(user);
+            //    bold.Select(srt, user.Length);
+            //    bold.SelectionFont = new Font(bold.Font, FontStyle.Bold);
+            //}
+        }
+
     }
 }

@@ -235,8 +235,15 @@ namespace Trivial
                         case 11: //Notificación del resultado del dado de un jugador y del siguiente turno
                             //Enviar al tablero correspondiente "idPartida*resDado*nombreTirador*siguienteTurno(rol)"
                             int idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
-                            numTablero = DamePosicionLista(tableros, Convert.ToInt32(idPartida));
+                            numTablero = DamePosicionLista(tableros, idPartida);
                             tableros[numTablero].NuevoMovimiento(mensaje, codigo);
+                            break;
+
+                        case 15: //Notificacion de mensaje en el chat
+                            //Enviar al tablero correspondiente "idPartida*nombre*mensaje"
+                            idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
+                            numTablero = DamePosicionLista(tableros, idPartida);
+                            tableros[numTablero].NuevoMensajeChat(mensaje);
                             break;
                     }
                 }
@@ -257,8 +264,6 @@ namespace Trivial
             tablero.SetPartida(mensaje,this.server,this.userName);
             tableros.Add(tablero);
             tablero.ShowDialog();
-            //En un futur aqui recollirem el historial de la partida
-            //En el momento que se cierra el tablero (se acaba el ShowDialog) quitamos el tablero de la lista
             tableros.Remove(tablero);
 
             //Acaba el thread para esta partida
