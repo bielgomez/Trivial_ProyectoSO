@@ -232,11 +232,18 @@ namespace Trivial
                                 tableros[numTablero].Close();
                             break;
 
-                        case 11: //Notificación del resultado del dado de un jugador y del siguiente turno
-                            //Enviar al tablero correspondiente "idPartida*resDado*nombreTirador*siguienteTurno(rol)"
+                        case 11: //Notificación del resultado del dado de un jugador 
+                            //Enviar al tablero correspondiente "idPartida*resDado*nombreTirador"
                             int idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
                             numTablero = DamePosicionLista(tableros, idPartida);
-                            tableros[numTablero].NuevoMovimiento(mensaje, codigo);
+                            tableros[numTablero].NuevoMovimiento(mensaje);
+                            break;
+
+                        case 13: //Notificacion del resultado de un jugador
+                            // Cuando resultado = 0 = mal -> se actualiza el turno (siguiente) "idPartida*nombreJugador*resultado*(siguienteTurno)"
+                            idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
+                            numTablero = DamePosicionLista(tableros, idPartida);
+                            tableros[numTablero].ActualizarTurno(mensaje);
                             break;
 
                         case 15: //Notificacion de mensaje en el chat

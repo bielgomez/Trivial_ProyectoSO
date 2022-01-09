@@ -40,9 +40,31 @@ namespace Trivial
             this.label1 = new System.Windows.Forms.Label();
             this.ChatBox = new System.Windows.Forms.RichTextBox();
             this.tableroBox = new System.Windows.Forms.PictureBox();
+            this.ubi1Box = new System.Windows.Forms.PictureBox();
+            this.ubi2Box = new System.Windows.Forms.PictureBox();
+            this.ubi3Box = new System.Windows.Forms.PictureBox();
+            this.ubi4Box = new System.Windows.Forms.PictureBox();
+            this.ubi5Box = new System.Windows.Forms.PictureBox();
+            this.ubi6Box = new System.Windows.Forms.PictureBox();
+            this.ubi7Box = new System.Windows.Forms.PictureBox();
+            this.hostBox = new System.Windows.Forms.PictureBox();
+            this.jug2Box = new System.Windows.Forms.PictureBox();
+            this.jug3Box = new System.Windows.Forms.PictureBox();
+            this.jug4Box = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tableroBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi1Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi2Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi3Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi4Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi5Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi6Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi7Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hostBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jug2Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jug3Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jug4Box)).BeginInit();
             this.SuspendLayout();
             // 
             // playersGridView
@@ -59,7 +81,7 @@ namespace Trivial
             // 
             // dado
             // 
-            this.dado.Location = new System.Drawing.Point(1160, 464);
+            this.dado.Location = new System.Drawing.Point(1062, 464);
             this.dado.Name = "dado";
             this.dado.Size = new System.Drawing.Size(101, 97);
             this.dado.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -72,7 +94,7 @@ namespace Trivial
             this.dadolbl.AutoSize = true;
             this.dadolbl.BackColor = System.Drawing.Color.Transparent;
             this.dadolbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dadolbl.Location = new System.Drawing.Point(1148, 443);
+            this.dadolbl.Location = new System.Drawing.Point(1050, 443);
             this.dadolbl.Name = "dadolbl";
             this.dadolbl.Size = new System.Drawing.Size(113, 18);
             this.dadolbl.TabIndex = 15;
@@ -155,20 +177,118 @@ namespace Trivial
             // 
             this.tableroBox.BackColor = System.Drawing.Color.Transparent;
             this.tableroBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.tableroBox.Location = new System.Drawing.Point(393, 84);
+            this.tableroBox.Location = new System.Drawing.Point(80, 22);
             this.tableroBox.Name = "tableroBox";
-            this.tableroBox.Size = new System.Drawing.Size(749, 433);
+            this.tableroBox.Size = new System.Drawing.Size(1203, 551);
             this.tableroBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.tableroBox.TabIndex = 24;
             this.tableroBox.TabStop = false;
             this.tableroBox.Click += new System.EventHandler(this.tableroBox_Click);
+            // 
+            // ubi1Box
+            // 
+            this.ubi1Box.Location = new System.Drawing.Point(1164, 118);
+            this.ubi1Box.Name = "ubi1Box";
+            this.ubi1Box.Size = new System.Drawing.Size(40, 40);
+            this.ubi1Box.TabIndex = 25;
+            this.ubi1Box.TabStop = false;
+            // 
+            // ubi2Box
+            // 
+            this.ubi2Box.Location = new System.Drawing.Point(1164, 164);
+            this.ubi2Box.Name = "ubi2Box";
+            this.ubi2Box.Size = new System.Drawing.Size(40, 40);
+            this.ubi2Box.TabIndex = 26;
+            this.ubi2Box.TabStop = false;
+            // 
+            // ubi3Box
+            // 
+            this.ubi3Box.Location = new System.Drawing.Point(1164, 210);
+            this.ubi3Box.Name = "ubi3Box";
+            this.ubi3Box.Size = new System.Drawing.Size(40, 40);
+            this.ubi3Box.TabIndex = 27;
+            this.ubi3Box.TabStop = false;
+            // 
+            // ubi4Box
+            // 
+            this.ubi4Box.Location = new System.Drawing.Point(1164, 256);
+            this.ubi4Box.Name = "ubi4Box";
+            this.ubi4Box.Size = new System.Drawing.Size(40, 40);
+            this.ubi4Box.TabIndex = 28;
+            this.ubi4Box.TabStop = false;
+            // 
+            // ubi5Box
+            // 
+            this.ubi5Box.Location = new System.Drawing.Point(1164, 302);
+            this.ubi5Box.Name = "ubi5Box";
+            this.ubi5Box.Size = new System.Drawing.Size(40, 40);
+            this.ubi5Box.TabIndex = 29;
+            this.ubi5Box.TabStop = false;
+            // 
+            // ubi6Box
+            // 
+            this.ubi6Box.Location = new System.Drawing.Point(1164, 348);
+            this.ubi6Box.Name = "ubi6Box";
+            this.ubi6Box.Size = new System.Drawing.Size(40, 40);
+            this.ubi6Box.TabIndex = 30;
+            this.ubi6Box.TabStop = false;
+            // 
+            // ubi7Box
+            // 
+            this.ubi7Box.Location = new System.Drawing.Point(1164, 394);
+            this.ubi7Box.Name = "ubi7Box";
+            this.ubi7Box.Size = new System.Drawing.Size(40, 40);
+            this.ubi7Box.TabIndex = 31;
+            this.ubi7Box.TabStop = false;
+            // 
+            // hostBox
+            // 
+            this.hostBox.Location = new System.Drawing.Point(1073, 118);
+            this.hostBox.Name = "hostBox";
+            this.hostBox.Size = new System.Drawing.Size(40, 40);
+            this.hostBox.TabIndex = 32;
+            this.hostBox.TabStop = false;
+            // 
+            // jug2Box
+            // 
+            this.jug2Box.Location = new System.Drawing.Point(1073, 164);
+            this.jug2Box.Name = "jug2Box";
+            this.jug2Box.Size = new System.Drawing.Size(40, 40);
+            this.jug2Box.TabIndex = 33;
+            this.jug2Box.TabStop = false;
+            // 
+            // jug3Box
+            // 
+            this.jug3Box.Location = new System.Drawing.Point(1073, 210);
+            this.jug3Box.Name = "jug3Box";
+            this.jug3Box.Size = new System.Drawing.Size(40, 40);
+            this.jug3Box.TabIndex = 34;
+            this.jug3Box.TabStop = false;
+            // 
+            // jug4Box
+            // 
+            this.jug4Box.Location = new System.Drawing.Point(1073, 256);
+            this.jug4Box.Name = "jug4Box";
+            this.jug4Box.Size = new System.Drawing.Size(40, 40);
+            this.jug4Box.TabIndex = 35;
+            this.jug4Box.TabStop = false;
             // 
             // Tablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1351, 596);
-            this.Controls.Add(this.tableroBox);
+            this.Controls.Add(this.jug4Box);
+            this.Controls.Add(this.jug3Box);
+            this.Controls.Add(this.jug2Box);
+            this.Controls.Add(this.hostBox);
+            this.Controls.Add(this.ubi7Box);
+            this.Controls.Add(this.ubi6Box);
+            this.Controls.Add(this.ubi5Box);
+            this.Controls.Add(this.ubi4Box);
+            this.Controls.Add(this.ubi3Box);
+            this.Controls.Add(this.ubi2Box);
+            this.Controls.Add(this.ubi1Box);
             this.Controls.Add(this.ChatBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ChatBtn);
@@ -179,6 +299,7 @@ namespace Trivial
             this.Controls.Add(this.dadolbl);
             this.Controls.Add(this.dado);
             this.Controls.Add(this.playersGridView);
+            this.Controls.Add(this.tableroBox);
             this.Name = "Tablero";
             this.Text = "Tablero";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Tablero_FormClosing);
@@ -186,6 +307,17 @@ namespace Trivial
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tableroBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi1Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi2Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi3Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi4Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi5Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi6Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ubi7Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hostBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jug2Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jug3Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jug4Box)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -204,5 +336,16 @@ namespace Trivial
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox ChatBox;
         protected System.Windows.Forms.PictureBox tableroBox;
+        private System.Windows.Forms.PictureBox ubi1Box;
+        private System.Windows.Forms.PictureBox ubi2Box;
+        private System.Windows.Forms.PictureBox ubi3Box;
+        private System.Windows.Forms.PictureBox ubi4Box;
+        private System.Windows.Forms.PictureBox ubi5Box;
+        private System.Windows.Forms.PictureBox ubi6Box;
+        private System.Windows.Forms.PictureBox ubi7Box;
+        private System.Windows.Forms.PictureBox hostBox;
+        private System.Windows.Forms.PictureBox jug2Box;
+        private System.Windows.Forms.PictureBox jug3Box;
+        private System.Windows.Forms.PictureBox jug4Box;
     }
 }

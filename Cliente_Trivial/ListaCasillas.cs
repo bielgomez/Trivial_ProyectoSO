@@ -90,5 +90,18 @@ namespace Trivial
                 return null;
             }
         }
+        public Casilla DameCasilla (int id)
+        {
+            int m = 0;
+            bool encontrado = false;
+            while((encontrado == false)&&(m<this.num))
+            {
+                if (lista[m].GetId() == id)
+                    encontrado = true;
+                else
+                    m++;
+            }
+            return lista[m];
+        }
     }
 }

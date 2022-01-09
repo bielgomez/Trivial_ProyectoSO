@@ -13,10 +13,11 @@ namespace Trivial
 		int dado;
 		List<int> movimientos;
 		string categoria; //Geografia,Historia,...,Tira otra vez
+        string color;
 		int x; // Para ubicar pictureBox no acepta double
 		int y;
-        //int xubi;             this.xubi = Convert.ToInt32(x - ubiBox.Size.Width / 2);
-        //int yubi;             this.yubi = Convert.ToInt32(y - ubiBox.Size.Height);
+        //int xubi;             this.xubi = Convert.ToInt32(x + ubiBox.Size.Width / 2);
+        //int yubi;             this.yubi = Convert.ToInt32(y + ubiBox.Size.Height);
 
         //Constructor
         public Casilla(int id, int dado, int xorigen, int yorigen)
@@ -27,7 +28,10 @@ namespace Trivial
 
             // Determinar categoria
             if (this.id == 1000)
-                this.categoria = "Casilla Central";
+            {
+                this.categoria = "Random";
+                this.color = "Central";
+            }
             else
             {
                 bool encontrado = false;
@@ -39,7 +43,8 @@ namespace Trivial
                     if (i == this.id)
                     {
                         encontrado = true;
-                        this.categoria = "Amarilla";
+                        this.categoria = "Historia";
+                        this.color = "Amarillo";
                     }
                 }
                 if (encontrado == false)
@@ -52,7 +57,8 @@ namespace Trivial
                         if (i == this.id)
                         {
                             encontrado = true;
-                            this.categoria = "Azul";
+                            this.categoria = "Geografía";
+                            this.color = "Azul";
                         }
                     }
                     if (encontrado == false)
@@ -65,7 +71,8 @@ namespace Trivial
                             if (i == this.id)
                             {
                                 encontrado = true;
-                                this.categoria = "Rojas";
+                                this.categoria = "Tecnología";
+                                this.color = "Rojo";
                             }
                         }
                         if (encontrado == false)
@@ -78,6 +85,7 @@ namespace Trivial
                                 if (i == this.id)
                                 {
                                     encontrado = true;
+                                    this.categoria = "Entretenimiento";
                                     this.categoria = "Lila";
                                 }
                             }
@@ -91,6 +99,7 @@ namespace Trivial
                                     if (i == this.id)
                                     {
                                         encontrado = true;
+                                        this.categoria = "Deportes";
                                         this.categoria = "Naranja";
                                     }
                                 }
@@ -104,11 +113,15 @@ namespace Trivial
                                         if (i == this.id)
                                         {
                                             encontrado = true;
+                                            this.categoria = "Ciencia";
                                             this.categoria = "Verde";
                                         }
                                     }
                                     if (encontrado == false) // { 2, 5, 9, 12, 16, 19, 23, 26, 30, 33, 37, 40 };
-                                        this.categoria = "Vuelve a tirar";
+                                    {
+                                        this.categoria = "Tira otra vez";
+                                        this.categoria = "Gris";
+                                    }   
                                 }
                             }
                         }
