@@ -8,11 +8,12 @@ using System.Windows.Forms;
 
 namespace Trivial
 {
-    class Jugador
+    public class Jugador
     {
         string nombre;
         string rol;
-        int rolnum;     
+        int rolnum;
+        int casilla; 
         Bitmap bitmap;  // Imagen de emboltorio
         int[] quesitos; // ORDEN: Verde, Azul, Amarillo, Lila, Naranja, Rojo
 
@@ -20,6 +21,7 @@ namespace Trivial
         {
             this.nombre = nombre;
             this.rol = rol;
+            this.casilla = 1000; //La casilla inicial es la central
             switch (rol)
             {
                 case "host":
@@ -54,6 +56,22 @@ namespace Trivial
         public int GetRolNum()
         {
             return this.rolnum;
+        }
+        public int GetCasilla()
+        {
+            return this.casilla;
+        }
+        public string GetNombre()
+        {
+            return this.nombre;
+        }
+        public string GetRol()
+        {
+            return this.rol;
+        }
+        public void SetCasilla(int casilla)
+        {
+            this.casilla=casilla;
         }
         //Añadir un quesito al jugador
         public void SetQuesito(string color)

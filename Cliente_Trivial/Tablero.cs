@@ -201,6 +201,44 @@ namespace Trivial
                 dado.Image = Image.FromFile("dado" + trozos[1] + ".png");
             }
         }
+        // Recibimos que alguien tiene una nueva casilla "idPartida*nombreJugador*rolJugador*nuevaCasilla"
+        public void setCasillaJugador(string mensaje)
+        {
+            string[] trozos = mensaje.Split('*');
+            int j = 0;
+            bool encontrado = false;
+            while ((j < jugadors.Count) && (encontrado == false))
+            {
+                if (jugadors[j].GetRol() == trozos[2])
+                    jugadors[j].SetCasilla(Convert.ToInt32(trozos[3]));
+            }
+            moverCasillaJugadores();
+
+        }
+        // Anuncia a todos los jugadores del ganador "idPartida*nombreGanador"
+        public void Ganador(string mensaje)
+        {
+            string[] trozos = mensaje.Split('*');
+            if (trozos[1] == miJugador.GetNombre())
+                MessageBox.Show("Felicidades! Has ganado la partida");
+            else
+                MessageBox.Show("Lo siento... " + trozos[1] + " ha ganado la partida");
+
+        }
+
+        public void moverCasillaJugadores()
+        {
+            foreach(Jugador j in this.jugadors)
+            {
+                int idcasilla = j.GetCasilla();
+                int x = this.casillas.DameCasilla(miCasilla).GetX();
+                int y = this.casillas.DameCasilla(miCasilla).GetY();
+                Bitmap bitmap = MakeNewImage(j);
+                piezas[j.GetRolNum()].Location = new Point(Convert.ToInt32(x - hostBox.Size.Width / 2), Convert.ToInt32(y - hostBox.Size.Height / 2));
+            }
+            
+        }
+
         //Actualizar turno 
         public void ActualizarTurno(string mensaje) //"idPartida*nombreJugador*resultado*(siguienteTurno)"
         {
@@ -412,6 +450,8 @@ namespace Trivial
             }
             return listBit[0];
         }
+
+
         private void tableroBox_Click(object sender, EventArgs e)
         {
             // Pasos:

@@ -238,12 +238,25 @@ namespace Trivial
                             numTablero = DamePosicionLista(tableros, idPartida);
                             tableros[numTablero].NuevoMovimiento(mensaje);
                             break;
+                        case 12: //Notificación del movimiento de otro jugador 
+                            //Enviar al tablero correspondiente "idPartida*resDado*nombreTirador"
+                            idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
+                            numTablero = DamePosicionLista(tableros, idPartida);
+                            tableros[numTablero].setCasillaJugador(mensaje);
+                            break;
 
                         case 13: //Notificacion del resultado de un jugador
                             // Cuando resultado = 0 = mal -> se actualiza el turno (siguiente) "idPartida*nombreJugador*resultado*(siguienteTurno)"
                             idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
                             numTablero = DamePosicionLista(tableros, idPartida);
                             tableros[numTablero].ActualizarTurno(mensaje);
+                            break;
+
+                        case 14: //Notificación que alguien ha conseguido los 6 quesitos 
+                            //Enviar al tablero correspondiente "idPartida*resDado*nombreTirador"
+                            idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
+                            numTablero = DamePosicionLista(tableros, idPartida);
+                            tableros[numTablero].Ganador(mensaje);
                             break;
 
                         case 15: //Notificacion de mensaje en el chat
