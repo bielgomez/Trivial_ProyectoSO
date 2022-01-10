@@ -66,8 +66,6 @@ namespace Trivial
                 ConectadosGridView.Rows[i].DefaultCellStyle.BackColor = Color.Orange;
                 ConectadosGridView.Rows[i].Cells[0].Value = conectados[i];
             }
-            
-
                 ConectadosGridView.Show();
         }
 
@@ -94,7 +92,8 @@ namespace Trivial
         //Funcion que ejecutará el thread de recepción de respuestas del servidor
         private void AtenderServidor()
         {
-            while (true)
+            bool adios = false;
+            while (adios == false)
             {
                 try
                 {
@@ -122,33 +121,42 @@ namespace Trivial
                                 ConectadosGridView.Visible = true;
                                 labelConectados.Visible = true;
                                 nameUserTxt.Text = "Username: " + userName;
-                                
                             }
-
-                            //Errores
+                            //Errores 
                             else if (mensaje == "1")
+                            {
                                 MessageBox.Show("Este usuario no existe");
+                                adios = true;
+                            }
                             else if (mensaje == "2")
+                            {
                                 MessageBox.Show("Contraseña incorrecta");
+                                adios = true;
+                            }
                             else if (mensaje == "3")
+                            {
                                 MessageBox.Show("Este usuario ya esta conectado");
+                                adios = true;
+                            }
                             else
+                            {
                                 MessageBox.Show("Error de consulta. Pruebe otra vez.");
+                                adios = true;
+                            }
                             break;
 
                         case 2: //Respuesta del Insert de nuevos jugadores
                             if (mensaje == "0")
                                 MessageBox.Show("Se ha registrado correctamente.");
-
                             //Errores
                             else if (mensaje == "1")
                                 MessageBox.Show("Este nombre de usuario ya existe.");
                             else
                                 MessageBox.Show("Error de consulta, pruebe otra vez.");
-
                             userBox.Clear();
                             password2Box.Clear();
                             mailBox.Clear();
+                            adios = true;
                             break;
 
                         case 3: //Recuperación de la contrasenya
@@ -187,7 +195,6 @@ namespace Trivial
                                 //Aplicamos el delegado para modificar el Data Grid View
                                 DelegadoParaEscribir delegado = new DelegadoParaEscribir(ListaConectadosGridView);
                                 ConectadosGridView.Invoke(delegado, new object[] { conectados });
-                                
                             }
                             break;
 
@@ -207,6 +214,7 @@ namespace Trivial
                             break;
 
                         case 8: //Notificación de invitacion a una partida
+                            // "nombreHost*idPartida"
                             string[] split = mensaje.Split('*');
                             invitacion = new Invitacion();
                             invitacion.SetHost(split[0]);
@@ -217,43 +225,43 @@ namespace Trivial
                             
                             break;
 
-                        case 9: //Notificación de inicio de partida
+                        case 9: //Notificación de inicio de partida "idPartida*listaJugadores(*)*rolTuJugador"
                             //Iniciamos un thread para esta partida
                             ThreadStart ts = delegate { NuevaPartida(mensaje); };
                             Thread T = new Thread(ts);
                             T.Start();
                             break;
 
-                        case 10://Notificación de fin de partida
+                        case 10://Notificación de fin de partida "idPartida*nombreFinalizador"
                             //Enviar esta notificacion al Tablero correspondiente
-                            MessageBox.Show("La partida " + mensaje + " ha finalizado.");
-                            int numTablero = DamePosicionLista(tableros, Convert.ToInt32(mensaje));
+                            int numTablero = DamePosicionLista(tableros, Convert.ToInt32(mensaje.Split('*')[0]));
                             if(numTablero>=0)
                                 tableros[numTablero].Close();
+                            MessageBox.Show(mensaje.Split('*')[1] + " ha finalizado \n la partida " + mensaje.Split('*')[0]);
                             break;
 
-                        case 11: //Notificación del resultado del dado de un jugador 
-                            //Enviar al tablero correspondiente "idPartida*resDado*nombreTirador"
+                        case 11: //Notificación del resultado del dado de un jugador "idPartida*resDado*nombreTirador"
+                            //Enviar al tablero correspondiente 
                             int idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
                             numTablero = DamePosicionLista(tableros, idPartida);
                             tableros[numTablero].NuevoMovimiento(mensaje);
                             break;
-                        case 12: //Notificación del movimiento de otro jugador 
-                            //Enviar al tablero correspondiente "idPartida*resDado*nombreTirador"
+                        case 12: //Notificación del movimiento de otro jugador "idPartida*nombreJugador*rolJugador*nuevaCasilla"
+                            //Enviar al tablero correspondiente 
                             idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
                             numTablero = DamePosicionLista(tableros, idPartida);
                             tableros[numTablero].setCasillaJugador(mensaje);
                             break;
 
-                        case 13: //Notificacion del resultado de un jugador
-                            // Cuando resultado = 0 = mal -> se actualiza el turno (siguiente) "idPartida*nombreJugador*resultado*(siguienteTurno)"
+                        case 13: //Notificacion del resultado de un jugador "idPartida*nombreJugador*resultado(0,1,2)*(siguienteTurno*quesito)"
+                            // Cuando resultado = 0 = mal -> se actualiza el turno (siguiente) 
                             idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
                             numTablero = DamePosicionLista(tableros, idPartida);
                             tableros[numTablero].ActualizarTurno(mensaje);
                             break;
 
                         case 14: //Notificación que alguien ha conseguido los 6 quesitos 
-                            //Enviar al tablero correspondiente "idPartida*resDado*nombreTirador"
+                            //Enviar al tablero correspondiente "idPartida*nombreGanador"
                             idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
                             numTablero = DamePosicionLista(tableros, idPartida);
                             tableros[numTablero].Ganador(mensaje);
@@ -265,15 +273,24 @@ namespace Trivial
                             numTablero = DamePosicionLista(tableros, idPartida);
                             tableros[numTablero].NuevoMensajeChat(mensaje);
                             break;
+                        case 16: // Notifica que la partida no se inicia porque x lo ha rechazado "idPartida*x"
+                            idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
+                            MessageBox.Show(mensaje.Split('*')[1] + " ha rechazado la partida "+ mensaje.Split('*')[0]+"\n No se iniciará");
+                            break;
                     }
                 }
                 catch (SocketException)
                 {
                     MessageBox.Show("Server desconectado");
                 }
-
             }
-            
+            //Mensaje de desconexion
+            byte[] msg0 = System.Text.Encoding.ASCII.GetBytes("0/");
+            server.Send(msg0);
+
+            //Desconexión del servidor
+            server.Shutdown(SocketShutdown.Both);
+            server.Close();
         }
 
         //Funcion para ejecutar un nuevo thread con el formulario de una partida
@@ -306,10 +323,7 @@ namespace Trivial
             //Fondo
             candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
             candadoBox.SizeMode = PictureBoxSizeMode.StretchImage;
-          
         }
-
-
         //Botón de conexión/desconexión.
         private void conexion_Click(object sender, EventArgs e)
         {
@@ -362,9 +376,7 @@ namespace Trivial
                     MessageBox.Show("Ya estás desconectado.");
                 }
             }
-
         }
-
         //Botón para acceder (LogIn)
         private void Login_Click(object sender, EventArgs e)
         {
@@ -411,25 +423,43 @@ namespace Trivial
             }
 
         }
-
         //Botón para registrarse 
         private void Registrarme_Click(object sender, EventArgs e)
         {
             try
             {
+                //Creamos el socket i nos conectamos
+                IPAddress direc = IPAddress.Parse("147.83.117.22");
+                IPEndPoint ipep = new IPEndPoint(direc, 50051);
+                this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                server.Connect(ipep);
+
+                //@IP_Shiva1: 147.83.117.22
+                //@IP_LocalHost: 192.168.56.102
+                //#Port_Shiva1: 50051.2.3
+                //#Port_localhost: 9080
+
+                //Abrimos el thread
+                ThreadStart ts = delegate { AtenderServidor(); };
+                atender = new Thread(ts);
+                atender.Start();
+
                 //Construimos el mensaje y lo enviamos (Codigo 2/ --> Registrarse)
-                string mensaje = "2/" + userBox.Text + "/" + password2Box.Text + "/" + mailBox.Text;
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
+                if ((userBox.Text != "0") && (password2Box.Text != "0"))
+                {
+                    string mensaje = "2/" + userBox.Text + "/" + password2Box.Text + "/" + mailBox.Text;
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                }
+                else
+                    MessageBox.Show("Ningún campo puede ser 0");              
 
             }
             catch (Exception)
             {
                 MessageBox.Show("ERROR: Compruebe que está conectado al servidor.");
             }
-
         }
-
         //Botón para hacer consultas a la BBDD a traves del servidor
         private void Preguntar_Click(object sender, EventArgs e)
         {
@@ -452,9 +482,7 @@ namespace Trivial
                     string mensaje = "4/";
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
-
                 }
-
                 //Queremos saber el jugador con mas puntos
                 else
                 {
@@ -496,9 +524,6 @@ namespace Trivial
                 candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
             }
         }
-
- 
-
         //Boton para desplegar/esconder las posibles consultas
         private void consultasButton_Click(object sender, EventArgs e)
         {
@@ -516,9 +541,7 @@ namespace Trivial
                 consultasButton.Text = "Ocultar\n consultas";
                 ask = 0;
             }
-
         }
-
         //Si cerramos el form directamente tambien tenemos que desconectar el socket y detener el thread
         private void Acceso_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -610,7 +633,6 @@ namespace Trivial
                 invitadosGridView.Rows[i].Cells[0].Value = invitados[i];
                 
         }
-
         private void invitarButton_Click(object sender, EventArgs e)
         {
             //Construimos el mensaje
@@ -619,7 +641,6 @@ namespace Trivial
             {
                 mensaje = mensaje + invitados[i] + "*";
             }
-
             mensaje = mensaje.Remove(mensaje.Length - 1);
 
             //Lo enviamos por el socket (Codigo 6 --> Invitar a jugadores)
@@ -628,11 +649,6 @@ namespace Trivial
             label6.Visible = false;
             invitadosGridView.Visible = false;
             invitarButton.Visible = false;
-        }
-
-        private void labelConectados_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void invitadosGridView_CellClick(object sender, DataGridViewCellEventArgs e)

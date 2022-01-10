@@ -21,7 +21,6 @@ namespace Trivial
 
         //Constructor
         public Casilla(int id, int dado, int xorigen, int yorigen)
-        // es necessita size de tableroBox i ubiBox
         {
             this.id = id;
             this.dado = dado;

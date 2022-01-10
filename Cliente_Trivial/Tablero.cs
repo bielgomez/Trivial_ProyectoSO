@@ -14,25 +14,23 @@ namespace Trivial
 {
     public partial class Tablero : Form
     {
-        int partida;
-        int miCasilla;
-
-        string userName;
-        string rol;
+        int partida; 
+        int miCasilla; 
 
         Jugador miJugador;
-        Casilla casilla;
         // Para perimtir y bloquear la manipulacion de cada funcion
         bool miTurno;
         bool dadoClick;
         bool tableroClick;
 
         Socket server;
-        List<string> jugadores;
-        List<Jugador> jugadors;
-        ListaCasillas casillas;
-        List<PictureBox> ubicaciones;
-        List<PictureBox> piezas;
+
+        Queue<string> chat;
+
+        List<Jugador> jugadors;   //Jugadores de la partida: host, jug2, (jug3, jug4)
+        ListaCasillas casillas;   //Casillas tablero
+        List<PictureBox> ubicaciones;  //Indicaciones posibles movimientso
+        List<PictureBox> piezas;       //Pieza de cada jugador. En el mismo orden que "jugadors"
         
         ListaPreguntas geografia;
         ListaPreguntas historia;
@@ -49,7 +47,6 @@ namespace Trivial
         Bitmap qR;
         List<Bitmap> quesitos;
 
-        Queue<string> chat;
         int xorigen;
         int yorigen;
 
@@ -117,10 +114,10 @@ namespace Trivial
         private void Tablero_Load(object sender, EventArgs e)
         {
             dado.Image = Image.FromFile("dado1.png");
-            username_lbl.Text = "Username: " + userName;
+            username_lbl.Text = "Username: " + miJugador.GetNombre();
             partida_lbl.Text = "Partida: " + partida;
             playersGridView.ColumnCount = 2;
-            playersGridView.RowCount = this.jugadores.Count;
+            playersGridView.RowCount = this.jugadors.Count;
             playersGridView.ColumnHeadersVisible = true;
             playersGridView.Columns[0].HeaderText = "Jugador";
             playersGridView.Columns[1].HeaderText = "Puntos";
@@ -129,18 +126,16 @@ namespace Trivial
             playersGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
             playersGridView.RowsDefaultCellStyle.BackColor = Color.White;
-            for (int q = 0; q < this.jugadores.Count; q++)
+            for (int q = 0; q < this.jugadors.Count; q++)
             {
-                playersGridView.Rows[q].Cells[0].Value = jugadores[q];
+                playersGridView.Rows[q].Cells[0].Value = jugadors[q].GetNombre();
                 playersGridView.Rows[q].Cells[1].Value = "0";
-
             }
             playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Blue;
-
             playersGridView.Show();
 
             //Establecemos el turno inicial
-            if (rol == "host")
+            if (miJugador.GetRol() == "host")
             {
                 miTurno = true;
                 dadoClick = true;
@@ -197,7 +192,7 @@ namespace Trivial
             string[] trozos = mensaje.Split('*');
             if (miTurno == false)
             { 
-                dadolbl.Text = trozos[2] + " avanza " + trozos[1] + " casillas";
+                dadolbl.Text = trozos[2] + " ha sacado un " + trozos[1];
                 dado.Image = Image.FromFile("dado" + trozos[1] + ".png");
             }
         }
@@ -225,33 +220,45 @@ namespace Trivial
                 MessageBox.Show("Lo siento... " + trozos[1] + " ha ganado la partida");
 
         }
-
+        // INEFICIENTEEE --------------------------------------------------------------------
         public void moverCasillaJugadores()
         {
             foreach(Jugador j in this.jugadors)
             {
-                int idcasilla = j.GetCasilla();
-                int x = this.casillas.DameCasilla(miCasilla).GetX();
-                int y = this.casillas.DameCasilla(miCasilla).GetY();
+                int idc = j.GetCasilla();
+                int x = this.casillas.DameCasilla(idc).GetX();
+                int y = this.casillas.DameCasilla(idc).GetY();
                 Bitmap bitmap = MakeNewImage(j);
                 piezas[j.GetRolNum()].Location = new Point(Convert.ToInt32(x - hostBox.Size.Width / 2), Convert.ToInt32(y - hostBox.Size.Height / 2));
             }
-            
         }
-
-        //Actualizar turno 
-        public void ActualizarTurno(string mensaje) //"idPartida*nombreJugador*resultado*(siguienteTurno)"
+        //Actualizar turno: una vez se ha respondido, se notifica el resultado
+        public void ActualizarTurno(string mensaje) //"idPartida*nombreJugador*resultado(0,1,2)*(siguienteTurno*quesito)"
         {
+            // 0 -> mal contestada pero se actualiza turno
+            // 1 -> bien contestada pero sin quesito
+            // 2 -> bien contestada y con quesito
             string[] trozos = mensaje.Split('*');
-            if ((trozos[2] == "0") && (trozos[3] == rol))
+            if (trozos[2]=="0")
+                MessageBox.Show(trozos[1] + " ha contestado mal");
+            else if(trozos[2] == "1")
+                MessageBox.Show(trozos[1] + " ha contestado bien, sigue tirando");
+            else
+            {
+                MessageBox.Show(trozos[1] + " ha ganado un quesito!"); ////////////////////////////////////////////
+            }
+
+            if (((trozos[2] == "0")|| (trozos[2] == "2")) && (trozos[3] == miJugador.GetRol()))
             {
                 miTurno = true;
                 dadoClick = true;
+                MessageBox.Show("ES TU TURNO");
             }
             else
             {
                 miTurno = false;
                 dadoClick = false;
+                MessageBox.Show("Es el turno de "+trozos[1]);
             }
             string siguienteTurno = trozos[2];
             for (int i = 0; i < playersGridView.RowCount; i++)
@@ -288,7 +295,7 @@ namespace Trivial
             if ((miTurno == true) && (dadoClick == true))
             {
                 Random dice = new Random();
-                int num = dice.Next(1, 7);
+                int num = dice.Next(1, 6);
                 if (num == 1)
                     dado.Image = Image.FromFile("dado1.png");
                 else if (num == 2)
@@ -313,6 +320,7 @@ namespace Trivial
                     Casilla c = casillas.DameCasilla(movimientos[m]); 
                     ubicaciones[m].Location = new Point(Convert.ToInt32(c.GetX() - xm), Convert.ToInt32(c.GetY() - ym));
                     ubicaciones[m].Visible = true;
+                    m++;
                 }
                 texto.Remove(texto.Length - 1);
                 movimientosLbl.Text = "Posibles movimientos: " + texto;
@@ -322,7 +330,7 @@ namespace Trivial
                 dadolbl.Text = "Avanzo " + num.ToString() + " casillas";
 
                 //Construimos el mensaje para enviar el resultado del dado
-                string resDado = "8/" + partida + "/" + num + "/" + rol + "/" + userName;
+                string resDado = "8/" + partida + "/" + num + "/" + miJugador.GetRol() + "/" + miJugador.GetNombre();
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(resDado);
                 server.Send(msg);
             }
@@ -370,17 +378,6 @@ namespace Trivial
                     chat.Enqueue(mchat);
                     ChatBox.Text = ChatBox.Text + mchat + Environment.NewLine;
                 }
-                
-
-                //RichTextBox bold = ChatBox;
-                //foreach (string line in bold.Lines)
-                //{
-                //    string user = line.Split(' ')[0];
-                //    int srt = bold.Find(user);
-                //    bold.Select(srt, user.Length);
-                //    bold.SelectionFont = new Font(bold.Font, FontStyle.Bold);
-                //}
-
                 //Borramos lo escrito una vez enviado
                 ChatTxt.Clear();
             }
@@ -412,19 +409,6 @@ namespace Trivial
                 chat.Enqueue(mensaje);
                 ChatBox.Text = ChatBox.Text + mensaje + Environment.NewLine;
             }
-
-            //ChatBox.ScrollToCaret(); //no lo hace
-
-            //ChatBox -> 9 lineas
-
-            //RichTextBox bold = ChatBox;
-            //foreach (string line in bold.Lines)
-            //{
-            //    string user = line.Split(' ')[0];
-            //    int srt = bold.Find(user);
-            //    bold.Select(srt, user.Length);
-            //    bold.SelectionFont = new Font(bold.Font, FontStyle.Bold);
-            //}
         }
         // Extraer la pieza del jugador
         private Bitmap MakeNewImage(Jugador jug)        
@@ -450,8 +434,6 @@ namespace Trivial
             }
             return listBit[0];
         }
-
-
         private void tableroBox_Click(object sender, EventArgs e)
         {
             // Pasos:
@@ -462,6 +444,7 @@ namespace Trivial
 
             if ((miTurno == true) && (tableroClick == true)) //1
             {
+                MessageBox.Show("Click tablero");
                 int idcasilla; //2
 
                 MouseEventArgs me = (MouseEventArgs)e;
@@ -611,6 +594,7 @@ namespace Trivial
                 }
                 if (encontrado == true)
                 {
+                    this.tableroClick = false;
                     this.miCasilla = idcasilla;
                     int x = this.casillas.DameCasilla(miCasilla).GetX();
                     int y = this.casillas.DameCasilla(miCasilla).GetY();
@@ -618,6 +602,11 @@ namespace Trivial
                         u.Visible = false;
                     Bitmap bitmap = MakeNewImage(miJugador);
                     piezas[miJugador.GetRolNum()].Location = new Point(Convert.ToInt32(x - hostBox.Size.Width / 2), Convert.ToInt32(y - hostBox.Size.Height / 2));
+
+                    //Enviamos el movimiento al servidor
+                    string mensaje = "10/" + partida + "/" + this.miCasilla + "/" + miJugador.GetRol();
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
                 }              
             
             }

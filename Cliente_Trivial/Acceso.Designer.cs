@@ -362,7 +362,6 @@
             this.labelConectados.Size = new System.Drawing.Size(137, 17);
             this.labelConectados.TabIndex = 17;
             this.labelConectados.Text = "Lista de Conectados";
-            this.labelConectados.Click += new System.EventHandler(this.labelConectados_Click);
             // 
             // nameUserTxt
             // 
