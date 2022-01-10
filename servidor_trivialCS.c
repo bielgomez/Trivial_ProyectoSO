@@ -9,6 +9,7 @@
 #include <mysql.h>
 #include <pthread.h>
 #include <time.h>
+#include <math.h>
 
 //Variables globales
 	//Para la BBDD
@@ -20,7 +21,7 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 	//Lista de conectados (formada por usuarios)
 typedef struct{
 	char nombre[25];
-	int *socket;
+	int socket;
 }Usuario;
 
 typedef struct{
@@ -48,9 +49,7 @@ ListaConectados listaC;
 int len_tablaP=100;
 Partidas tablaP[100];
 
-//Para poder notificar a todos los clientes, necesitamos que el vector de sockets sea una variable global
-int i;
-int sockets[100];
+
 
 //Funciones del servidor
 
@@ -273,9 +272,10 @@ int DameTiempo(char fecha[10],char hora[10]){
 	
 }
 //Añadir a la lista de conectados
-void AnadirAListaConectados (char nombre[25],int *socket){
-	
-	if (nombre != NULL && socket != NULL){
+int AnadirAListaConectados (char nombre[25],int socket){
+	//Retorna la posicion de la lista donde se ha añadido (-1 si no se ha añadido)
+	int posicionLista = -1;
+	if (nombre!=NULL && socket != NULL){
 		//Creamos un nuevo usuario que añadir a la lista
 		Usuario nuevoUsuario;
 		strcpy(nuevoUsuario.nombre,nombre);
@@ -283,19 +283,61 @@ void AnadirAListaConectados (char nombre[25],int *socket){
 		
 		//Lo añadimos
 		listaC.conectados[listaC.num]=nuevoUsuario;
+		posicionLista = listaC.num;
 		listaC.num = listaC.num+1;
 		printf("Usuario %s añadido\n", nombre);
-	}	
+	}
+	return posicionLista;
+}
+//Añadir un nombre un socket de la lista de conectados
+int AnadirNombreListaConectados(char nombre[25], int socket){
+	//Retorna la posicion de la lista donde se han hecho los cambios (-1 si no se han hecho)
+	int n = 0;
+	int encontrado = 0;
+	while(n<listaC.num && encontrado==0){
+		if(listaC.conectados[n].socket==socket){
+			strcpy(listaC.conectados[n].nombre,nombre);
+			encontrado=1;
+		}
+		else{
+			n=n+1;
+		}
+	}
+	if(encontrado==1){
+		return n;
+	}
+	else{
+		return -1;
+	}
 }
 //Retirar de la lista de conectados
-void RetirarDeListaConectados (char nombre[25]) {
+void RetirarDeListaConectados (char nombre[25],int socket) {
 	
-	if (nombre != NULL){
+	if (nombre != NULL && socket != NULL){
 		int n = 0;
 		int encontrado = 0;
 		
 		while(n<listaC.num && encontrado==0){
 			if (strcmp(listaC.conectados[n].nombre,nombre)==0){
+				encontrado = 1;
+			}
+			else
+				n++;
+		}
+		if (encontrado==1){
+			while(n<listaC.num){
+				listaC.conectados[n]=listaC.conectados[n+1];
+				n++;
+			}
+			listaC.num = listaC.num-1;
+		}
+	}
+	else if (socket != NULL){
+		int n = 0;
+		int encontrado = 0;
+		
+		while(n<listaC.num && encontrado==0){
+			if (listaC.conectados[n].socket==socket){
 				encontrado = 1;
 			}
 			else
@@ -529,10 +571,16 @@ void EnviaNotificacion(char notificacion[500],int partida,int socket){
 		}
 	}	
 }
+//Notifica a los invitados que han aceptado que alguien ha rechazado i que por tanto no se inicia la partida
+void PartidaRechazada(int partida,char rechazador[25],int socket){
+	char rechazada[500];
+	sprintf(rechazada,"16/%d*%s",partida,rechazador);
+	EnviaNotificacion(rechazada,partida,socket);
+}
 //Notifica a los jugadores de la tabla que ha acabado la partida.
-void FinPartida(int partida){
+void FinPartida(int partida, char finalizador[25]){
 	char fin[500];
-	sprintf(fin,"10/%d", partida);
+	sprintf(fin,"10/%d*%s", partida,finalizador);
 	EnviaNotificacion(fin,partida,-1); //-1 en socket para enviar a todos
 }
 //Eliminia una partida de la tabla de partidas.
@@ -598,11 +646,11 @@ void DameSiguienteTurno(char anteriorTurno[10], int numJugadores, char nuevoTurn
 	printf("Jugadores: %d\n",numJugadores);
 }
 //Notifica al resto de jugadores el resultado de la tirada del dado de un jugadores
-void NotificaResultadoDado(int idPartida, int resDado, char tirador[25], char siguienteTurno[10]){
-	//construimos el mensaje a enviar "11/idPartida/resDado/nombre_tirador/siguienteTurno(rol)"
+void NotificaResultadoDado(int idPartida, int resDado, char tirador[25], int socket){
+	//construimos el mensaje a enviar "11/idPartida/resDado/nombre_tirador"
 	char notificacion[500];
-	sprintf(notificacion,"11/%d*%d*%s*%s",idPartida,resDado,tirador,siguienteTurno);
-	EnviaNotificacion(notificacion,idPartida,-1); //-1 en socket para enviar a todos
+	sprintf(notificacion,"11/%d*%d*%s",idPartida,resDado,tirador);
+	EnviaNotificacion(notificacion,idPartida,socket); //no nos enviamos a nosotros mismos
 }
 //Suma puntos al jugador que ha acertado en una casilla de quesito
 int SumaPuntos(int idPartida, char rol){
@@ -764,7 +812,7 @@ int DameDuracion(int horaInicial){
 	return duracion;
 }
 //Guardar datos partida
-int GuardarPartida(int idHistorico, int duracion ,char ganador[25]){
+int GuardarPartida(int idTabla, int idHistorico, int duracion ,char ganador[25]){
 	//Retorna 0-> Todo ok : -1 -> Error BBDD
 	
 	MYSQL_RES *resultado;
@@ -776,6 +824,54 @@ int GuardarPartida(int idHistorico, int duracion ,char ganador[25]){
 	char fecha[10];
 	char hora[10];
 	int segundos = DameTiempo(fecha,hora);
+	
+	//Comprovamos que el ganador no sea NULL (la partida se ha terminado antes de tiempo)
+	if (ganador==NULL){
+		//Buscamos al jugador con mas puntos
+		//En caso de empate se anotaran todos los ganadores separados por barras
+		//Para considerarse ganador hay que conseguir almenos un quesito
+		//Si nadie consigue un quesito el ganador sera '-'
+		
+		int max = 1;
+		if(tablaP[idTabla].puntosHost>max){
+			strcpy(ganador,tablaP[idTabla].host);
+			max = tablaP[idTabla].puntosHost;
+		}
+		else if(tablaP[idTabla].puntosHost == max){
+			sprintf(ganador,"%s/%s",ganador,tablaP[idTabla].host);
+		}
+		
+		if(tablaP[idTabla].puntosJug2>max){
+			strcpy(ganador,tablaP[idTabla].jug2);
+			max = tablaP[idTabla].puntosJug2;
+		}
+		else if(tablaP[idTabla].puntosJug2 == max){
+			sprintf(ganador,"%s/%s",ganador,tablaP[idTabla].jug2);
+		}
+		if(strcmp(tablaP[idTabla].jug3,"0")!=0){
+			if(tablaP[idTabla].puntosJug3>max){
+				strcpy(ganador,tablaP[idTabla].jug3);
+				max = tablaP[idTabla].puntosJug3;
+			}
+			else if(tablaP[idTabla].puntosJug3 == max){
+				sprintf(ganador,"%s/%s",ganador,tablaP[idTabla].jug3);
+			}
+			
+			if(strcmp(tablaP[idTabla].jug4,"0")!=0){
+				if(tablaP[idTabla].puntosJug4>max){
+					strcpy(ganador,tablaP[idTabla].jug4);
+					max = tablaP[idTabla].puntosJug4;
+				}
+				else if(tablaP[idTabla].puntosJug4 == max){
+					sprintf(ganador,"%s/%s",ganador,tablaP[idTabla].jug4);
+				}
+			}
+		}
+		
+		if(ganador==NULL){
+			strcpy(ganador,"-");
+		}
+	}
 	//Insertamos los datos
 	char consulta[500];
 	sprintf(consulta,"INSERT INTO partidas VALUES ('%d','%s','%s','%d');",idHistorico,fecha,ganador,duracion);
@@ -805,7 +901,7 @@ int GuardarHistorico(int idPartida, char ganador[25]){
 	
 	//Guardamos los datos de la partida en la BBDD
 	int duracion = DameDuracion(tablaP[idPartida].horaInicio);
-	res = GuardarPartida(idHistorico,duracion,ganador);
+	res = GuardarPartida(idPartida,idHistorico,duracion,ganador);
 	if (res==0){
 		return idHistorico;
 	}
@@ -817,7 +913,7 @@ int GuardarHistorico(int idPartida, char ganador[25]){
 
 //Atencion a los diferentes clientes (threads)
 int *AtenderCliente(void *socket){
-		
+
 	int ret;
 	int sock_conn;
 	int *s;
@@ -859,22 +955,29 @@ int *AtenderCliente(void *socket){
 			terminar = 1;
 			
 			pthread_mutex_lock(&mutex);
-			RetirarDeListaConectados(nombre);
-			printf("[%d]\n",sock_conn);
-			NotificarNuevaListaConectados();
-			printf("-------\n");
+			RetirarDeListaConectados(nombre,sock_conn);
 			
-			char partidas[100];
-			DamePartidasJugador(nombre,partidas);
-			char *p=strtok(partidas,"/");
-			while(p!=NULL)
-			{	
-				int partida=atoi(p);
-				FinPartida(partida);
-				printf("[%d] Fin Partida %d\n",sock_conn, partida);
-				EliminarPartida(partida);
-				p=strtok(NULL,"/");
+			
+			if(strcmp(nombre,"0")!=0){
+				printf("[%d]\n",sock_conn);
+				NotificarNuevaListaConectados();
+				printf("-------\n");
+				
+				char partidas[100];
+				DamePartidasJugador(nombre,partidas);
+				char *p=strtok(partidas,"/");
+				while(p!=NULL)
+				{	
+					int partida=atoi(p);
+					FinPartida(partida,nombre);
+					GuardarHistorico(partida,NULL);
+					printf("[%d] Fin Partida %d\n",sock_conn, partida);
+					EliminarPartida(partida);
+					p=strtok(NULL,"/");
+				}
 			}
+			
+			
 			pthread_mutex_unlock(&mutex);
 			
 			
@@ -898,11 +1001,14 @@ int *AtenderCliente(void *socket){
 				if (res == 0){
 					pthread_mutex_lock(&mutex);  //Autoexclusion
 					printf("[%d]\n",sock_conn);
-					AnadirAListaConectados(nombre,sock_conn);
+					AnadirNombreListaConectados(nombre,sock_conn);
 					NotificarNuevaListaConectados();
 					printf("--------------\n");
 					pthread_mutex_unlock(&mutex);
 					
+				}
+				else{
+					strcpy(nombre,"0");
 				}
 				
 			}
@@ -974,7 +1080,7 @@ int *AtenderCliente(void *socket){
 				printf("[%d] Invitados: %s\n", sock_conn, invitados);
 				char noDisponibles[500];
 				strcpy(invitados, p);
-							
+			
 				printf("[%d]\n",sock_conn);
 				int partida=CrearPartida(nombre);
 				printf("---------\n");
@@ -1008,7 +1114,7 @@ int *AtenderCliente(void *socket){
 				id_partida = atoi(p);
 				if (strcmp(respuesta,"NO")==0){
 					printf("[%d]\n",sock_conn);
-					FinPartida(id_partida);
+					PartidaRechazada(id_partida,nombre,sock_conn);
 					pthread_mutex_lock(&mutex);
 					EliminarPartida(id_partida);
 					pthread_mutex_unlock(&mutex);
@@ -1016,7 +1122,6 @@ int *AtenderCliente(void *socket){
 				}
 				else{
 					int res = AnadirJugador(nombre,id_partida);
-				
 					if (res == 0){
 						printf("[%d] Añadido a la partida %s\n", sock_conn, nombre);
 						char jugadores_partida[500];
@@ -1044,12 +1149,8 @@ int *AtenderCliente(void *socket){
 				p = strtok(NULL,"/");
 				strcpy(tirador,p);
 				
-				char siguienteTurno[10];
-				char v[500]; //unused
-				int numJugadores = DameJugadoresPartida(partida,v);
 				printf("[%d]\n",sock_conn);
-				DameSiguienteTurno(rol,numJugadores,siguienteTurno);
-				NotificaResultadoDado(partida,resDado,tirador,siguienteTurno);
+				NotificaResultadoDado(partida,resDado,tirador,sock_conn);
 				printf("----------\n");
 			}
 			//Codigo 9 --> Finalizar y eliminar una partida.
@@ -1059,9 +1160,9 @@ int *AtenderCliente(void *socket){
 				
 				p=strtok(NULL,"/");
 				int partida=atoi(p);
-				FinPartida(partida);
-				//Habra que guardar la partida en el historico de la BBDD
+				FinPartida(partida,nombre);
 				pthread_mutex_lock(&mutex);
+				GuardarHistorico(partida,NULL);
 				EliminarPartida(partida);
 				pthread_mutex_unlock(&mutex);
 			}
@@ -1085,7 +1186,7 @@ int *AtenderCliente(void *socket){
 			}
 			//Codigo 11 --> Resultado Pregunta
 			else if(codigo==11){
-				//Mensaje en buff: 11/idPartida/rol/resultadoPregunta (1-> OK, 2-> OK + quesito, 0-> Mal)
+				//Mensaje en buff: 11/idPartida/rol/resultadoPregunta(/quesito ganado) (1-> OK, 2-> OK + quesito, 0-> Mal)
 				//Mensaje en buff2: -
 
 				p=strtok(NULL,"/");
@@ -1098,12 +1199,19 @@ int *AtenderCliente(void *socket){
 
 				char notificacion[500];
 				sprintf(notificacion,"13/%d*%s*%d",partida,nombre,resultado);
-				if(resultado == 0){
+				if((resultado == 0) || (resultado == 2)){
 					char jugadores[500]; //unused
 					int numJugadores = DameJugadoresPartida(partida,jugadores);
 					char siguienteTurno[10];
 					DameSiguienteTurno(miRol,numJugadores,siguienteTurno);
 					sprintf(notificacion,"%s*%s",notificacion,siguienteTurno);
+					
+					if(resultado == 2){
+						p = strtok(NULL,"/");
+						char quesito[20];
+						strcpy(quesito,p);
+						sprintf(notificacion,"%s*%s",notificacion,quesito);
+					}
 				}
 				EnviaNotificacion(notificacion,partida,sock_conn);
 
@@ -1119,7 +1227,7 @@ int *AtenderCliente(void *socket){
 						//Se acaba la partida con un ganador
 						sprintf(notificacion,"14/%d*%s",partida,nombre);
 						EnviaNotificacion(notificacion,partida,-1); //Enviamos tmb al ganador para que se sepa quien ha ganado
-						FinPartida(partida);
+						FinPartida(partida,nombre);
 						//Guardamos el historico
 						pthread_mutex_lock(&mutex);
 						int guardar = GuardarHistorico(partida,nombre);
@@ -1134,9 +1242,26 @@ int *AtenderCliente(void *socket){
 					}
 				}
 			}
-					
+			//Codigo 12 -> Nuevo mensaje para el chat
+			else if (codigo==12){
+				//Mensaje en buff: 12/idPartida/mensaje
+				//Mensaje en buff2: -
+				
+				p = strtok(NULL,"/");
+				int partida = atoi(p);
+				p = strtok(NULL,"/");
+				char mensaje[500];
+				strcpy(mensaje,p);
+				
+				//Notificamos a todos menos a uno mismo (envia el cliente de este thread -> nombre)
+				char notificacion[500];
+				sprintf(notificacion,"15/%d*%s*%s",partida,nombre,mensaje);
+				EnviaNotificacion(notificacion,partida,sock_conn);
+				
+			}
+
 			// Y lo enviamos
-			if (codigo!=0 && codigo!=7 && codigo!=8 && codigo!=9 && codigo!=10 && codigo!=11){
+			if (codigo!=0 && codigo!=7 && codigo!=8 && codigo!=9 && codigo!=10 && codigo!=11 && codigo!=12){
 				write (sock_conn,buff2, strlen(buff2));
 				printf("[%d] Codigo: %d , Resultado: %s\n",sock_conn,codigo,buff2);//Vemos el resultado de la accion.
 			}
@@ -1162,24 +1287,25 @@ int main(int argc, char *argv[]) {
 	listaC.num=0;
 	
 	// Abrimos el socket
-	if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+	if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0){
 		printf("Error creant socket\n");
+	}
 	// Hacemos el bind al puerto
-	
-	
 	memset(&serv_adr, 0, sizeof(serv_adr));// inicializa a zero serv_addr
 	serv_adr.sin_family = AF_INET;
 	
 	// asocia el socket a cualquiera de las IP de la maquina. 
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
-	// escucharemos en el port 9080
+	// escucharemos en el port 50051
 	serv_adr.sin_port = htons(9080);
-	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
+	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0){
 		printf ("Error al bind\n");
+	}
 	//La cola de peticiones pendientes no podr? ser superior a 4
-	if (listen(sock_listen, 2) < 0)
+	if (listen(sock_listen, 2) < 0){
 		printf("Error en el Listen\n");
+	}
 	
 	//Creamos la connexión a la BBDD
 	conn = mysql_init(NULL);
@@ -1199,16 +1325,20 @@ int main(int argc, char *argv[]) {
 	pthread_mutex_init(&mutex,NULL);
 	
 	// Bucle infinito
+	int i;
 	for(i=0;;i++){
 		printf ("[Main] Escuchando\n");
 		
 		sock_conn = accept(sock_listen, NULL, NULL);
 		printf ("[Main] He recibido conexi?n\n");
 		//sock_conn --> socket para este cliente
-		//sockets[i] = sock_conn;
+		//Guardamos el socket
+		pthread_mutex_lock(&mutex);
+		int posicion = AnadirAListaConectados("0",sock_conn);
+		pthread_mutex_unlock(&mutex);
 		
 		//Creamos el thread
-		pthread_create (&thread, NULL, AtenderCliente, &sock_conn);
+		pthread_create (&thread, NULL, AtenderCliente, &listaC.conectados[posicion].socket);
 	}
 	pthread_mutex_destroy(&mutex);
 	exit(0);
