@@ -1,0 +1,24 @@
+¿Cuál es el emoji más usado en el mundo?/Beso/Sonrisa/Llora de risa/Asco/2
+¿Qué tecnología se utiliza para hacer posibles las llamadas telefónicas a través de Internet?/Ethernet/Bluetooth/IPv6/VoIP/3
+¿Qué lenguaje infórmatico es el más utilizado?/Java/PHP/C/SQL/0
+¿Cuál es la red social más usada del mundo?/Instagram/Facebook/Twitter/Youtube/1
+¿Para qué sirve un Código QR?/Contener información/Pagar en comercios/Descargar programas/Ninguna de las anteriores/0
+¿Quién inventó Google?/Bill Gates/Steve Jobs/Larry Page/Steve Wozniak/2
+¿Para qué sirve la plataforma iVoox?/Editar fotografía/Editar vídeos/Enviar archivos pesados/Reproducir podcast/3
+¿Qué es el spam?/Virus informático/Correos no solicitados/Publicidad engañosa/Troyano/1
+¿Qué hace el ordenador si pulsas Control+Z?/Deshacer/Rehacer/Pegar/Eliminar/0
+¿Qué hace el ordenador si pulsas Windows+Shift+S?/Captura de pantalla/Subraya conjunto/Compromir archivo/Descomprimir archivo/0
+¿Qué teclas hay que pulsar para obtener ~ ?/Control+Fn+6/Control+Alt+6/AltGr+4/Altgr+6/2
+¿Qué hace el ordenador si pulsas Control+E?/Captura de pantalla/Recortar/Seleccionar todo/Cambiar interlineado/2
+¿Cuál es la página de Internet más visitada del mundo?/Gmail/Google/Facebook/Youtube/1
+¿Cuándo se fundó Nintendo?/1889/1976/1989/2001/0
+¿Qué significa la abreviatura WWW?/World Wailer Web/Wireless World Web/Wifi Web World/World Wide Web/3
+¿Qué significa la abreviatura LOL en redes?/Laughing Out Loud/League of Legends/Ambas/Ninguna/2
+¿Con qué aplicación realizarías una videoconferencia?/Zoom/Teams/Skype/Todas las anteriores/3
+¿Qué marca vende más teléfonos en el mundo?/Huawei/Samsung/Apple/Xiaomi/1
+¿Cuál no es una plataforma para ver series?/Netflix/Filmin/Amazon/HBO/2
+¿Qué es una 'phablet'?/Un fanático de la tecnología/Sitios de internet dedicados a la farmacéutica/Una tableta robusta/Una mezcla entre móvil y tablet/3
+¿Qué es un hacker?/Un delincuente informático/Un experto en tecnología/Un virus muy peligroso/Alguien que suplanta la identidad/1
+¿Qué es un malware?/Un código de software con objetivo malicioso/Un hardware en mal estado/Un virus de móvil/Un mal hacker/0
+¿Qué es el Internet de las cosas?/Las cosas que se consiguen en Internet/El Internet que se utiliza para vender cosas/Posibilidad de que cualquier cosa se conecte a Internet/El corazón de Internet/2
+

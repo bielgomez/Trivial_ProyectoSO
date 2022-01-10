@@ -39,6 +39,9 @@ namespace Trivial
             return lista[posicion];
         }
 
-
+        public int DameLongitud()
+        {
+            return lista.Length;
+        }
     }
 }

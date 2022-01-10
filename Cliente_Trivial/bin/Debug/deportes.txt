@@ -3,3 +3,44 @@
 ¿Primer oro olímpico de la historia en escalada?/Nathaniel Coleman/Adam Ondra/Alberto Ginés/Tomoa Narasaki/2
 ¿Cuánto mide una piscina olímpica?/25 metros/50 metros/75 metros/100 metros/1
 ¿En qué club empezó la nadadora Mireia Belmonte?/Club natació Sabadell/Club natació Atlètic-Barceloneta/Club natació l'Hospitalet/Club natació Badalona/3
+¿De qué color es el aro olímpico de arriba a la izquierda?/Negro/Azul/Verde/Amarillo/0
+¿Cuál es el récord de campeonatos de F1 ganados?/6/7/8/9/1
+¿Cuál de los siguientes pilotos de motociclismo no es catalán?/Maverick Viñales/Dani Pedrosa/Raúl Fernández/Alex Rins/2 
+¿Quién fue el campeón más joven de F1?/Max Verstappen/Lewis Hamilton/Sebastian Vettel/Fernando Alonso/2
+¿Qué equipo de la Premier League tiene más ligas ganadas?/Arsenal/Manchester United/Manchester City/Chelsea/1
+¿En qué club italiano jugó Diego Maradona?/Nápoli/Roma/Juventus/Fiorentina/0
+¿Cuántos jugadores componen un equipo de rugby?/14/15/16/18/1
+¿Qué tipo de competición es el Giro?/Tenis/Golf/Ciclismo/Automovilismo/2
+¿En qué país se encuentra el circuito de Sakhir?/Baréin/Arabia Saudí/Unión Emirates Árabes/Malasia/0
+¿En qué país se encuentra el circuito de Zandvoort?/Bélgica/Luxemburgo/Holanda/Alemania/2
+¿Cuál fue el primer jugador español de baloncesto en disputar un partido de la NBA?/Pau Gasol/Fernando Martín/José Manuel Calderón/Raül López/1
+¿Qué deporte practicas si juegas a la NFL?/Rugby/Béisbol/Frisbee/Fútbol Americano/3  
+¿Qué equipo de rugby hace una danza antes de iniciar cada partido?/All Blacks/Springboks/Wallabies/Pumas/0
+¿Cuántos Grand Slam tiene Roger Federer?/18/20/22/24/1
+¿Cómo se llama la anotación en fútbol americano?/Tackle/Touchdown/Halfback/Down/1
+¿Cuál es el deporte más popular en Índia?/Voley/Fútbol/Béisbol/Críquet/3
+¿Cuánto pesa un bolo?/3-7kg/1-8kg/4-9kg/3-8kg/0
+¿Cuál es el deporte nacional de Japón?/Judo/Karate/Taekwondo/Sumo/3
+¿Cuál no es una mascota de los juegos olímpicos?/Fuwa/Naranjito/Cobi/Vinicius/1
+¿Cómo se llama cuando un jugador de bolos hace tres strikes seguidos?/Pollo/Gallina/Pavo/Pato/2
+¿Cuál es el deporte nacional de Canadá?/Fútbol Americano/Rugby/Críquet/Lacrosse/3
+¿Qué país ha competido más veces en los Juegos Olímpicos sin ganar ninguna medalla de oro?/Filipinas/Indonesia/Kenya/Madagascar/0
+¿Quién ha ganado más Grand Slam de tenis?/Serena Williams/Margaret Court/Venus Williams/Monica Seles/1
+¿Qué país ha competido más veces en los Juegos Olímpicos sin ganar ninguna medalla?/Luxemburgo/Estonia/San Marino/Liechtenstein/3
+¿Cuántos jugadores hay en el equipo de béisbol?/8/9/10/11/1
+¿Cuál no usa pelota?/Gimnasia Rítmica/Pádel/Polo/Hockey/3
+¿Qué carrera no se incluye en el logro de la triple corona?/Gran Premio de Mónaco/24h de Le Mans/24h de Daytona/500 millas Indianápolis/2
+¿Cuál es el único piloto que ha logrado la triple corona?/Fernando Alonso/Graham Hill/Juan Manuel Fangio/Michael Schumacher/1
+¿Cuánto dura una maratón?/26 millas/26,2 millas/26,4 millas/26,8 millas/1
+¿Quién fue el jugador más joven en anotar 10000 puntos en la NBA?/LeBron James/Michael Jordan/Karl Malone/Clyde Drexler/0
+En voleibol, ¿cuántos jugadores hay en pista?/5/6/7/8/1
+En voleibol, ¿a cuantos puntos se juega un tie break?/25/21/15/18/2
+En voleibol, ¿cuál de las siguientes acciones se considera falta?/Tocar el techo con la pelota/Tocar la red con el cuerpo/Tocar la pelota con el pie/Hacer menos de tres toques/1
+¿Quien fue la primera jugadora española en ganar un balón de oro?/Jennifer Hermoso/Alexia Putelles/Laia Sainz/Gio Queiroz/1
+¿En que año no se celebró la ceremonia del balón de oro?/1989/2010/2020/Siempre se ha celebrado/2
+
+
+
+
+
+ 

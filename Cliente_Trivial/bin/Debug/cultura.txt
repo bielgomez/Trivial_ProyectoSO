@@ -3,3 +3,37 @@
 ¿En la portada del disco más famoso de los Beattles, quién lleva un jersey blanco?/Paul McCartney/Ringo Starr/George Harrison/John Lennon/3
 ¿Quién es el autor de Las Meninas?/Diego Velázquez/Francisco de Goya/Pablo Picasso/Salvador Dalí/0
 ¿Cuál de estas obras no es de Kandinsky?/El Abrazo/El Circulo/Composición VII/La Montaña Azul/0
+¿Cuántas generaciones de consolas existen?/6/5/9/7/2
+¿Cómo se llama el personaje principal de la saga The Legend of Zelda?/Link/Zelda/Navy/Majora/0
+¿Cuantos episodios tiene la saga completa de Star Wars?/6/7/8/9/3
+¿Por qué película ganó Leaonardo Dicaprio su primer Oscar?/Once Upon a Time in Hollywood/El Renacido/El Lobo de Wall Street/El aviador/1
+¿Cuándo se emitió por primera vez la televisión a color?/1942/1955/1958/1962/0
+¿A cuál de los siguientes personajes ficticios no ha caracterizado el actor Tom Holland?/Spider-Man/Nathan Drake (Uncharted)/Lucas (Lo Imposible)/Barley Lightfoot (Onward)/3
+¿Cual de los siguientes no es un integrante de la boy band One Direction?/Louis Tomlinson/Niall Horan/Shawn Mendes/Harry Styles/2
+¿Cuál de las siguientes películas se basa en la biografía de Stephen Hawking?/La Teoria del Todo/Forrest Gump/Descifrando Enigma/La Red Social/0
+¿A que famosa seré pertenece la célebre frase ‘We were on a break’?/The Office/Friends/Modern Family/How I Met Your Mother/1
+¿Cuál es la serie de televisión más longeva?/Days of Our Lives/General Hospital/Anatomía de Grey/Doctor Who/0
+¿Cuál de las siguientes e es la canción más larga del grupo ‘Queen’?/The Prophet’s Song/Bohemian Rapsody/Love of My Life/We are the Champions/0
+¿De dónde es tradicional el bocata de calamares?/Murcia/Valencia/Madrid/Galicia/2
+En la famosa serie ‘How I met Your Mother’, ¿para quien es robada la trompeta azul?/Lily/Marshal/Robin/Ted/2
+En la serie de televisión americana Friends, ¿qué personaje interpreta al Doctor Drake Ramoray?/Joey/Ross/Chandler/Gunther/0
+¿Qué compañía absorbió Marvel?/Sony/Columbia/Warner Bross/Disney/3
+En la serie The Big Bang Theory, ¿qué condición tiene Sheldon?/Daltonismo/Asperger/Trastorno Límite de la Personalidad/Ninguna de las anteriores/1
+¿Qué personaje no pertenece al universo de DC?/Arrow/Black Adam/Adam Warlock/Harley Quinn/2
+¿Cuál no pertenece al grupo Mediaset España?/Neox/Telecinco/Cuatro/FDF/0
+¿En qué serie catalana aparece Jordi Sánchez?/El cor de la ciutat/Polseres vermelles/Plats bruts/Merlí/2
+¿El logotipo de qué marca es una obra de Joan Miró?/Lays/Chupachups/Estrella Damm/Donuts/1
+¿Qué utensilio de limpieza fue inventado por un español?/Palo de fregona/Escobilla del váter/Desatascador/Escoba/0
+¿Qué compañías fueron creadas por hermanos?/Adidas-Puma/Adidas-Nike/Puma-Nike/Puma-Champion/0
+¿Qué Chris no pertenece al elenco de actores de Marvel?/Chris Evans/Chris Pratt/Chris Fonsi/Chris Hemsworth/2
+¿Cuál no es una Kardashian?/Kim/Kourtney/Khloe/Kate/3
+¿A qué se dedicaba la compañía Nintendo en sus orígenes?/Videojuegos/Cartas/Juguetes/Juegos de mesa/1
+¿Cuál no es un Pokémon?/Sandshrew/Graveler/Tortuwy/Turtwig/2
+¿Cuántas generaciones de Pokémon hay?/8/9/10/6/0
+¿Cuál de los siguientes videojuegos no tiene una adaptación cinematográfica?/Uncharted/Mortal Kombat/Assasins Creed/God of War/3
+¿Cuántos actores diferentes han personificado el personajed de 'El Doctor' en la serie Doctor Who?/10/13/12/11/1
+¿Cuál es el idioma más hablado del planeta?/Español/Inglés/Francés/Chino mandarín/3
+¿Quién es el autor de Tirant Lo Blanc?/Ausiás March/Joanot Martorell/Salvador Espriu/Joan Salvat-Papasseit/1
+
+
+

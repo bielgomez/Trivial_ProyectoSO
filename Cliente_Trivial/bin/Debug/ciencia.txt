@@ -2,3 +2,99 @@
 ¿Quién dio nombre a las leyes que rigen la física clásica?/Albert Einstein/Isaac Newton/Stephen Hawking/James Maxwell/1
 ¿A qué grupo pertenece el sodio (Na)?/Halógenos/Calcógenos/Alcalinos/Alcalinotérreos/2
 ¿Cuál es el avión más rápido del mundo?/North American X15/A380/MiG-25/SR71 Blackbird/3
+¿En qué mes está el Sol más cerca de la Tierra?/Noviembre/Diciembre/Enero/Febrero/1
+¿Cuántos elementos tiene la tabla periódica?/304/196/178/118/3
+¿Cuál no es una base nitrogenada del ADN?/Uracilo/Citosina/Guanina/Timina/0
+¿A partir de que planta se elabora el tequila?/Uva/Agave/Ajenjo/Patata/1
+¿Qué organo consume más energia?/Corazón/Hígado/Cerebro/Pulmones/2
+¿Cuál es una constelación?/Circinus/Higgs/Sculptor/Barnard/2
+¿Cuál es más denso?/Benceno/Agua/Sangre/Glicerina/3
+¿Qué arbol es de hoja caduca?/Arce/Alcornoque/Ciprés/Magnolia/0
+¿Qué función no es simétrica?/Seno/Coseno/Logaritmo/Parábola/2
+¿Cuál es la edad del universo?/13 mil millones/7 mil millones/8 mil millones/15 mil millones/0
+¿Cuál es el músculo más fuerte del cuerpo?/Bíceps/Tríceps/Lengua/Abdominales/2
+¿Cuál es el único mamífero que no puede saltar?/Elefante/Pingüino/Delfín/Pato/0
+¿En qué parte del cuerpo se produce la insulina?/Hígado/Pancreas/Riñón/Estómago/1
+¿Cuál es el hueso más largo del cuerpo humano?/Tíbia/Húmero/Columna vertebral/Fémur/3
+¿Quién es el inventor del telescopio reflector?/Isaac Newton/Nicolás Copérnico/Galileo Galilei/Johannes Kepler/0
+¿Cómo se llamaba el primer perro que fue al espacio?/Lisa/Laika/Laura/Lulu/1
+¿En qué famosa teoría se incluye E=mc^2?/Teoría de cuerdas/Teoría de campos/Teoría de la relatividad/Teoría del Big Bang/2
+¿Con qué nombre se conoce el miedo a las alturas?/Acrofobia/Acluofobia/Aerofobia/Afenfosfobia/0
+¿Con qué nombre se conoce el miedo a la oscuridad?/Ocofobia/Acluofobia/Oenofobia/Noctifobia/1
+¿Con qué nombre se conoce el miedo a enfermar?/Novercafobia/Nudofobia/Nosofobia/Nomofobia/2
+¿Por qué descubrimiento se hizo famosa Marie Curie?/Penicilina/Electricidad/Carbono/Radioactividad/3
+¿En qué mes puede haber 4 fases lunares?/Enero/Febrero/Marzo/Abril/1
+¿Cómo se llaman las líneas que unen los puntos del planeta con la misma temperatura?/Isotermas/Isobaras/Isótropas/Isovolumétricas/1
+¿Cuál no tiene un premio Nobel de la física?/Max Planck/Hendrik Lorentz/Ernest Rutherford/Pierre Curie/2
+¿Cómo se llama el proceso mediante el cual una célula se divide para formar dos células hijas?/Metafase/Anafase/Meiosis/Mitosis/3
+¿Dónde se localiza la información genética de las células?/Núcleo/Citoplasma/Membrana/Mitocondrios/0
+¿Qué inventó Alfred Nobel?/Bomba atómica/Bomba nuclear/Dinamita/Pólvora/2
+¿Qué célula se encarga de transportar oxígeno?/Glóbulo blanco/Glóbulo rojo/Plaqueta/Neurona/1
+¿Qué tipo de luz produce quemaduras?/Ultravioleta/Rayos X/Infrarroja/Radio/0
+¿Cuál es el sexto decimal del número pi?/2/3/4/5/0
+¿Quién descubrió la penicilina?/Alexander Fleming/Gregor Mendel/Marie Curie/Thomas Edison/0
+¿Qué teoría explica el gato de Schrodinger?/Relatividad general/Teorema de Pitágoras/Entrelazamiento cuántico/Teorema de Stokes/2
+¿Qué legumbre utilizó Mendel en sus experimentos?/Lenteja/Guisante/Garbanzo/Cacahuete/1
+¿Cuál fue la primera misión espacial tripulada?/Apolo 1/Sputnik 19/Mariner 1/Vostok 1/3
+¿De qué elemento se compone el grafeno?/Carbono/Silicio/Sodio/Grafito/0
+¿Qué orgánulo es necesario para hacer la fotosíntesis?/Mitocondrio/Aparato del Golgi/Cloroplasto/Ribosoma/2
+¿Qué elemento no pertenece al grupo de los halógenos?/Fluor/Bromo/Cloro/Oxígeno/3
+¿Qué elementos componen el aire?/Nitrogeno/Oxigeno/Hidrógeno/Todos los anteriores/3
+¿Cual es el último elemento de la tabla periódica?/Oganesón (Og)/Americio (Am)/Flerovio (Fl)/Teneso (Ts)/0
+¿Qué es la sinapsis?/Un ataque al corazón/El proceso de producción de insulina/La aproximación intracelular entre neuronas/Un choque anafiláctico/2
+¿En que estado físico se encuentra el fuego?/Sólido/Líquido/Gaseoso/Plasma/3
+¿Porqué brillan los metales?/Porque reflejan la luz/Porque tienen partículas de brillo/Por el enlace metálico/Por el enlace iónico/2
+¿Cuál de los sigüientes es más denso?/Estrella de preones/Estrella de neutrones/Plasma de quarks/Partícula de Planck/3
+¿Cuál es la estrella más cercana al sistema solar?/Estrella Polar/Próxima Centauri/Pólux/Barnard/1
+¿En qué siglo se inventó el primer telescopió?/Siglo VII/Siglo IX/Siglo XII/Siglo XVII/3
+¿A qué corresponde una Unidad Astronómica?/Un año luz/Distancia entre la Tierra y el Sol/Distancia Sol y centro Via Láctea/Radio de la Tierra/1
+¿Cuál no es una luna del planeta Júpiter?/Europa/Calisto/Deimos/Ganímedes/2
+¿Cómo se llama el proyecto de búsqueda de vida extraterrestre?/Área 51/SETI/Isaac Asimov/Alien Search/1
+En astronomia,¿a qué fenómeno alude el término 'nova'?/Muerte de una estrella/Nacimiento de una estrella/Formación de una galaxia/Explosión de una galaxia/0
+¿Cuál es la estrella más grande conocida por el ser humano?/Arcturus/UY Scuti/VY Canis Majoris/Estrella Polar/1
+¿Qué nombre tiene la región entre las órbitas de Marte y Júpiter?/Cinturón de Kepler/Cinturón de Kuiper/Cinturón de Orión/Cinturón de asteroides/3
+¿Cómo se llama la montaña más alta del sistema solar?/Everest, la Tierra/Altar de Zeus, Júpiter/Monte Olimpo, Marte/Morada de los Titanes, Júpiter/2
+¿Quién ganó el último Nobel de matemáticas?/Alessio Figalli/Peter Scholze/Will Hunting/No existe/3
+¿Cuál es el valor aproximado del número áureo?/1,681305/1,683250/1,618033/1,611903/2
+¿Las paradojas de quién llevaron a la teoría atómica de Demócrito?/Zenón de Elea/Tales de Mileto/Arquímedes/Aristóteles/0
+Un objeto es fractal cuando.../su estructura es simétrica/su estructura es asimétrica/su estructura se repite a distintas escalas/su estructura se repite a las mismas escalas/2
+Selecciona el sinónimo de palíndromo/Racional/Irracional/Integral/Capicúa/3
+¿Cuál es el único número que no puede representarse en números romanos?/Todos/El 0/El número e/El número pi/1
+¿Cuál fue el matemático más importante del siglo XVIII?/Euler/Laplace/Fourier/Fermat/0
+¿Dónde termina el intestino grueso?/Estómago/Intestino Grueso/Intestino Delgado/Recto/3
+¿Qué recubre la pleura?/Laringe/Corazón/Hígado/Pulmones/3
+¿Cómo se llama el científico que acuñó el término célula?/Robert Hooke/Jean-Baptiste Lamarck/Gregor Mendel/Charles Darwin/0
+La diabetes es una enfermedad.../Circulatoria/Endocrina/Estomacal/Nerviosa/1
+El almidón sufre la primera digestión en.../Tráquea/Boca/Estómago/Intestino delgado/1
+¿Cuál es el mamífero que no puede mirar hacia arriba?/Perro/Jirafa/Cerdo/Rinoceronte/2
+¿Cuántos pares de cromosomas tiene una persona?/20/21/22/23/3
+¿Qué organismo se reproduce asexualmente?/Estrella de mar/Ardilla/Mariposa/Caballito de mar/0
+¿Cuál es la función principal de la bilis?/Digerir proteínas/Disolver minerales/Descomponer grasas/Digerir azúcares/2
+¿Por dónde se transporta la savia de las raíces a las hojas?/Floema/Xilema/Plasmodesmo/Raicema/1
+Las especies de seres vivos se clasifican en reinos, ¿cuántos hay?/3/4/5/7/2
+¿Cuántos tipos de nutrición vegetal hay?/Heterótrofa/Autótrofa/Ambas/Ninguna/2
+¿Qué forman las moléculas de ARN?/Una cadena de nucleótidos/ADN/Ambas/Ninguna/0
+¿Qué es un gen dominante?/El que hay más/El más resistente/El que está en el ARN/El que está en el ADN/3
+¿Qué compone el fenotipo?/Genes expresados en forma de carácter/Genes posibles/Genes de la madre/Genes del padre/0
+¿Qué función no pertenece a un algortimo genético?/Easom/Zeta/Goldstein/Schwefel/1
+¿Cómo se llama el instrumento que mide la humedad relativa?/Barómetro/Termómetro/Hidrómetro/Higrómetro/3
+¿Qué famoso científico adoraba las películas del oeste?/Nikola Tesla/Niels Bohr/Rudolf Hertz/Ernest Rutherford/1
+¿Qué temperatura alcanzó el universo 10 segundos después del Big Bang?/250 millones K/500 millones K/750 millones K/1000 millones K/3
+¿Cuál no es una fuerza fundamental?/Electromagnetismo/Gravedad/Fuerza nuclear física/Fuerza nuclear fuerte/2
+¿Qué mantiene unidas las moléculas de un cuerpo?/Fuerza cohesión/Fuerza gravedad/Fuerza adhesión/Fuerza advección/0
+¿Cuál es la distancia más pequeña en mecánica cuántica?/Espuma cuántica/Tiempo de Wearden/Longitud de Plank/Longitud de Schrödinger/2
+¿Qué dos partículas elementales se describen sin masa?/Fotón y neutrino/Fotón y gluón/Muón y neutrino/Electrón y positrón/1
+¿Cuál no representa una forma de energía?/Fricción/Corriente/Calor/Sonido/0
+¿Dónde nació Isaac Newton?/Ingraterra/Dinamarca/Irlanda/Escocia/0
+¿Quién dijo 'Dadme un punto de apoyo y moveré el mundo'?/Sócrates/Aristóteles/Demócrito/Arquímedes/3
+¿Qué fuerza de rozamiento existe cuando un cuerpo rueda sobre el otro?/Viscosa/Deslizamiento/Rodadura/Angular/2
+¿En qué año se publicó la primera versión de la tabla periódica?/1839/1849/1859/1869/3
+¿Quién es el autor de la tabla periódica de los elementos?/Rutherford/Schrödinger/Mendeléyev/Planck/2
+¿A qué elemento corresponde el símbolo Dy?/Disprosio/Dubnio/Darmstadio/Deyterio/0
+¿Cuál de estos elementos no es radioactivo?/Hasio/Teneso/Oganesón/Lawrencio/1
+¿Cuál fue el primer elemento químico fabricado artificialmente?/Bohrio/Americio/Tecnecio/Paladio/2
+¿Cuál no ha sido descubierto por científicos españoles?/Copernicio/Wolframio/Platino/Vanadio/0
+¿Cuántos elementos tenía la primera versión de la tabla periódica?/61 elementos/62 elementos/63 elementos/64 elementos/2
+¿Qué es un cuásar?/Un tipo de agujero negro/Una partícula atómica/Un tipo de cometa/Uno de los astros más luminoso/3
+¿Cuál fue la primera mujer en el espacio?/Svetlana Savitskaya/Valentina Tereshkova/Ellen Ochoa/Sally Ride/1
+¿Cuál no es una partícula elemental?/Neutrino/Fotón/Bosón/Positrón/3

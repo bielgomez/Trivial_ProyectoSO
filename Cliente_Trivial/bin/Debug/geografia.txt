@@ -1,3 +1,62 @@
 ¿Cuál es la capital de Australia?/Melbourne/Canberra/Sydeny/Brisbane/1
 ¿Cuál es el río más largo del mundo?/Amazonas/Nilo/Danubio/Volga/0
 ¿Cuál es la ciudad más poblada del mundo?/Nueva York/Sao Paulo/Tokio/Shanghái/2
+¿Cuál no es una capital autonómica?/Santiago de Compostela/Valladolid/Toledo/Vitoria/1
+¿Dónde está el desierto de Gobi?/África/América Central/Norteamérica/Asia/3
+¿En qué país se ubican las ruinas de Esparta?/Grecia/Italia/Turquia/San Marino/0
+¿Cuál de estos países no tiene acceso al mar Mediterráneo?/Eslovenia/Serbia/Chipre/Egipto/1
+¿Cuál es el segundo país más poblado del mundo?/China/Rúsia/Australia/Índia/3
+¿Cuántos continentes hay en el planeta?/4/5/6/7/2
+¿Qué país está en las antípodas de España?/Australia/Nueva Zelanda/Indonesia/Filipinas/1
+¿Cuál es la capital de Nueva Zelanda?/Auckland/Queenstown/Christchurch/Wellington/3
+¿Cuál es la ciudad con mayor densidad de población de la UE?/Hospitalet de Llobregat/París/Roma/Barcelona/0
+¿Qué cordillera separa Europa de Asia?/Caucaso/Alpes/Pirineos/Urales/3
+¿En qué cordillera se encuentra el pico más alto de Europa?/Caucaso/Alpes/Pirineos/Urales/0
+¿Cuál es el río más largo de España?/Ebro/Tajo/Duero/Guadiana/1
+¿Cuál es la ciudad más poblada de África?/El Cairo/Cabo Verde/Capetown/Casablanca/0
+¿Cuál es la capital de Brasil?/Rio de Janeiro/Sao Paulo/Brasília/Minas Gerais/2
+¿Cuál es la capital de Letonia?/Riga/Vilna/Tallin/San Petersburgo/0
+¿Cuál es la capital de Albania?/Belgrado/Sarajevo/Zagreb/Tirana/3
+¿Cuál es la capital de Uruguay?/Asunción/Montevideo/Lima/Paramaribo/1
+¿Cuál es la capital de Venezuela?/Caracas/Valencia/Maracay/Barcelona/0
+¿Cuál es la capital de Costa Rica?/Belmopán/Costa Rica/Managua/San José/3
+¿Cuál es la capital de Honduras?/Guatemala/San Salvador/Tegucigalpa/Honduras/2
+¿Cuál es la capital de Canadá?/Toronto/Ottawa/Montreal/Vancouver/1
+¿Cuál es la capital de Polonia?/Varsovia/Cracovia/Lodz/Breslavia/0
+¿Cuál es la capital de Georgia?/Bakú/Yakarta/Tiflis/Ereván/2
+¿Cuál es la capital de Pakistán?/Hanói/Dusambé/Kabul/Islamabad/3
+¿Cómo se llamaba antiguamente Sri Lanka?/Vietnam/Ceilán/Colombo/Borneo/1
+¿Qué país no pertenecía a la antigua Yugaslavia?/Montenegro/Macedonia/Eslovaquia/Eslovenia/2
+¿Qué país no pertenecía a la URSS?/Polonia/Bielorrusia/Ucrania/Estonia/0
+¿Cómo se llaman los habitantes de la Luna?/Lúnulas/Selenitas/Moonianos/Llunienses/1
+¿Cuál es el gentilicio de Badajoz?/Badajociano/Bajodense/Pacense/Paciense/2
+¿Cuál es el desierto más grande del mundo?/Sáhara/Ártico/Patagónico/Antártico/3
+¿Qué río pasa por Roma?/Tíber/Po/Adigio/Adda/0
+¿En qué región de Italia está Roma?/Umbría/Toscana/Lacio/Campania/2
+¿Cuál es el estado más grande de los Estados Unidos?/Texas/California/Montana/Alaska/3
+¿Cuál es el río más largo de Europa?/Danubio/Volga/Ural/Don/1
+¿Cuál es el segundo país más grande de Europa?/Francia/Alemania/Suecia/Polonia/0
+¿Cuál de estos países es más grande?/China/EEUU/Canadá/Brasil/2
+¿Cuál no pertence al Reino de Dinamarca?/Dinamarca/Islas Feroe/Groenlandia/Islas Frisias Orientales/3
+¿Qué cordillera no está en África?/Kilimanjaro/Karakórum/Rwenzori/Atlas/1
+¿Cuál es la provincia más pequeña de España?/Álava/Vizcaya/Guipúzcoa/Santa Cruz de Tenerife/2
+¿Cuál es la provincia menos poblada de España?/Teruel/Segovia/Palencia/Soria/3
+El Tajo no pasa por.../Zaragoza y Badajoz/Madrid y Guadalajara/Cuenca y Cáceres/Teruel y Toledo/0
+¿Qué país comparte frontera con Haití?/El Salvador/Puerto Rico/Cuba/República Dominicana/3
+¿Cuál es el océano más grande del mundo?/Pacífico/Ártico/Atlántico/Índico/0
+¿Dónde se ubica el monte Kilimanjaro?/Australia/Algeria/Tanzania/Zimbabwe/2
+¿Cuál es el lago de agua dulce más grande del mundo?/Huron/Superior/Victoria/Turkana/1
+¿Cuántos países hay en América Central?/7/8/9/11/0
+¿Cuál es el lugar cálido más seco del planeta?/Desierto de Namíbia/Desierto de Atacama/Desierto del Sáhara/Desierto de Gobi/1
+¿En qué país se localiza Ciudad del Vaticano?/Italia/Mónaco/San Marino/Ciudad del Vaticano/3
+¿Qué es Zelandia?/Una ciudad islandesa/Un parque temático/Un país del hemisferio norte/Un continente/3
+¿Cuál es el país país más visitado por los turistas?/Italia/EEUU/Francia/España/2
+¿Cuál es el país de los 1000 lagos?/Finlandia/EEUU/Canadá/Brasil/0
+¿Dónde está la región más pobre del mundo?/Zimbawbe/Honduras/Sahel/Nepal/2
+¿Cómo se llama la línea imaginaria que pasa por el centro del Polo Norte y del Polo Sur?/Primer eje/Eje central/Meridiano global primario/Primer meridiano/3
+Dodoma es la capital de.../Tanzania/Nairobi/Kinsasa/Zimbabwe/0
+¿Qué isla/s pertenece 6 meses a España y 6 meses a Francia?/Islas Feroe/Isla de los Faisanes/Islas Medas/Córsega/1
+¿Cuál es la montaña más alta de la península ibérica?/Aneto (Huesca)/Picos de Europa (Astúrias)/Mulhacén (Granada)/El Teide (Islas Canarias)/2
+¿Cuál es la calle más larga de España?/Gran Via de les Corts Catalanes (Barcelona)/Calle Alcalá (Madrid)/Paseo de la Castellana (Madrid)/Passeig de Gràcia (Barcelona)/0
+
+
