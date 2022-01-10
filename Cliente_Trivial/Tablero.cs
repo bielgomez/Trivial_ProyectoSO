@@ -15,7 +15,8 @@ namespace Trivial
     public partial class Tablero : Form
     {
         int partida; 
-        int miCasilla; 
+        int miCasilla;
+        int numDado;
 
         Jugador miJugador;
         // Para perimtir y bloquear la manipulacion de cada funcion
@@ -295,21 +296,21 @@ namespace Trivial
             if ((miTurno == true) && (dadoClick == true))
             {
                 Random dice = new Random();
-                int num = dice.Next(1, 6);
-                if (num == 1)
+                this.numDado = dice.Next(1, 6);
+                if (numDado == 1)
                     dado.Image = Image.FromFile("dado1.png");
-                else if (num == 2)
+                else if (numDado == 2)
                     dado.Image = Image.FromFile("dado2.png");
-                else if (num == 3)
+                else if (numDado == 3)
                     dado.Image = Image.FromFile("dado3.png");
-                else if (num == 4)
+                else if (numDado == 4)
                     dado.Image = Image.FromFile("dado4.png");
-                else if (num == 5)
+                else if (numDado == 5)
                     dado.Image = Image.FromFile("dado5.png");
                 else
                     dado.Image = Image.FromFile("dado6.png");
 
-                List<int> movimientos = casillas.DameMovimientosPosibles(miCasilla, num);
+                List<int> movimientos = casillas.DameMovimientosPosibles(miCasilla, numDado);
                 string texto = " ";
                 int m = 0;
                 double xm = ubicaciones[m].Size.Width / 2;
@@ -327,10 +328,10 @@ namespace Trivial
 
                 dadoClick = false;  // No puedes clickar en el dado
                 tableroClick = true; // Pero ya puedes clickar en el tablero
-                dadolbl.Text = "Avanzo " + num.ToString() + " casillas";
+                dadolbl.Text = "Avanzo " + numDado.ToString() + " casillas";
 
                 //Construimos el mensaje para enviar el resultado del dado
-                string resDado = "8/" + partida + "/" + num + "/" + miJugador.GetRol() + "/" + miJugador.GetNombre();
+                string resDado = "8/" + partida + "/" + numDado + "/" + miJugador.GetRol() + "/" + miJugador.GetNombre();
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(resDado);
                 server.Send(msg);
             }
@@ -585,9 +586,9 @@ namespace Trivial
 
                 bool encontrado = false; //3
                 int n = 0;
-                while ((n<this.casillas.DameCasilla(miCasilla).GetMovimientos().Count) && (encontrado==false))
+                while ((n<this.casillas.DameCasilla(miCasilla).GetMovimientos(numDado).Count) && (encontrado==false))
                 {
-                    if (this.casillas.DameCasilla(miCasilla).GetMovimientos()[n] == idcasilla)
+                    if (this.casillas.DameCasilla(miCasilla).GetMovimientos(numDado)[n] == idcasilla)
                         encontrado = true;
                     else
                         n++;
