@@ -55,7 +55,7 @@ El Tajo no pasa por.../Zaragoza y Badajoz/Madrid y Guadalajara/Cuenca y Cáceres
 ¿Dónde está la región más pobre del mundo?/Zimbawbe/Honduras/Sahel/Nepal/2
 ¿Cómo se llama la línea imaginaria que pasa por el centro del Polo Norte y del Polo Sur?/Primer eje/Eje central/Meridiano global primario/Primer meridiano/3
 Dodoma es la capital de.../Tanzania/Nairobi/Kinsasa/Zimbabwe/0
-¿Qué isla/s pertenece 6 meses a España y 6 meses a Francia?/Islas Feroe/Isla de los Faisanes/Islas Medas/Córsega/1
+¿Qué isla(s) pertenece 6 meses a España y 6 meses a Francia?/Islas Feroe/Isla de los Faisanes/Islas Medas/Córsega/1
 ¿Cuál es la montaña más alta de la península ibérica?/Aneto (Huesca)/Picos de Europa (Astúrias)/Mulhacén (Granada)/El Teide (Islas Canarias)/2
 ¿Cuál es la calle más larga de España?/Gran Via de les Corts Catalanes (Barcelona)/Calle Alcalá (Madrid)/Paseo de la Castellana (Madrid)/Passeig de Gràcia (Barcelona)/0
 

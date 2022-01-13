@@ -27,10 +27,9 @@ namespace Trivial
         string enunciado;
         string[] opciones;
         int correcta;
-        int acierto=1;
+        int acierto;
         int segundos;
         
-
         public Prueba()
         {
             InitializeComponent();
@@ -108,44 +107,46 @@ namespace Trivial
             timer1.Start();
             segundos = 20;
             timer_label.Text=segundos. ToString();
+
+            //Definimos el valor incial
+            acierto = 0;
         }
 
         private void Enviar_Click(object sender, EventArgs e)
         {
             if (opcion0.Checked)
-            {  
-                if(correcta==0)
+            {
+                if (correcta == 0)
                 {
-                    acierto = 0;
-                    this.Close();
+                    acierto = 1;
                 }
-
             }
             else if (opcion1.Checked)
             {
                 if (correcta == 1)
                 {
-                    acierto=0;
-                    this.Close();
+                    acierto=1;
                 }     
             }
             else if (opcion2.Checked)
             {
                 if(correcta == 2)
                 {
-                    acierto = 0;
-                    this.Close();
+                    acierto = 1;
                 }
             }
             else if (opcion3.Checked)
             {
                 if(correcta==3)
                 {
-                    acierto = 0;
-                    this.Close();
+                    acierto = 1;
                 }
             }
-
+            if (acierto == 1)
+                MessageBox.Show("Muy bien! Respuesta correcta");
+            else
+                MessageBox.Show("Ohhhh... Respuesta incorrecta");
+            this.Close();
         }
 
         private void timer1_Tick(object sender, EventArgs e)

@@ -27,7 +27,7 @@ namespace Trivial
             // Determinar categoria
             if (this.id == 1000)
             {
-                this.categoria = "Random";
+                this.categoria = "Central";
                 this.color = "Central";
             }
             else

@@ -237,7 +237,7 @@ namespace Trivial
                             int numTablero = DamePosicionLista(tableros, Convert.ToInt32(mensaje.Split('*')[0]));
                             if(numTablero>=0)
                                 tableros[numTablero].Close();
-                            MessageBox.Show(mensaje.Split('*')[1] + " ha finalizado \n la partida " + mensaje.Split('*')[0]);
+                            MessageBox.Show(mensaje.Split('*')[1] + " ha finalizado \nla partida " + mensaje.Split('*')[0]);
                             break;
 
                         case 11: //Notificación del resultado del dado de un jugador "idPartida*resDado*nombreTirador"
@@ -254,10 +254,12 @@ namespace Trivial
                             break;
 
                         case 13: //Notificacion del resultado de un jugador "idPartida*nombreJugador*resultado(0,1,2)*(siguienteTurno*quesito)"
-                            // Cuando resultado = 0 = mal -> se actualiza el turno (siguiente) 
+                                 // 0 -> mal contestada pero se actualiza turno
+                                 // 1 -> bien contestada pero sin quesito
+                                 // 2 -> bien contestada y con quesito 
                             idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
                             numTablero = DamePosicionLista(tableros, idPartida);
-                            tableros[numTablero].ActualizarTurno(mensaje);
+                            tableros[numTablero].ActualizarResultadoPregunta(mensaje);
                             break;
 
                         case 14: //Notificación que alguien ha conseguido los 6 quesitos 
@@ -333,6 +335,11 @@ namespace Trivial
             {
                 try
                 {
+                    //Cerramos todos los tableros que haya abiertos
+                    for (int i = 0; i < tableros.Count; i++)
+                        tableros[i].Close();
+                    tableros.Clear();
+
                     //Mensaje de desconexion
                     string mensaje = "0/";
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
@@ -360,11 +367,6 @@ namespace Trivial
                     nameUserTxt.Visible = false;
                     invitarButton.Text = "Invitar";
                     invitarButton.Visible = false;
-
-                    //Cerramos todos los tableros que haya abiertos
-                    for (int i = 0; i < tableros.Count; i++)
-                        tableros[i].Close();
-                    tableros.Clear();
 
                     //Vaciamos las casillas por si habian quedado rellenadas
                     NameBox.Clear();

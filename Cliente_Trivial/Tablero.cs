@@ -32,13 +32,7 @@ namespace Trivial
         ListaCasillas casillas;   //Casillas tablero
         List<PictureBox> ubicaciones;  //Indicaciones posibles movimientso
         List<PictureBox> piezas;       //Pieza de cada jugador. En el mismo orden que "jugadors"
-        
-        ListaPreguntas geografia;
-        ListaPreguntas historia;
-        ListaPreguntas ciencia;
-        ListaPreguntas deportes;
-        ListaPreguntas literatura;
-        ListaPreguntas cultura;
+
         // Quesitos
         Bitmap qV; 
         Bitmap qB;
@@ -100,13 +94,6 @@ namespace Trivial
 
             casillas = new ListaCasillas(xorigen,yorigen);
             casillas.CalcularMovimientos();
-
-            geografia = new ListaPreguntas(@".\\geografia.txt");
-            historia = new ListaPreguntas(@".\\historia.txt");
-            ciencia = new ListaPreguntas(@".\\ciencia.txt");
-            deportes = new ListaPreguntas(@".\\deportes.txt");
-            literatura = new ListaPreguntas(@".\\literatura.txt");
-            cultura = new ListaPreguntas(@".\\cultura.txt");
 
             ChatBox.Multiline = true;
             chat = new Queue<string>();
@@ -234,54 +221,64 @@ namespace Trivial
             }
         }
         //Actualizar turno: una vez se ha respondido, se notifica el resultado
-        public void ActualizarTurno(string mensaje) //"idPartida*nombreJugador*resultado(0,1,2)*(siguienteTurno*quesito)"
+        public void ActualizarResultadoPregunta(string mensaje) //"idPartida*nombreJugador*resultado(0,1,2)*(siguienteTurno*quesito)"
         {
             // 0 -> mal contestada pero se actualiza turno
             // 1 -> bien contestada pero sin quesito
             // 2 -> bien contestada y con quesito
             string[] trozos = mensaje.Split('*');
-            if (trozos[2]=="0")
-                MessageBox.Show(trozos[1] + " ha contestado mal");
-            else if(trozos[2] == "1")
-                MessageBox.Show(trozos[1] + " ha contestado bien, sigue tirando");
-            else
+            if (trozos[1] != miJugador.GetNombre())
             {
-                MessageBox.Show(trozos[1] + " ha ganado un quesito!"); ////////////////////////////////////////////
+                if (trozos[2] == "0")
+                    MessageBox.Show(trozos[1] + " ha contestado mal");
+                else if (trozos[2] == "1")
+                    MessageBox.Show(trozos[1] + " ha contestado bien, sigue tirando");
+                else
+                {
+                    MessageBox.Show(trozos[1] + " ha ganado un quesito!"); //////////////////////////////////////////// ponerle un quesito al compa
+                }
             }
-
-            if (((trozos[2] == "0")|| (trozos[2] == "2")) && (trozos[3] == miJugador.GetRol()))
+            if (((trozos[2] == "0")|| (trozos[2] == "2")))
             {
-                miTurno = true;
-                dadoClick = true;
-                MessageBox.Show("ES TU TURNO");
+                string siguienteTurno = trozos[3];
+                for (int i = 0; i < playersGridView.RowCount; i++)
+                {
+                    playersGridView.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                }
+                switch (siguienteTurno)
+                {
+                    case "host":
+                        playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Blue;
+                        break;
+                    case "jug2":
+                        playersGridView.Rows[1].DefaultCellStyle.BackColor = Color.Blue;
+                        break;
+                    case "jug3":
+                        playersGridView.Rows[2].DefaultCellStyle.BackColor = Color.Blue;
+                        break;
+                    case "jug4":
+                        playersGridView.Rows[3].DefaultCellStyle.BackColor = Color.Blue;
+                        break;
+                }
+                if (trozos[3] == miJugador.GetRol())
+                {
+                    miTurno = true;
+                    dadoClick = true;
+                    MessageBox.Show("ES TU TURNO");
+                }
+                else
+                {
+                    miTurno = false;
+                    dadoClick = false;
+                    MessageBox.Show("Es el turno de " + trozos[1]);
+                }
             }
             else
             {
                 miTurno = false;
                 dadoClick = false;
-                MessageBox.Show("Es el turno de "+trozos[1]);
+                MessageBox.Show("Es el turno de " + trozos[1]);
             }
-            string siguienteTurno = trozos[2];
-            for (int i = 0; i < playersGridView.RowCount; i++)
-            {
-                playersGridView.Rows[i].DefaultCellStyle.BackColor = Color.White;
-            }
-            switch (siguienteTurno)
-            {
-                case "host":
-                    playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Blue;
-                    break;
-                case "jug2":
-                    playersGridView.Rows[1].DefaultCellStyle.BackColor = Color.Blue;
-                    break;
-                case "jug3":
-                    playersGridView.Rows[2].DefaultCellStyle.BackColor = Color.Blue;
-                    break;
-                case "jug4":
-                    playersGridView.Rows[3].DefaultCellStyle.BackColor = Color.Blue;
-                    break;
-            }
-
         }
 
         //Obtener el numero de la partida de este tablero
@@ -608,6 +605,78 @@ namespace Trivial
                     string mensaje = "10/" + partida + "/" + this.miCasilla + "/" + miJugador.GetRol();
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
+
+                    //Se muestra la pregunta
+                    string categoria = this.casillas.DameCasilla(miCasilla).GetCategoria();
+                    if (categoria == "Tira otra vez")
+                    {
+                        dadoClick = true;
+                        MessageBox.Show("Tira otra vez!");
+                    }
+                    else
+                    {
+                        if (categoria == "Central")
+                        {
+                            Random randCat = new Random();
+                            int cat = randCat.Next(1, 6);
+                            switch (cat)
+                            {
+                                case 1:
+                                    categoria = "Ciencia";
+                                    break;
+                                case 2:
+                                    categoria = "Historia";
+                                    break;
+                                case 3:
+                                    categoria = "Geografía";
+                                    break;
+                                case 4:
+                                    categoria = "Tecnología";
+                                    break;
+                                case 5:
+                                    categoria = "Entretenimiento";
+                                    break;
+                                case 6:
+                                    categoria = "Deportes";
+                                    break;
+                            }
+                        }
+                        Prueba formPrueba = new Prueba();
+                        formPrueba.SetCategory(categoria);
+                        formPrueba.ShowDialog();
+                        int acierto = formPrueba.GetAcierto();
+                        if ((acierto == 1) && (miCasilla % 7 == 0) && (miCasilla < 42))
+                        {
+                            acierto = 2;
+                            MessageBox.Show("Amazing! Has ganado un quesito");
+                            /////////////// AÑADO QUESITO
+                        }
+
+                        // Se envía el resultado
+                        mensaje = "11/" + partida + "/" + miJugador.GetRol() + "/" + acierto;
+                        if (acierto == 2)
+                            mensaje = mensaje + "/" + categoria;
+                        msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                        server.Send(msg);
+
+                        if (acierto == 1)
+                        {
+                            dadoClick = true;
+                            MessageBox.Show("Puedes volver a tirar");
+                        }
+                        else
+                        {
+                            miTurno = false;
+                            string siguienteTurno = miJugador.GetRol();
+                            for (int i = 0; i < playersGridView.RowCount; i++)
+                            {
+                                playersGridView.Rows[i].DefaultCellStyle.BackColor = Color.White;
+
+
+                            }
+
+                        }
+                    }
                 }              
             
             }
