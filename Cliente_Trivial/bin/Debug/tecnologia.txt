@@ -21,4 +21,3 @@
 ¿Qué es un hacker?/Un delincuente informático/Un experto en tecnología/Un virus muy peligroso/Alguien que suplanta la identidad/1
 ¿Qué es un malware?/Un código de software con objetivo malicioso/Un hardware en mal estado/Un virus de móvil/Un mal hacker/0
 ¿Qué es el Internet de las cosas?/Las cosas que se consiguen en Internet/El Internet que se utiliza para vender cosas/Posibilidad de que cualquier cosa se conecte a Internet/El corazón de Internet/2
-

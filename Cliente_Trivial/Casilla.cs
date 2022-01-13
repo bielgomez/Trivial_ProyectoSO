@@ -84,7 +84,7 @@ namespace Trivial
                                 {
                                     encontrado = true;
                                     this.categoria = "Entretenimiento";
-                                    this.categoria = "Lila";
+                                    this.color = "Lila";
                                 }
                             }
                             if (encontrado==false)
@@ -98,7 +98,7 @@ namespace Trivial
                                     {
                                         encontrado = true;
                                         this.categoria = "Deportes";
-                                        this.categoria = "Naranja";
+                                        this.color = "Naranja";
                                     }
                                 }
                                 if (encontrado == false)
@@ -112,13 +112,13 @@ namespace Trivial
                                         {
                                             encontrado = true;
                                             this.categoria = "Ciencia";
-                                            this.categoria = "Verde";
+                                            this.color = "Verde";
                                         }
                                     }
                                     if (encontrado == false) // { 2, 5, 9, 12, 16, 19, 23, 26, 30, 33, 37, 40 };
                                     {
                                         this.categoria = "Tira otra vez";
-                                        this.categoria = "Gris";
+                                        this.color = "Gris";
                                     }   
                                 }
                             }

@@ -58,5 +58,3 @@ Dodoma es la capital de.../Tanzania/Nairobi/Kinsasa/Zimbabwe/0
 ¿Qué isla(s) pertenece 6 meses a España y 6 meses a Francia?/Islas Feroe/Isla de los Faisanes/Islas Medas/Córsega/1
 ¿Cuál es la montaña más alta de la península ibérica?/Aneto (Huesca)/Picos de Europa (Astúrias)/Mulhacén (Granada)/El Teide (Islas Canarias)/2
 ¿Cuál es la calle más larga de España?/Gran Via de les Corts Catalanes (Barcelona)/Calle Alcalá (Madrid)/Paseo de la Castellana (Madrid)/Passeig de Gràcia (Barcelona)/0
-
-
