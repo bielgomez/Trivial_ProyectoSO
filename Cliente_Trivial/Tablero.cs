@@ -325,6 +325,8 @@ namespace Trivial
 
                 dadoClick = false;  // No puedes clickar en el dado
                 tableroClick = true; // Pero ya puedes clickar en el tablero
+                //miturno = true
+                
                 dadolbl.Text = "Avanzo " + numDado.ToString() + " casillas";
 
                 //Construimos el mensaje para enviar el resultado del dado
@@ -581,7 +583,10 @@ namespace Trivial
                 else
                     idcasilla = -1;
 
-                bool encontrado = false; //3
+                //el ID donde se ha picado = idcasilla
+
+
+                bool encontrado = false; //3: es factible ese id?
                 int n = 0;
                 while ((n<this.casillas.DameCasilla(miCasilla).GetMovimientos(numDado).Count) && (encontrado==false))
                 {
@@ -590,7 +595,7 @@ namespace Trivial
                     else
                         n++;
                 }
-                if (encontrado == true)
+                if (encontrado == true) // es factible esa casilla donde quieres ir
                 {
                     this.tableroClick = false;
                     this.miCasilla = idcasilla;
@@ -618,7 +623,7 @@ namespace Trivial
                         if (categoria == "Central")
                         {
                             Random randCat = new Random();
-                            int cat = randCat.Next(1, 6);
+                            int cat = randCat.Next(1, 7);
                             switch (cat)
                             {
                                 case 1:
@@ -645,11 +650,13 @@ namespace Trivial
                         formPrueba.SetCategory(categoria);
                         formPrueba.ShowDialog();
                         int acierto = formPrueba.GetAcierto();
+                        //acierto = 1 == pregunta acertada
                         if ((acierto == 1) && (miCasilla % 7 == 0) && (miCasilla < 42))
                         {
                             acierto = 2;
                             MessageBox.Show("Amazing! Has ganado un quesito");
                             /////////////// AÑADO QUESITO
+                            ////////////// SE CAMBIA TU DATAGRIDVIEW
                         }
 
                         // Se envía el resultado
@@ -667,13 +674,7 @@ namespace Trivial
                         else
                         {
                             miTurno = false;
-                            string siguienteTurno = miJugador.GetRol();
-                            for (int i = 0; i < playersGridView.RowCount; i++)
-                            {
-                                playersGridView.Rows[i].DefaultCellStyle.BackColor = Color.White;
-
-
-                            }
+                            MessageBox.Show("Has perdido el turno");
 
                         }
                     }

@@ -106,7 +106,7 @@ namespace Trivial
             //Iniciamos el temporizador y lo mostramos
             timer1.Start();
             segundos = 20;
-            timer_label.Text=segundos. ToString();
+            timer_label.Text=segundos.ToString();
 
             //Definimos el valor incial
             acierto = 0;

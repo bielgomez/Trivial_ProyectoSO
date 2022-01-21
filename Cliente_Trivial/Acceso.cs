@@ -201,7 +201,7 @@ namespace Trivial
                         case 7: //Respuesta a la peticion de invitacion
                             if (mensaje == "0")
                                 MessageBox.Show("Invitaciones enviadas correctamente");
-                            else
+                            else//////
                             {
                                 //Recibimos las invitaciones fallidas
                                 string[] noDisponibles = mensaje.Split('*');
