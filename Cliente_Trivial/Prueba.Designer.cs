@@ -43,7 +43,7 @@
             // Enviar
             // 
             this.Enviar.BackColor = System.Drawing.Color.White;
-            this.Enviar.Font = new System.Drawing.Font("Palatino Linotype", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Enviar.Font = new System.Drawing.Font("Ravie", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Enviar.Location = new System.Drawing.Point(336, 411);
             this.Enviar.Name = "Enviar";
             this.Enviar.Size = new System.Drawing.Size(132, 49);
@@ -55,70 +55,80 @@
             // opcion0
             // 
             this.opcion0.AutoSize = true;
+            this.opcion0.BackColor = System.Drawing.Color.Transparent;
+            this.opcion0.Font = new System.Drawing.Font("Ravie", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.opcion0.ForeColor = System.Drawing.Color.White;
-            this.opcion0.Location = new System.Drawing.Point(120, 153);
+            this.opcion0.Location = new System.Drawing.Point(197, 177);
             this.opcion0.Name = "opcion0";
-            this.opcion0.Size = new System.Drawing.Size(80, 20);
+            this.opcion0.Size = new System.Drawing.Size(97, 23);
             this.opcion0.TabIndex = 1;
             this.opcion0.TabStop = true;
             this.opcion0.Text = "OpcionA";
-            this.opcion0.UseVisualStyleBackColor = true;
+            this.opcion0.UseVisualStyleBackColor = false;
             // 
             // opcion1
             // 
             this.opcion1.AutoSize = true;
+            this.opcion1.BackColor = System.Drawing.Color.Transparent;
+            this.opcion1.Font = new System.Drawing.Font("Ravie", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.opcion1.ForeColor = System.Drawing.Color.White;
-            this.opcion1.Location = new System.Drawing.Point(120, 213);
+            this.opcion1.Location = new System.Drawing.Point(197, 237);
             this.opcion1.Name = "opcion1";
-            this.opcion1.Size = new System.Drawing.Size(80, 20);
+            this.opcion1.Size = new System.Drawing.Size(96, 23);
             this.opcion1.TabIndex = 2;
             this.opcion1.TabStop = true;
             this.opcion1.Text = "OpcionB";
-            this.opcion1.UseVisualStyleBackColor = true;
+            this.opcion1.UseVisualStyleBackColor = false;
             // 
             // opcion2
             // 
             this.opcion2.AutoSize = true;
+            this.opcion2.BackColor = System.Drawing.Color.Transparent;
+            this.opcion2.Font = new System.Drawing.Font("Ravie", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.opcion2.ForeColor = System.Drawing.Color.White;
-            this.opcion2.Location = new System.Drawing.Point(120, 269);
+            this.opcion2.Location = new System.Drawing.Point(197, 293);
             this.opcion2.Name = "opcion2";
-            this.opcion2.Size = new System.Drawing.Size(80, 20);
+            this.opcion2.Size = new System.Drawing.Size(95, 23);
             this.opcion2.TabIndex = 3;
             this.opcion2.TabStop = true;
             this.opcion2.Text = "OpcionC";
-            this.opcion2.UseVisualStyleBackColor = true;
+            this.opcion2.UseVisualStyleBackColor = false;
             // 
             // opcion3
             // 
             this.opcion3.AutoSize = true;
+            this.opcion3.BackColor = System.Drawing.Color.Transparent;
+            this.opcion3.Font = new System.Drawing.Font("Ravie", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.opcion3.ForeColor = System.Drawing.Color.White;
-            this.opcion3.Location = new System.Drawing.Point(120, 324);
+            this.opcion3.Location = new System.Drawing.Point(197, 348);
             this.opcion3.Name = "opcion3";
-            this.opcion3.Size = new System.Drawing.Size(81, 20);
+            this.opcion3.Size = new System.Drawing.Size(96, 23);
             this.opcion3.TabIndex = 4;
             this.opcion3.TabStop = true;
             this.opcion3.Text = "OpcionD";
-            this.opcion3.UseVisualStyleBackColor = true;
+            this.opcion3.UseVisualStyleBackColor = false;
             // 
             // pregunta_label
             // 
             this.pregunta_label.AutoSize = true;
-            this.pregunta_label.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pregunta_label.BackColor = System.Drawing.Color.Transparent;
+            this.pregunta_label.Font = new System.Drawing.Font("Ravie", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pregunta_label.ForeColor = System.Drawing.Color.White;
-            this.pregunta_label.Location = new System.Drawing.Point(116, 89);
+            this.pregunta_label.Location = new System.Drawing.Point(285, 106);
             this.pregunta_label.Name = "pregunta_label";
-            this.pregunta_label.Size = new System.Drawing.Size(164, 24);
+            this.pregunta_label.Size = new System.Drawing.Size(206, 24);
             this.pregunta_label.TabIndex = 5;
             this.pregunta_label.Text = "PREGUNTA_label";
             // 
             // cat_label
             // 
             this.cat_label.AutoSize = true;
-            this.cat_label.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cat_label.BackColor = System.Drawing.Color.Transparent;
+            this.cat_label.Font = new System.Drawing.Font("Ravie", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cat_label.ForeColor = System.Drawing.Color.White;
-            this.cat_label.Location = new System.Drawing.Point(313, 18);
+            this.cat_label.Location = new System.Drawing.Point(193, 37);
             this.cat_label.Name = "cat_label";
-            this.cat_label.Size = new System.Drawing.Size(173, 24);
+            this.cat_label.Size = new System.Drawing.Size(230, 24);
             this.cat_label.TabIndex = 6;
             this.cat_label.Text = "CATEGORIA_label";
             // 
@@ -130,11 +140,12 @@
             // timer_label
             // 
             this.timer_label.AutoSize = true;
-            this.timer_label.Font = new System.Drawing.Font("Palatino Linotype", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timer_label.BackColor = System.Drawing.Color.Transparent;
+            this.timer_label.Font = new System.Drawing.Font("Ravie", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timer_label.ForeColor = System.Drawing.Color.White;
-            this.timer_label.Location = new System.Drawing.Point(571, 411);
+            this.timer_label.Location = new System.Drawing.Point(590, 412);
             this.timer_label.Name = "timer_label";
-            this.timer_label.Size = new System.Drawing.Size(112, 38);
+            this.timer_label.Size = new System.Drawing.Size(151, 38);
             this.timer_label.TabIndex = 7;
             this.timer_label.Text = "TIMER";
             // 
@@ -143,7 +154,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(811, 505);
+            this.ClientSize = new System.Drawing.Size(814, 515);
             this.Controls.Add(this.timer_label);
             this.Controls.Add(this.cat_label);
             this.Controls.Add(this.pregunta_label);

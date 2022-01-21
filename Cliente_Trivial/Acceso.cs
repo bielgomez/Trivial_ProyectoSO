@@ -40,7 +40,7 @@ namespace Trivial
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            Bitmap portada = new Bitmap(Application.StartupPath + @"\portada.png");
+            Bitmap portada = new Bitmap(Application.StartupPath + @"\fondo1.png");
             this.BackgroundImage = portada;
             this.BackgroundImageLayout = ImageLayout.Stretch;
         }
@@ -93,7 +93,7 @@ namespace Trivial
         private void AtenderServidor()
         {
             bool adios = false;
-            while (adios == false)
+            while (adios==false)
             {
                 try
                 {
@@ -103,7 +103,6 @@ namespace Trivial
                     string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
                     int codigo = Convert.ToInt32(trozos[0]);
                     string mensaje = trozos[1].Split('\0')[0];
-
                     //Decidimos a quien le pasamos la información
                     switch (codigo)
                     {
@@ -248,9 +247,9 @@ namespace Trivial
                             break;
                         case 12: //Notificación del movimiento de otro jugador "idPartida*nombreJugador*rolJugador*nuevaCasilla"
                             //Enviar al tablero correspondiente 
-                            idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
-                            numTablero = DamePosicionLista(tableros, idPartida);
-                            tableros[numTablero].setCasillaJugador(mensaje);
+                            //idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
+                            //numTablero = DamePosicionLista(tableros, idPartida);
+                            //tableros[numTablero].setCasillaJugador(mensaje);
                             break;
 
                         case 13: //Notificacion del resultado de un jugador "idPartida*nombreJugador*resultado(0,1,2)*(siguienteTurno*quesito)"
@@ -312,6 +311,7 @@ namespace Trivial
         private void Acceso_Load(object sender, EventArgs e)
         {
             //Partes ocultas al inicio
+            registroBox.Visible = false;
             consultaBox.Visible = false;
             consultasButton.Visible = false;
             ConectadosGridView.Visible = false;
@@ -321,6 +321,7 @@ namespace Trivial
             conexion.Visible = false;
             invitadosGridView.Visible = false;
             label6.Visible = false;
+            inicio.Visible = false;
 
             //Fondo
             candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
@@ -361,12 +362,14 @@ namespace Trivial
                     consultaBox.Visible = false;
                     consultasButton.Visible = false;
                     accederBox.Visible = true;
-                    registroBox.Visible = true;
+                    registroBox.Visible = false;
                     ConectadosGridView.Visible = false;
                     labelConectados.Visible = false;
                     nameUserTxt.Visible = false;
                     invitarButton.Text = "Invitar";
                     invitarButton.Visible = false;
+                    regLabel.Visible = true;
+                    regVisible.Visible = true; 
 
                     //Vaciamos las casillas por si habian quedado rellenadas
                     NameBox.Clear();
@@ -401,6 +404,10 @@ namespace Trivial
                 
                 conexion.Text = "Desconectar";
                 conexion.Visible = true;
+                regLabel.Visible=false;
+                regVisible.Visible=false;
+                inicio.Visible=false;
+
                 c = 1;
 
                 //Ponemos en marcha el thread que atenderá los mensajes de los clientes
@@ -666,5 +673,29 @@ namespace Trivial
                 CrearInvitadosGridView(invitados);
 
         }
+
+        private void accederBox_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void regVisible_Click(object sender, EventArgs e)
+        {
+            registroBox.Visible = true;
+            regVisible.Visible = false;
+            accederBox.Visible = false; 
+            regLabel.Visible = false;
+            inicio.Visible=true;
+        }
+
+        private void inicio_Click(object sender, EventArgs e)
+        {
+            registroBox.Visible = false;
+            inicio.Visible = false;
+            regVisible.Visible = true;
+            accederBox.Visible = true;
+            regLabel.Visible = true;
+        }
     }
+    
 }

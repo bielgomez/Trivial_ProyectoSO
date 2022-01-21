@@ -51,6 +51,7 @@ namespace Trivial
             this.jug2Box = new System.Windows.Forms.PictureBox();
             this.jug3Box = new System.Windows.Forms.PictureBox();
             this.jug4Box = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tableroBox)).BeginInit();
@@ -65,23 +66,25 @@ namespace Trivial
             ((System.ComponentModel.ISupportInitialize)(this.jug2Box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jug3Box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jug4Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // playersGridView
             // 
             this.playersGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.playersGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.playersGridView.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.playersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.playersGridView.Location = new System.Drawing.Point(40, 154);
             this.playersGridView.Name = "playersGridView";
             this.playersGridView.RowHeadersWidth = 51;
             this.playersGridView.RowTemplate.Height = 24;
-            this.playersGridView.Size = new System.Drawing.Size(240, 150);
+            this.playersGridView.Size = new System.Drawing.Size(198, 150);
             this.playersGridView.TabIndex = 0;
             // 
             // dado
             // 
-            this.dado.Location = new System.Drawing.Point(1062, 464);
+            this.dado.Location = new System.Drawing.Point(1182, 12);
             this.dado.Name = "dado";
             this.dado.Size = new System.Drawing.Size(101, 97);
             this.dado.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -94,7 +97,7 @@ namespace Trivial
             this.dadolbl.AutoSize = true;
             this.dadolbl.BackColor = System.Drawing.Color.Transparent;
             this.dadolbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dadolbl.Location = new System.Drawing.Point(1050, 443);
+            this.dadolbl.Location = new System.Drawing.Point(1170, 118);
             this.dadolbl.Name = "dadolbl";
             this.dadolbl.Size = new System.Drawing.Size(113, 18);
             this.dadolbl.TabIndex = 15;
@@ -137,16 +140,16 @@ namespace Trivial
             // 
             // ChatTxt
             // 
-            this.ChatTxt.Location = new System.Drawing.Point(40, 539);
+            this.ChatTxt.Location = new System.Drawing.Point(40, 854);
             this.ChatTxt.Name = "ChatTxt";
-            this.ChatTxt.Size = new System.Drawing.Size(297, 22);
+            this.ChatTxt.Size = new System.Drawing.Size(151, 22);
             this.ChatTxt.TabIndex = 19;
             // 
             // ChatBtn
             // 
-            this.ChatBtn.Location = new System.Drawing.Point(355, 539);
+            this.ChatBtn.Location = new System.Drawing.Point(210, 854);
             this.ChatBtn.Name = "ChatBtn";
-            this.ChatBtn.Size = new System.Drawing.Size(75, 23);
+            this.ChatBtn.Size = new System.Drawing.Size(70, 23);
             this.ChatBtn.TabIndex = 20;
             this.ChatBtn.Text = "Enviar";
             this.ChatBtn.UseVisualStyleBackColor = true;
@@ -158,7 +161,7 @@ namespace Trivial
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(163, 355);
+            this.label1.Location = new System.Drawing.Point(37, 660);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 18);
             this.label1.TabIndex = 22;
@@ -166,10 +169,10 @@ namespace Trivial
             // 
             // ChatBox
             // 
-            this.ChatBox.Location = new System.Drawing.Point(40, 376);
+            this.ChatBox.Location = new System.Drawing.Point(40, 691);
             this.ChatBox.Name = "ChatBox";
             this.ChatBox.ReadOnly = true;
-            this.ChatBox.Size = new System.Drawing.Size(297, 157);
+            this.ChatBox.Size = new System.Drawing.Size(240, 157);
             this.ChatBox.TabIndex = 23;
             this.ChatBox.Text = "";
             // 
@@ -273,11 +276,22 @@ namespace Trivial
             this.jug4Box.TabIndex = 35;
             this.jug4Box.TabStop = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Location = new System.Drawing.Point(666, 289);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox1.TabIndex = 36;
+            this.pictureBox1.TabStop = false;
+            // 
             // Tablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1351, 596);
+            this.ClientSize = new System.Drawing.Size(1351, 891);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.jug4Box);
             this.Controls.Add(this.jug3Box);
             this.Controls.Add(this.jug2Box);
@@ -318,6 +332,7 @@ namespace Trivial
             ((System.ComponentModel.ISupportInitialize)(this.jug2Box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.jug3Box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.jug4Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,5 +362,6 @@ namespace Trivial
         private System.Windows.Forms.PictureBox jug2Box;
         private System.Windows.Forms.PictureBox jug3Box;
         private System.Windows.Forms.PictureBox jug4Box;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

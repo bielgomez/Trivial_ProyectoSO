@@ -13,7 +13,7 @@ namespace Trivial
         string nombre;
         string rol;
         int rolnum;
-        int casilla; 
+        int casilla;    // Numero de la casilla en la que estás
         Bitmap bitmap;  // Imagen de emboltorio
         int[] quesitos; // ORDEN: Verde, Azul, Amarillo, Lila, Naranja, Rojo
 

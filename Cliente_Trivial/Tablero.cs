@@ -14,6 +14,7 @@ namespace Trivial
 {
     public partial class Tablero : Form
     {
+        //Situacion actual
         int partida; 
         int miCasilla;
         int numDado;
@@ -30,7 +31,7 @@ namespace Trivial
 
         List<Jugador> jugadors;   //Jugadores de la partida: host, jug2, (jug3, jug4)
         ListaCasillas casillas;   //Casillas tablero
-        List<PictureBox> ubicaciones;  //Indicaciones posibles movimientso
+        List<PictureBox> ubicaciones;  //Indicaciones posibles movimientos
         List<PictureBox> piezas;       //Pieza de cada jugador. En el mismo orden que "jugadors"
 
         // Quesitos
@@ -84,11 +85,7 @@ namespace Trivial
             this.quesitos = new List<Bitmap>();
             Bitmap[] bitlist = new Bitmap[] { qV, qB, qA, qL, qN, qR };
             quesitos.AddRange(bitlist);
-            // Piezas                        
-            this.piezas = new List<PictureBox>();
-            PictureBox[] emlist = new PictureBox[] { hostBox, jug2Box, jug3Box, jug4Box };
-            piezas.AddRange(emlist);
-
+            
             this.xorigen = (tableroBox.Size.Width / 2) + tableroBox.Location.X;
             this.yorigen = tableroBox.Size.Height / 2 + tableroBox.Location.Y;
 
@@ -135,23 +132,33 @@ namespace Trivial
             }
             tableroClick = false;
             //Empezamos en la casilla central
-            miCasilla = 1000; 
+            miCasilla = 1000;
             // Colocar las piezas de todos los jugadores
+
+            this.piezas = new List<PictureBox>();
+            PictureBox[] emlist = new PictureBox[] { hostBox, jug2Box, jug3Box, jug4Box };
+            piezas.AddRange(emlist);
             int i = 0;
-            while(i<piezas.Count)
+            Bitmap bitmap = MakeNewImage(jugadors[i]);
+            while (i<piezas.Count)
             {
-                if(i < jugadors.Count)
-                {
-                    Bitmap bitmap = MakeNewImage(jugadors[i]);
-                    piezas[i].Image = (Image)bitmap;
-                    piezas[i].SizeMode = PictureBoxSizeMode.StretchImage;
-                    piezas[i].Visible = true;
-                    piezas[i].Location = new Point(Convert.ToInt32(xorigen - hostBox.Size.Width / 2), Convert.ToInt32(yorigen - hostBox.Size.Height / 2));
-                }                
-                else
-                {
-                    piezas[i].Visible = false;
-                }
+                piezas[i].Image = (Image)bitmap;
+                piezas[i].SizeMode = PictureBoxSizeMode.CenterImage;
+                piezas[i].Visible = true;
+                piezas[i].BackColor = Color.Transparent;
+                piezas[i].Location = new Point(Convert.ToInt32(xorigen - hostBox.Size.Width / 2), Convert.ToInt32(yorigen - hostBox.Size.Height / 2));
+                //if(i < jugadors.Count)
+                //{
+                //    Bitmap bitmap = MakeNewImage(jugadors[i]);
+                //    piezas[i].Image = (Image)bitmap;
+                //    piezas[i].SizeMode = PictureBoxSizeMode.StretchImage;
+                //    piezas[i].Visible = true;
+                //    piezas[i].Location = new Point(Convert.ToInt32(0 - hostBox.Size.Width / 2), Convert.ToInt32(0 - hostBox.Size.Height / 2));
+                //}                
+                //else
+                //{
+                //    piezas[i].Visible = false;
+                //}
                 i++;
             }
         }        
@@ -210,7 +217,7 @@ namespace Trivial
         }
         // INEFICIENTEEE --------------------------------------------------------------------
         public void moverCasillaJugadores()
-        {
+        {            
             foreach(Jugador j in this.jugadors)
             {
                 int idc = j.GetCasilla();
@@ -221,7 +228,7 @@ namespace Trivial
             }
         }
         //Actualizar turno: una vez se ha respondido, se notifica el resultado
-        public void ActualizarResultadoPregunta(string mensaje) //"idPartida*nombreJugador*resultado(0,1,2)*(siguienteTurno*quesito)"
+        public void ActualizarResultadoPregunta(string mensaje) //"idPartida*nombreJugadorQueAcabaDeTirar*resultado(0,1,2)*(siguienteTurno*quesito)"
         {
             // 0 -> mal contestada pero se actualiza turno
             // 1 -> bien contestada pero sin quesito
@@ -270,7 +277,7 @@ namespace Trivial
                 {
                     miTurno = false;
                     dadoClick = false;
-                    MessageBox.Show("Es el turno de " + trozos[1]);
+                    MessageBox.Show("Es el turno de " + trozos[3]);
                 }
             }
             else
@@ -318,7 +325,8 @@ namespace Trivial
                     Casilla c = casillas.DameCasilla(movimientos[m]); 
                     ubicaciones[m].Location = new Point(Convert.ToInt32(c.GetX() - xm), Convert.ToInt32(c.GetY() - ym));
                     ubicaciones[m].Visible = true;
-                    m++;
+                    ubicaciones[m].BackColor = Color.Transparent;
+                   m++;
                 }
                 texto.Remove(texto.Length - 1);
                 movimientosLbl.Text = "Posibles movimientos: " + texto;
@@ -415,7 +423,7 @@ namespace Trivial
         {
             List<Bitmap> listBit = new List<Bitmap>();
             listBit.Add(jug.GetEmboltorioBitmap());
-
+            
             int p = 0;
             while(p < jug.GetQuesitos().Length)
             {
@@ -428,10 +436,15 @@ namespace Trivial
             int i = 1;
             while (i < listBit.Count)
             {
-                Graphics g = Graphics.FromImage(listBit[0]);
-                g.DrawImage(listBit[i], new Point(0, 0));
+                if (listBit[i] != null)
+                {
+                    Graphics g = Graphics.FromImage(listBit[0]);
+                    g.DrawImage(listBit[i], new Point(0, 0));
+                }
+                
                 i++;
             }
+            
             return listBit[0];
         }
         private void tableroBox_Click(object sender, EventArgs e)
@@ -444,7 +457,6 @@ namespace Trivial
 
             if ((miTurno == true) && (tableroClick == true)) //1
             {
-                MessageBox.Show("Click tablero");
                 int idcasilla; //2
 
                 MouseEventArgs me = (MouseEventArgs)e;
@@ -578,17 +590,13 @@ namespace Trivial
                         }
 
                     }
-                    MessageBox.Show("Estás en la casilla: " + Convert.ToString(idcasilla));
                 }
                 else
                     idcasilla = -1;
 
-                //el ID donde se ha picado = idcasilla
-
-
                 bool encontrado = false; //3: es factible ese id?
                 int n = 0;
-                while ((n<this.casillas.DameCasilla(miCasilla).GetMovimientos(numDado).Count) && (encontrado==false))
+                while ((n<this.casillas.DameCasilla(miCasilla).GetMovimientos(numDado).Count) && (encontrado==false)&&(idcasilla!=-1))
                 {
                     if (this.casillas.DameCasilla(miCasilla).GetMovimientos(numDado)[n] == idcasilla)
                         encontrado = true;
@@ -649,7 +657,7 @@ namespace Trivial
                         Prueba formPrueba = new Prueba();
                         formPrueba.SetCategory(categoria);
                         formPrueba.ShowDialog();
-                        int acierto = formPrueba.GetAcierto();
+                        int acierto = formPrueba.GetAcierto();                        
                         //acierto = 1 == pregunta acertada
                         if ((acierto == 1) && (miCasilla % 7 == 0) && (miCasilla < 42))
                         {

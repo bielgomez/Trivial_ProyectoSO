@@ -38,6 +38,8 @@ namespace Trivial
             this.BackgroundImage = (Image)fondo;
             this.BackgroundImageLayout = ImageLayout.Center;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.BackgroundImageLayout = ImageLayout.Stretch;
+
         }
 
         //Función para pasarle la categoría al formulario
@@ -162,5 +164,7 @@ namespace Trivial
                 this.Close();
             }
         }
+
+
     }
 }
