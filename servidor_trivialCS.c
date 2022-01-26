@@ -33,13 +33,13 @@ typedef struct{
 	int estado;
 	int numInvitados;
 	char host[25];
-	int puntosHost;
+	int puntosHost[6];
 	char jug2[25];
-	int puntosJug2;
+	int puntosJug2[6];
 	char jug3[25];
-	int puntosJug3;
+	int puntosJug3[6];
 	char jug4[25];
-	int puntosJug4;
+	int puntosJug4[6];
 	char horaInicio;
 }Partidas;
 
@@ -234,7 +234,7 @@ int DameJugadorMasPuntos(char nombre[25]){
 int DameListaConectados(char lista[512]){
 	//Retorna 0 --> Todo OK(+ char con la lista de conectados : user1/user2/user3/ etc) ; -1 --> Lista vacia (+ lista = '\0')
 	
-	strcpy(lista,"\0");
+	lista[0]='\0';
 	if (listaC.num != 0){
 		int i;
 		for (i=0;i<listaC.num;i++)
@@ -285,7 +285,7 @@ int AnadirAListaConectados (char nombre[25],int socket){
 		listaC.conectados[listaC.num]=nuevoUsuario;
 		posicionLista = listaC.num;
 		listaC.num = listaC.num+1;
-		printf("Usuario %s añadido\n", nombre);
+		printf("Socket %d añadido\n", socket);
 	}
 	return posicionLista;
 }
@@ -318,14 +318,14 @@ void RetirarDeListaConectados (char nombre[25],int socket) {
 		int encontrado = 0;
 		
 		while(n<listaC.num && encontrado==0){
-			if (strcmp(listaC.conectados[n].nombre,nombre)==0){
+			if (listaC.conectados[n].socket == socket){
 				encontrado = 1;
 			}
 			else
 				n++;
 		}
 		if (encontrado==1){
-			while(n<listaC.num){
+			while(n<listaC.num-1){
 				listaC.conectados[n]=listaC.conectados[n+1];
 				n++;
 			}
@@ -455,13 +455,18 @@ int CrearPartida(char nombre[25]){
 		{
 			tablaP[i].estado=1;
 			strcpy(tablaP[i].host,nombre);
-			tablaP[i].puntosHost = 0;
+			int n;
+			for(n=0;n<6;n++)
+				tablaP[i].puntosHost[n] = 0;
 			strcpy(tablaP[i].jug2,"0");
-			tablaP[i].puntosJug2 = 0;
+			for(n=0;n<6;n++)
+				tablaP[i].puntosJug2[n] = 0;
 			strcpy(tablaP[i].jug3,"0");
-			tablaP[i].puntosJug3 = 0;
+			for(n=0;n<6;n++)
+				tablaP[i].puntosJug3[n] = 0;
 			strcpy(tablaP[i].jug4,"0");
-			tablaP[i].puntosJug4 = 0;
+			for(n=0;n<6;n++)
+				tablaP[i].puntosJug4[n] = 0;
 			tablaP[i].horaInicio = 0;			
 			encontrado=1;
 		}
@@ -588,13 +593,18 @@ void EliminarPartida(int partida){
 	tablaP[partida].estado=0;
 	tablaP[partida].numInvitados=-1;
 	strcpy(tablaP[partida].host,"0");
-	tablaP[partida].puntosHost = 0;
+	int n;
+	for(n=0;n<6;n++)
+		tablaP[partida].puntosHost[n] = 0;
 	strcpy(tablaP[partida].jug2,"0");
-	tablaP[partida].puntosJug2 = 0;
+	for(n=0;n<6;n++)
+		tablaP[partida].puntosJug2[n] = 0;
 	strcpy(tablaP[partida].jug3,"0");
-	tablaP[partida].puntosJug3 = 0;
+	for(n=0;n<6;n++)
+		tablaP[partida].puntosJug3[n] = 0;
 	strcpy(tablaP[partida].jug4,"0");
-	tablaP[partida].puntosJug4 = 0;
+	for(n=0;n<6;n++)
+		tablaP[partida].puntosJug4[n] = 0;
 	tablaP[partida].horaInicio = 0;
 }
 //Retorna los jugadores de una partida recibida como parametro en jugadores i el numero total de jugadores
@@ -653,33 +663,127 @@ void NotificaResultadoDado(int idPartida, int resDado, char tirador[25], int soc
 	EnviaNotificacion(notificacion,idPartida,socket); //no nos enviamos a nosotros mismos
 }
 //Suma puntos al jugador que ha acertado en una casilla de quesito
-int SumaPuntos(int idPartida, char rol){
-	//Retorna 1 si despues de sumar alguien llega a 6 puntos (GANA), 0 si no.
+int SumaPuntos(int idPartida, char rol[10],char categoria[100]){
+	//Retorna 1 si despues de sumar alguien llega a 6 quesitos (GANA), 0 si no.
 	int ganador = 0;
+	//Sumamos el punto a la categoria correspondiente
 	if (strcmp(rol,"host")==0){
-		tablaP[idPartida].puntosHost = tablaP[idPartida].puntosHost + 1;
-		if(tablaP[idPartida].puntosHost>=6){
-			ganador = 1;
+		if (strcmp(categoria,"Ciencia")==0)
+			tablaP[idPartida].puntosHost[0] = 1;
+		
+		else if (strcmp(categoria,"Geografía")==0)
+			tablaP[idPartida].puntosHost[1] = 1;
+		
+		else if (strcmp(categoria,"Historia")==0)
+			tablaP[idPartida].puntosHost[2] = 1;
+
+		else if (strcmp(categoria,"Entretenimiento")==0)
+			tablaP[idPartida].puntosHost[3] = 1;
+
+		else if (strcmp(categoria,"Deportes")==0)
+			tablaP[idPartida].puntosHost[4] = 1;
+		
+		else
+			tablaP[idPartida].puntosHost[5] = 1;
+		
+		//Comprovamos si ya estan los 6 quesitos
+		int n;
+		int suma = 0;
+		for(n=0;n<6;n++){
+			if(tablaP[idPartida].puntosHost[n]==1)
+				suma = suma+1;
 		}
+		if (suma >= 6)
+			ganador = 1;
 	}
 	else if (strcmp(rol,"jug2")==0){
-		tablaP[idPartida].puntosJug2 = tablaP[idPartida].puntosJug2 + 1;
-		if(tablaP[idPartida].puntosJug2>=6){
-			ganador = 1;
+		if (strcmp(categoria,"Ciencia")==0)
+			tablaP[idPartida].puntosJug2[0] = 1;
+		
+		else if (strcmp(categoria,"Geografía")==0)
+			tablaP[idPartida].puntosJug2[1] = 1;
+		
+		else if (strcmp(categoria,"Historia")==0)
+			tablaP[idPartida].puntosJug2[2] = 1;
+		
+		else if (strcmp(categoria,"Entretenimiento")==0)
+			tablaP[idPartida].puntosJug2[3] = 1;
+		
+		else if (strcmp(categoria,"Deportes")==0)
+			tablaP[idPartida].puntosJug2[4] = 1;
+		
+		else
+			tablaP[idPartida].puntosJug2[5] = 1;
+		
+		//Comprovamos si ya estan los 6 quesitos
+		int n;
+		int suma = 0;
+		for(n=0;n<6;n++){
+			if(tablaP[idPartida].puntosJug2[n]==1)
+				suma = suma+1;
 		}
+		if (suma >= 6)
+			ganador = 1;
 	}
 	else if (strcmp(rol,"jug3")==0){
-		tablaP[idPartida].puntosJug3 = tablaP[idPartida].puntosJug3 + 1;
-		if(tablaP[idPartida].puntosJug3>=6){
-			ganador = 1;
+		if (strcmp(categoria,"Ciencia")==0)
+			tablaP[idPartida].puntosJug3[0] = 1;
+		
+		else if (strcmp(categoria,"Geografía")==0)
+			tablaP[idPartida].puntosJug3[1] = 1;
+		
+		else if (strcmp(categoria,"Historia")==0)
+			tablaP[idPartida].puntosJug3[2] = 1;
+		
+		else if (strcmp(categoria,"Entretenimiento")==0)
+			tablaP[idPartida].puntosJug3[3] = 1;
+		
+		else if (strcmp(categoria,"Deportes")==0)
+			tablaP[idPartida].puntosJug3[4] = 1;
+		
+		else
+			tablaP[idPartida].puntosJug3[5] = 1;
+		
+		//Comprovamos si ya estan los 6 quesitos
+		int n;
+		int suma = 0;
+		for(n=0;n<6;n++){
+			if(tablaP[idPartida].puntosJug3[n]==1)
+				suma = suma+1;
 		}
+		if (suma >= 6)
+			ganador = 1;
 	}
 	else{
-		tablaP[idPartida].puntosJug4 = tablaP[idPartida].puntosJug4 + 1;
-		if(tablaP[idPartida].puntosJug4>=6){
-			ganador = 1;
+		if (strcmp(categoria,"Ciencia")==0)
+			tablaP[idPartida].puntosJug4[0] = 1;
+		
+		else if (strcmp(categoria,"Geografía")==0)
+			tablaP[idPartida].puntosJug4[1] = 1;
+		
+		else if (strcmp(categoria,"Historia")==0)
+			tablaP[idPartida].puntosJug4[2] = 1;
+		
+		else if (strcmp(categoria,"Entretenimiento")==0)
+			tablaP[idPartida].puntosJug4[3] = 1;
+		
+		else if (strcmp(categoria,"Deportes")==0)
+			tablaP[idPartida].puntosJug4[4] = 1;
+		
+		else
+			tablaP[idPartida].puntosJug4[5] = 1;
+		
+		//Comprovamos si ya estan los 6 quesitos
+		int n;
+		int suma = 0;
+		for(n=0;n<6;n++){
+			if(tablaP[idPartida].puntosJug4[n]==1)
+				suma = suma+1;
 		}
+		if (suma >= 6)
+			ganador = 1;
 	}
+	
 	return ganador;
 }
 //Retorna el id de la BBDD (Historico) que le corresponde a la partida
@@ -970,7 +1074,7 @@ int *AtenderCliente(void *socket){
 				{	
 					int partida=atoi(p);
 					FinPartida(partida,nombre);
-					GuardarHistorico(partida,NULL);
+					//GuardarHistorico(partida,NULL);
 					printf("[%d] Fin Partida %d\n",sock_conn, partida);
 					EliminarPartida(partida);
 					p=strtok(NULL,"/");
@@ -1162,7 +1266,7 @@ int *AtenderCliente(void *socket){
 				int partida=atoi(p);
 				FinPartida(partida,nombre);
 				pthread_mutex_lock(&mutex);
-				GuardarHistorico(partida,NULL);
+				//GuardarHistorico(partida,NULL);
 				EliminarPartida(partida);
 				pthread_mutex_unlock(&mutex);
 			}
@@ -1196,6 +1300,7 @@ int *AtenderCliente(void *socket){
 				strcpy(miRol,p);
 				p=strtok(NULL,"/");
 				int resultado = atoi(p);
+				char quesito[100];
 
 				char notificacion[500];
 				sprintf(notificacion,"13/%d*%s*%d",partida,nombre,resultado);
@@ -1208,33 +1313,32 @@ int *AtenderCliente(void *socket){
 					
 					if(resultado == 2){
 						p = strtok(NULL,"/");
-						char quesito[20];
 						strcpy(quesito,p);
 						sprintf(notificacion,"%s*%s",notificacion,quesito);
 					}
 				}
-				EnviaNotificacion(notificacion,partida,sock_conn);
+				EnviaNotificacion(notificacion,partida,sock_conn); //Enviamos a todos (tambien al usuario del thread)
 
 				//Sumamos quesito (1 punto) en el caso de recibir un 2
 				//En el caso que alguien llegeue a 6 puntos (6 quesitos) se acaba la partida porque
 				//este jugador ha ganado.
 				if(resultado == 2){
 					pthread_mutex_lock(&mutex);
-					int ganador = SumaPuntos(partida,miRol);
+					int ganador = SumaPuntos(partida,miRol,quesito);
 					pthread_mutex_unlock(&mutex);
 
 					if (ganador == 1){
 						//Se acaba la partida con un ganador
 						sprintf(notificacion,"14/%d*%s",partida,nombre);
-						EnviaNotificacion(notificacion,partida,-1); //Enviamos tmb al ganador para que se sepa quien ha ganado
+						EnviaNotificacion(notificacion,partida,-1);//Enviamos tmb al ganador para que se sepa quien ha ganado
 						FinPartida(partida,nombre);
 						//Guardamos el historico
-						pthread_mutex_lock(&mutex);
-						int guardar = GuardarHistorico(partida,nombre);
-						pthread_mutex_unlock(&mutex);
-						if(guardar == -1){
-							printf("No se han podido guardar los datos de esta partida.\nPartida Perdida.\n");
-						}
+						//pthread_mutex_lock(&mutex);
+						//int guardar = GuardarHistorico(partida,nombre);
+						//pthread_mutex_unlock(&mutex);
+						//if(guardar == -1){
+							//printf("No se han podido guardar los datos de esta partida.\nPartida Perdida.\n");
+						//}
 						//Eliminamos la partida
 						pthread_mutex_lock(&mutex);
 						EliminarPartida(partida);
@@ -1297,7 +1401,7 @@ int main(int argc, char *argv[]) {
 	// asocia el socket a cualquiera de las IP de la maquina. 
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
-	// escucharemos en el port 50051
+	// escucharemos en el port 9080
 	serv_adr.sin_port = htons(9080);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0){
 		printf ("Error al bind\n");
