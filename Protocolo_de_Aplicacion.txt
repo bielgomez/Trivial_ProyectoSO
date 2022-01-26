@@ -27,4 +27,4 @@ PROTOCOLO DE APLICACIÓN
     "12/idPartida/mensaje" (Enviar mensaje al chat) 						->    						-
 			    - 									<-    "15/idPartida*nombre*mensaje" (Notificación de mensaje nuevo en el chat)
 			    -  									<-    "16/idPartida*rechazador" (Notifica que la partida no se inicia porque nombre ha rechazado)
-
+    "13/usuario/contraseña" (Darse de baja de la BBDD) 						->    "17/X" X->int (Respuesta a petición de retirada de la BBDD) [0-OK,1-Usuario no existe,2-Contrasenya Incorrecta,3-Usuario conectado,-1-Error BBDD]

@@ -624,7 +624,7 @@ int DameJugadoresPartida(int partida, char jugadores[500]){
 //Retorna los id de las partidas en las que participa el jugador recibido como parámetro
 void DamePartidasJugador(char nombre[25], char partidas[100]){
 	int i=0;
-	strcpy(partidas,"\0");
+	partidas[0]='\0';
 	while(i<len_tablaP)
 	{
 		if((strcmp(nombre,tablaP[i].host)==0)||(strcmp(nombre,tablaP[i].jug2)==0)||(strcmp(nombre,tablaP[i].jug3)==0)||(strcmp(nombre,tablaP[i].jug4)==0))
@@ -1014,6 +1014,40 @@ int GuardarHistorico(int idPartida, char ganador[25]){
 	}
 
 }
+//Eliminar a jugador de la BBDD
+int EliminarJugadorBBDD(char nombre[25]){
+	//Retorna 0-> Eliminado Correctamente , -1 -> Error BBDD
+	
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	int err;
+	
+	//Buscamos las partidas donde este jugador ha jugado 
+	char consulta[1000];
+	char partidas[500];
+	DamePartidasJugador(nombre,partidas);
+	
+	//Eliminamos al jugador (i los registros de registros)
+	sprintf(consulta,"DELETE FROM jugadores WHERE jugadores.nombre='%s';",nombre);
+	err=mysql_query (conn, consulta);
+	if (err!=0){
+		return -1;
+	}
+	else{
+		//Eliminamos las partidas donde participa este jugador
+		char *p = strtok(partidas,"/");
+		while (p != NULL){
+			int partida = atoi(p);
+			sprintf(consulta,"DELETE FROM partidas WHERE partidas.id=%d;",partida);
+			err=mysql_query (conn, consulta);
+			if (err!=0){
+				return -1;
+			}
+			p = strtok(NULL,"/");
+		}
+		return 0;
+	}
+}
 
 //Atencion a los diferentes clientes (threads)
 int *AtenderCliente(void *socket){
@@ -1362,6 +1396,29 @@ int *AtenderCliente(void *socket){
 				sprintf(notificacion,"15/%d*%s*%s",partida,nombre,mensaje);
 				EnviaNotificacion(notificacion,partida,sock_conn);
 				
+			}
+			//Codigo 13 -> Darse de baja de la BBDD
+			else if (codigo==13){
+				//Mensaje en buff: 13/usuario/contraseña
+				//Mensaje en buff2: 17/0--> Todo OK ; 17/1 --> Usuario no existe ; 17/2 --> Contrasenya no coincide ; 17/-1 --> Error de consulta ; 17/3 --> Usuario ya conectado
+				
+				p = strtok(NULL,"/");
+				char usuario[25];
+				strcpy(usuario,p);
+				p = strtok(NULL,"/");
+				char contra[20];
+				strcpy(contra,p);
+				
+				//Comprovar que es possible eliminar lo requerido
+				int res = LogIn(usuario,contra);
+				if (res != 0){
+					sprintf(buff2,"17/%d",res);
+				}
+				else{
+					//Procedemos a eliminar de la BBDD
+					res = EliminarJugadorBBDD(usuario);
+					sprintf(buff2,"17/%d",res);
+				}
 			}
 
 			// Y lo enviamos

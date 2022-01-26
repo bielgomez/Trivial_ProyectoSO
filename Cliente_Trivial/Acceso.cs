@@ -146,7 +146,16 @@ namespace Trivial
 
                         case 2: //Respuesta del Insert de nuevos jugadores
                             if (mensaje == "0")
+                            {
                                 MessageBox.Show("Se ha registrado correctamente.");
+                                registroBox.Visible = false;
+                                inicio.Visible = false;
+                                regVisible.Visible = true;
+                                accederBox.Visible = true;
+                                regLabel.Visible = true;
+                                eliminarLbl.Visible = true;
+                                eliminarCuenta.Visible = true;
+                            }
                             //Errores
                             else if (mensaje == "1")
                                 MessageBox.Show("Este nombre de usuario ya existe.");
@@ -274,9 +283,33 @@ namespace Trivial
                             numTablero = DamePosicionLista(tableros, idPartida);
                             tableros[numTablero].NuevoMensajeChat(mensaje);
                             break;
+
                         case 16: // Notifica que la partida no se inicia porque x lo ha rechazado "idPartida*x"
                             idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
                             MessageBox.Show(mensaje.Split('*')[1] + " ha rechazado la partida "+ mensaje.Split('*')[0]+"\n No se iniciará");
+                            break;
+
+                        case 17: //Respuesta a borrar un jugador de la BBDD
+                            if (mensaje == "0")
+                            {
+                                MessageBox.Show("Usuario eliminado con éxito");
+                                eliminarBox.Visible = false;
+                                accederBox.Visible = true;
+                                regVisible.Visible = true;
+                                regLabel.Visible = true;
+                                volverLbl.Visible = false;
+                                eliminarLbl.Visible = true;
+                                eliminarCuenta.Visible = true;
+                            }
+                            else if (mensaje == "-1")
+                                MessageBox.Show("Error al eliminar el usuario");
+                            else if (mensaje == "1")
+                                MessageBox.Show("El usuario que quiere eliminar no existe");
+                            else if (mensaje == "2")
+                                MessageBox.Show("Contraseña incorrecta");
+                            else
+                                MessageBox.Show("El usuario esta conectado.\n Para eliminar un usuario, éste debe estar desconectado");
+                            adios = true;
                             break;
                     }
                 }
@@ -322,6 +355,7 @@ namespace Trivial
             invitadosGridView.Visible = false;
             label6.Visible = false;
             inicio.Visible = false;
+            eliminarBox.Visible = false;
 
             //Fondo
             candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
@@ -686,6 +720,8 @@ namespace Trivial
             accederBox.Visible = false; 
             regLabel.Visible = false;
             inicio.Visible=true;
+            eliminarLbl.Visible = false;
+            eliminarCuenta.Visible = false;
         }
 
         private void inicio_Click(object sender, EventArgs e)
@@ -695,6 +731,69 @@ namespace Trivial
             regVisible.Visible = true;
             accederBox.Visible = true;
             regLabel.Visible = true;
+            eliminarLbl.Visible = true;
+            eliminarCuenta.Visible = true;
+        }
+
+        private void eliminarCuenta_Click(object sender, EventArgs e)
+        {
+            eliminarBox.Visible = true;
+            eliminarLbl.Visible = false;
+            eliminarCuenta.Visible = false;
+            regVisible.Visible = false;
+            accederBox.Visible = false;
+            regLabel.Visible = false;
+            volverLbl.Visible = true;
+        }
+
+        private void volverLbl_Click(object sender, EventArgs e)
+        {
+            eliminarBox.Visible = false;
+            accederBox.Visible = true;
+            regVisible.Visible = true;
+            regLabel.Visible = true;
+            volverLbl.Visible = false;
+            eliminarLbl.Visible = true;
+            eliminarCuenta.Visible = true;
+        }
+
+        private void eliminarBtn_Click(object sender, EventArgs e)
+        {
+            if (usuarioEliminado.Text == "0")
+            {
+                MessageBox.Show("Nombre de usuario invalido");
+            }
+            else
+            {
+                try
+                {
+                    //Creamos el socket i nos conectamos
+                    IPAddress direc = IPAddress.Parse("147.83.117.22");
+                    IPEndPoint ipep = new IPEndPoint(direc, 50051);
+                    this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    server.Connect(ipep);
+
+                    //@IP_Shiva1: 147.83.117.22
+                    //@IP_LocalHost: 192.168.56.102
+                    //#Port_Shiva1: 50051.2.3
+                    //#Port_localhost: 9080
+
+                    //Abrimos el thread
+                    ThreadStart ts = delegate { AtenderServidor(); };
+                    atender = new Thread(ts);
+                    atender.Start();
+
+                    //Enviamos el mensaje de eliminar jugador de BBDD
+                    string mensaje = "13/"+usuarioEliminado.Text+"/"+contrasenyaEliminado.Text;
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                }
+                catch (SocketException)
+                {
+                    MessageBox.Show("Servidor no disponible");
+                }
+            }
+            
         }
     }
     

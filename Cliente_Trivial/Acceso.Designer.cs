@@ -39,6 +39,7 @@
             this.Login = new System.Windows.Forms.Button();
             this.conexion = new System.Windows.Forms.Button();
             this.registroBox = new System.Windows.Forms.GroupBox();
+            this.inicio = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.password2Box = new System.Windows.Forms.TextBox();
             this.mailBox = new System.Windows.Forms.TextBox();
@@ -60,13 +61,22 @@
             this.label6 = new System.Windows.Forms.Label();
             this.regVisible = new System.Windows.Forms.Button();
             this.regLabel = new System.Windows.Forms.Label();
-            this.inicio = new System.Windows.Forms.Label();
+            this.eliminarLbl = new System.Windows.Forms.Label();
+            this.eliminarCuenta = new System.Windows.Forms.Button();
+            this.eliminarBox = new System.Windows.Forms.GroupBox();
+            this.volverLbl = new System.Windows.Forms.Label();
+            this.contrasenyaEliminado = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.usuarioEliminado = new System.Windows.Forms.TextBox();
+            this.eliminarBtn = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
             this.accederBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoBox)).BeginInit();
             this.registroBox.SuspendLayout();
             this.consultaBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConectadosGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.invitadosGridView)).BeginInit();
+            this.eliminarBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // PasswordBox
@@ -121,7 +131,7 @@
             this.accederBox.Controls.Add(this.NameBox);
             this.accederBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.accederBox.ForeColor = System.Drawing.Color.White;
-            this.accederBox.Location = new System.Drawing.Point(754, 201);
+            this.accederBox.Location = new System.Drawing.Point(754, 158);
             this.accederBox.Name = "accederBox";
             this.accederBox.Size = new System.Drawing.Size(316, 310);
             this.accederBox.TabIndex = 6;
@@ -177,11 +187,24 @@
             this.registroBox.Controls.Add(this.Registrarme);
             this.registroBox.Controls.Add(this.label5);
             this.registroBox.ForeColor = System.Drawing.Color.White;
-            this.registroBox.Location = new System.Drawing.Point(657, 196);
+            this.registroBox.Location = new System.Drawing.Point(657, 153);
             this.registroBox.Name = "registroBox";
             this.registroBox.Size = new System.Drawing.Size(305, 324);
             this.registroBox.TabIndex = 10;
             this.registroBox.TabStop = false;
+            // 
+            // inicio
+            // 
+            this.inicio.AutoSize = true;
+            this.inicio.BackColor = System.Drawing.Color.Transparent;
+            this.inicio.Font = new System.Drawing.Font("Ravie", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.inicio.ForeColor = System.Drawing.Color.White;
+            this.inicio.Location = new System.Drawing.Point(218, 11);
+            this.inicio.Name = "inicio";
+            this.inicio.Size = new System.Drawing.Size(81, 21);
+            this.inicio.TabIndex = 25;
+            this.inicio.Text = "Volver";
+            this.inicio.Click += new System.EventHandler(this.inicio_Click);
             // 
             // label3
             // 
@@ -289,7 +312,7 @@
             this.radioButton2.Location = new System.Drawing.Point(31, 184);
             this.radioButton2.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(255, 20);
+            this.radioButton2.Size = new System.Drawing.Size(273, 21);
             this.radioButton2.TabIndex = 16;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "¿Quién es el jugador con más puntos?";
@@ -303,7 +326,7 @@
             this.duracion.Location = new System.Drawing.Point(31, 118);
             this.duracion.Margin = new System.Windows.Forms.Padding(4);
             this.duracion.Name = "duracion";
-            this.duracion.Size = new System.Drawing.Size(209, 20);
+            this.duracion.Size = new System.Drawing.Size(221, 21);
             this.duracion.TabIndex = 15;
             this.duracion.TabStop = true;
             this.duracion.Text = "¿Cuál es la partida más larga?";
@@ -317,7 +340,7 @@
             this.Contraseña.Location = new System.Drawing.Point(31, 47);
             this.Contraseña.Margin = new System.Windows.Forms.Padding(4);
             this.Contraseña.Name = "Contraseña";
-            this.Contraseña.Size = new System.Drawing.Size(174, 20);
+            this.Contraseña.Size = new System.Drawing.Size(185, 21);
             this.Contraseña.TabIndex = 14;
             this.Contraseña.TabStop = true;
             this.Contraseña.Text = "¿Cuál es mi contraseña?";
@@ -365,7 +388,7 @@
             this.labelConectados.AutoSize = true;
             this.labelConectados.Location = new System.Drawing.Point(14, 316);
             this.labelConectados.Name = "labelConectados";
-            this.labelConectados.Size = new System.Drawing.Size(130, 16);
+            this.labelConectados.Size = new System.Drawing.Size(137, 17);
             this.labelConectados.TabIndex = 17;
             this.labelConectados.Text = "Lista de Conectados";
             // 
@@ -420,7 +443,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(248, 316);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(111, 16);
+            this.label6.Size = new System.Drawing.Size(118, 17);
             this.label6.TabIndex = 22;
             this.label6.Text = "Lista de Invitados";
             // 
@@ -430,7 +453,7 @@
             this.regVisible.BackColor = System.Drawing.Color.Black;
             this.regVisible.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.regVisible.ForeColor = System.Drawing.Color.White;
-            this.regVisible.Location = new System.Drawing.Point(754, 552);
+            this.regVisible.Location = new System.Drawing.Point(754, 509);
             this.regVisible.Name = "regVisible";
             this.regVisible.Size = new System.Drawing.Size(183, 45);
             this.regVisible.TabIndex = 23;
@@ -444,24 +467,117 @@
             this.regLabel.BackColor = System.Drawing.Color.Transparent;
             this.regLabel.Font = new System.Drawing.Font("Ravie", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.regLabel.ForeColor = System.Drawing.Color.White;
-            this.regLabel.Location = new System.Drawing.Point(750, 528);
+            this.regLabel.Location = new System.Drawing.Point(750, 485);
             this.regLabel.Name = "regLabel";
             this.regLabel.Size = new System.Drawing.Size(311, 21);
             this.regLabel.TabIndex = 24;
             this.regLabel.Text = "¿No tienes cuenta todavía?";
             // 
-            // inicio
+            // eliminarLbl
             // 
-            this.inicio.AutoSize = true;
-            this.inicio.BackColor = System.Drawing.Color.Transparent;
-            this.inicio.Font = new System.Drawing.Font("Ravie", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.inicio.ForeColor = System.Drawing.Color.White;
-            this.inicio.Location = new System.Drawing.Point(218, 11);
-            this.inicio.Name = "inicio";
-            this.inicio.Size = new System.Drawing.Size(81, 21);
-            this.inicio.TabIndex = 25;
-            this.inicio.Text = "Volver";
-            this.inicio.Click += new System.EventHandler(this.inicio_Click);
+            this.eliminarLbl.AutoSize = true;
+            this.eliminarLbl.BackColor = System.Drawing.Color.Transparent;
+            this.eliminarLbl.Font = new System.Drawing.Font("Ravie", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.eliminarLbl.ForeColor = System.Drawing.Color.White;
+            this.eliminarLbl.Location = new System.Drawing.Point(750, 557);
+            this.eliminarLbl.Name = "eliminarLbl";
+            this.eliminarLbl.Size = new System.Drawing.Size(280, 21);
+            this.eliminarLbl.TabIndex = 25;
+            this.eliminarLbl.Text = "¿Quieres darte de baja?";
+            // 
+            // eliminarCuenta
+            // 
+            this.eliminarCuenta.AutoSize = true;
+            this.eliminarCuenta.BackColor = System.Drawing.Color.Black;
+            this.eliminarCuenta.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.eliminarCuenta.ForeColor = System.Drawing.Color.White;
+            this.eliminarCuenta.Location = new System.Drawing.Point(754, 581);
+            this.eliminarCuenta.Name = "eliminarCuenta";
+            this.eliminarCuenta.Size = new System.Drawing.Size(218, 45);
+            this.eliminarCuenta.TabIndex = 26;
+            this.eliminarCuenta.Text = "Eliminar Cuenta";
+            this.eliminarCuenta.UseVisualStyleBackColor = false;
+            this.eliminarCuenta.Click += new System.EventHandler(this.eliminarCuenta_Click);
+            // 
+            // eliminarBox
+            // 
+            this.eliminarBox.BackColor = System.Drawing.Color.Transparent;
+            this.eliminarBox.Controls.Add(this.volverLbl);
+            this.eliminarBox.Controls.Add(this.contrasenyaEliminado);
+            this.eliminarBox.Controls.Add(this.label9);
+            this.eliminarBox.Controls.Add(this.usuarioEliminado);
+            this.eliminarBox.Controls.Add(this.eliminarBtn);
+            this.eliminarBox.Controls.Add(this.label10);
+            this.eliminarBox.ForeColor = System.Drawing.Color.White;
+            this.eliminarBox.Location = new System.Drawing.Point(1081, 153);
+            this.eliminarBox.Name = "eliminarBox";
+            this.eliminarBox.Size = new System.Drawing.Size(305, 270);
+            this.eliminarBox.TabIndex = 27;
+            this.eliminarBox.TabStop = false;
+            // 
+            // volverLbl
+            // 
+            this.volverLbl.AutoSize = true;
+            this.volverLbl.BackColor = System.Drawing.Color.Transparent;
+            this.volverLbl.Font = new System.Drawing.Font("Ravie", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.volverLbl.ForeColor = System.Drawing.Color.White;
+            this.volverLbl.Location = new System.Drawing.Point(218, 11);
+            this.volverLbl.Name = "volverLbl";
+            this.volverLbl.Size = new System.Drawing.Size(81, 21);
+            this.volverLbl.TabIndex = 25;
+            this.volverLbl.Text = "Volver";
+            this.volverLbl.Click += new System.EventHandler(this.volverLbl_Click);
+            // 
+            // contrasenyaEliminado
+            // 
+            this.contrasenyaEliminado.Location = new System.Drawing.Point(47, 130);
+            this.contrasenyaEliminado.Name = "contrasenyaEliminado";
+            this.contrasenyaEliminado.Size = new System.Drawing.Size(128, 22);
+            this.contrasenyaEliminado.TabIndex = 12;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Ravie", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(49, 106);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(126, 21);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "Contraseña";
+            // 
+            // usuarioEliminado
+            // 
+            this.usuarioEliminado.Location = new System.Drawing.Point(47, 65);
+            this.usuarioEliminado.Name = "usuarioEliminado";
+            this.usuarioEliminado.Size = new System.Drawing.Size(128, 22);
+            this.usuarioEliminado.TabIndex = 13;
+            // 
+            // eliminarBtn
+            // 
+            this.eliminarBtn.BackColor = System.Drawing.Color.Black;
+            this.eliminarBtn.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.eliminarBtn.ForeColor = System.Drawing.Color.White;
+            this.eliminarBtn.Location = new System.Drawing.Point(40, 188);
+            this.eliminarBtn.Name = "eliminarBtn";
+            this.eliminarBtn.Size = new System.Drawing.Size(195, 55);
+            this.eliminarBtn.TabIndex = 14;
+            this.eliminarBtn.Text = "Eliminar Cuenta";
+            this.eliminarBtn.UseVisualStyleBackColor = false;
+            this.eliminarBtn.Click += new System.EventHandler(this.eliminarBtn_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Ravie", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(36, 39);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(170, 21);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "Nombre usuario";
             // 
             // Acceso
             // 
@@ -470,6 +586,9 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1398, 662);
+            this.Controls.Add(this.eliminarBox);
+            this.Controls.Add(this.eliminarCuenta);
+            this.Controls.Add(this.eliminarLbl);
             this.Controls.Add(this.regLabel);
             this.Controls.Add(this.regVisible);
             this.Controls.Add(this.label6);
@@ -499,6 +618,8 @@
             this.consultaBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConectadosGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.invitadosGridView)).EndInit();
+            this.eliminarBox.ResumeLayout(false);
+            this.eliminarBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -536,6 +657,15 @@
         private System.Windows.Forms.Button regVisible;
         private System.Windows.Forms.Label regLabel;
         private System.Windows.Forms.Label inicio;
+        private System.Windows.Forms.Label eliminarLbl;
+        private System.Windows.Forms.Button eliminarCuenta;
+        private System.Windows.Forms.GroupBox eliminarBox;
+        private System.Windows.Forms.Label volverLbl;
+        private System.Windows.Forms.TextBox contrasenyaEliminado;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox usuarioEliminado;
+        private System.Windows.Forms.Button eliminarBtn;
+        private System.Windows.Forms.Label label10;
     }
 }
 

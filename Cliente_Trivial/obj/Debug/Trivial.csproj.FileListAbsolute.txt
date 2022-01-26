@@ -87,3 +87,4 @@ C:\Users\Laia\Documents\UNI\3A\SO\SUBIRGIT\Trivial_ProyectoSO\Cliente_Trivial\ob
 C:\Users\Laia\Documents\UNI\3A\SO\SUBIRGIT\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.exe
 C:\Users\Laia\Documents\UNI\3A\SO\SUBIRGIT\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.pdb
 C:\Users\Inmaculada\Documents\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.Prueba.resources
+C:\Users\bielg\OneDrive\Escriptori\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.Prueba.resources

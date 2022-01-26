@@ -20,9 +20,9 @@ CREATE TABLE partidas (
 
 CREATE TABLE registro (
 	idJ INT,
-	FOREIGN KEY(idJ) REFERENCES jugadores(id),
+	FOREIGN KEY(idJ) REFERENCES jugadores(id) ON UPDATE CASCADE,
 	idP INT,
-	FOREIGN KEY(idP) REFERENCES partidas(id),
+	FOREIGN KEY(idP) REFERENCES partidas(id) ON UPDATE CASCADE,
 	puntos INT not NULL
 )ENGINE = InnoDB;
 
