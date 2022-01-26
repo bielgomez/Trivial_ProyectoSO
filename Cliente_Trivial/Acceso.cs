@@ -119,22 +119,38 @@ namespace Trivial
                                 nameUserTxt.Visible = true;
                                 ConectadosGridView.Visible = true;
                                 labelConectados.Visible = true;
+                                
                                 nameUserTxt.Text = "Username: " + userName;
+
+                                conexion.Text = "Desconectar";
+                                conexion.Visible = true;
+                                c = 1;
+
+                                regLabel.Visible = false;
+                                regVisible.Visible = false;
+                                inicio.Visible = false;
+                                eliminarLbl.Visible = false;
+                                eliminarCuenta.Visible = false;
                             }
                             //Errores 
                             else if (mensaje == "1")
                             {
                                 MessageBox.Show("Este usuario no existe");
+                                NameBox.Clear();
+                                PasswordBox.Clear();
                                 adios = true;
                             }
                             else if (mensaje == "2")
                             {
                                 MessageBox.Show("Contraseña incorrecta");
+                                PasswordBox.Clear();
                                 adios = true;
                             }
                             else if (mensaje == "3")
                             {
                                 MessageBox.Show("Este usuario ya esta conectado");
+                                NameBox.Clear();
+                                PasswordBox.Clear();
                                 adios = true;
                             }
                             else
@@ -300,15 +316,28 @@ namespace Trivial
                                 volverLbl.Visible = false;
                                 eliminarLbl.Visible = true;
                                 eliminarCuenta.Visible = true;
+                                usuarioEliminado.Clear();
+                                contrasenyaEliminado.Clear();
                             }
                             else if (mensaje == "-1")
                                 MessageBox.Show("Error al eliminar el usuario");
                             else if (mensaje == "1")
+                            {
                                 MessageBox.Show("El usuario que quiere eliminar no existe");
+                                usuarioEliminado.Clear();
+                                contrasenyaEliminado.Clear();
+                            }
                             else if (mensaje == "2")
+                            {
                                 MessageBox.Show("Contraseña incorrecta");
+                                contrasenyaEliminado.Clear();
+                            }
                             else
+                            {
                                 MessageBox.Show("El usuario esta conectado.\n Para eliminar un usuario, éste debe estar desconectado");
+                                usuarioEliminado.Clear();
+                                contrasenyaEliminado.Clear();
+                            } 
                             adios = true;
                             break;
                     }
@@ -360,6 +389,10 @@ namespace Trivial
             //Fondo
             candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
             candadoBox.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            //Fondo
+            candadoEliminado.Image = Image.FromFile(".\\candadoCerrado.jpg");
+            candadoEliminado.SizeMode = PictureBoxSizeMode.StretchImage;
         }
         //Botón de conexión/desconexión.
         private void conexion_Click(object sender, EventArgs e)
@@ -403,7 +436,9 @@ namespace Trivial
                     invitarButton.Text = "Invitar";
                     invitarButton.Visible = false;
                     regLabel.Visible = true;
-                    regVisible.Visible = true; 
+                    regVisible.Visible = true;
+                    eliminarLbl.Visible = true;
+                    eliminarCuenta.Visible = true;
 
                     //Vaciamos las casillas por si habian quedado rellenadas
                     NameBox.Clear();
@@ -435,14 +470,6 @@ namespace Trivial
                 this.server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                
                 server.Connect(ipep);
-                
-                conexion.Text = "Desconectar";
-                conexion.Visible = true;
-                regLabel.Visible=false;
-                regVisible.Visible=false;
-                inicio.Visible=false;
-
-                c = 1;
 
                 //Ponemos en marcha el thread que atenderá los mensajes de los clientes
                 ThreadStart ts = delegate { AtenderServidor(); };
@@ -618,47 +645,57 @@ namespace Trivial
 
         private void ConectadosGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (invitadosGridView.Visible == false)
+            try
             {
-                invitados = new List<string>();
-                invitadosGridView.Visible = true;
-                invitarButton.Visible = true;
-                label6.Visible = true;
-            }
+                string invitado = ConectadosGridView.CurrentCell.Value.ToString();
 
-            string invitado = ConectadosGridView.CurrentCell.Value.ToString();
-
-            //Comprovamos que no somos nosotros mismos
-            if (invitado == userName)
-                MessageBox.Show("No te puedes autoinvitar");
-            else
-            {
-                if (invitados.Count <= 3)
-                { 
-
-                    //Comprovamos que no este ya en la lista para añadirlo
-                    int i = 0;
-                    bool encontrado = false;
-                    while ((i < invitados.Count) && (encontrado == false))
-                    {
-                        if (invitado == invitados[i])
-                            encontrado = true;
-
-                        else
-                            i = i + 1;
-                    }
-                    if (encontrado == false)
-                    {
-                        invitados.Add(invitado);
-                        CrearInvitadosGridView(invitados);
-                    }
+                //Comprovamos que no somos nosotros mismos
+                if (invitado == userName)
+                {
+                    MessageBox.Show("No te puedes autoinvitar");
                 }
                 else
-                    MessageBox.Show("El numero maximo de invitados es 3");
+                {
+                    if (invitadosGridView.Visible == false)
+                    {
+                        invitados = new List<string>();
+                        invitadosGridView.Visible = true;
+                        invitarButton.Visible = true;
+                        label6.Visible = true;
+                    }
+
+                    if (invitados.Count <= 3)
+                    {
+
+                        //Comprovamos que no este ya en la lista para añadirlo
+                        int i = 0;
+                        bool encontrado = false;
+                        while ((i < invitados.Count) && (encontrado == false))
+                        {
+                            if (invitado == invitados[i])
+                                encontrado = true;
+
+                            else
+                                i = i + 1;
+                        }
+                        if (encontrado == false)
+                        {
+                            invitados.Add(invitado);
+                            CrearInvitadosGridView(invitados);
+                        }
+                    }
+                    else
+                        MessageBox.Show("El numero maximo de invitados es 3");
+                }
+                ConectadosGridView.SelectAll();
+
 
             }
-                
-            ConectadosGridView.SelectAll();
+            catch (NullReferenceException)
+            {
+
+            }   
+            
         }
 
 
@@ -696,16 +733,23 @@ namespace Trivial
 
         private void invitadosGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            string eliminado = invitadosGridView.CurrentCell.Value.ToString();
-            invitados.Remove(eliminado);
-            if (invitados.Count == 0)
+            try
             {
-                invitadosGridView.Visible = false;
-                invitarButton.Visible = false;
+                string eliminado = invitadosGridView.CurrentCell.Value.ToString();
+                invitados.Remove(eliminado);
+                if (invitados.Count == 0)
+                {
+                    invitadosGridView.Visible = false;
+                    invitarButton.Visible = false;
+                    label6.Visible = false;
+                }
+                else
+                    CrearInvitadosGridView(invitados);
             }
-            else
-                CrearInvitadosGridView(invitados);
+            catch (NullReferenceException)
+            {
 
+            }
         }
 
         private void accederBox_Enter(object sender, EventArgs e)
@@ -794,6 +838,23 @@ namespace Trivial
                 }
             }
             
+        }
+
+        private void candadoEliminado_Click(object sender, EventArgs e)
+        {
+            //Desea poder ver la contraseña
+            if (contrasenyaEliminado.UseSystemPasswordChar == true)
+            {
+                contrasenyaEliminado.UseSystemPasswordChar = false;
+                candadoEliminado.Image = Image.FromFile(".\\candadoAbierto.jpg");
+            }
+
+            //Desea ocultar la contraseña
+            else
+            {
+                contrasenyaEliminado.UseSystemPasswordChar = true;
+                candadoEliminado.Image = Image.FromFile(".\\candadoCerrado.jpg");
+            }
         }
     }
     

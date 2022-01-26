@@ -70,6 +70,7 @@
             this.usuarioEliminado = new System.Windows.Forms.TextBox();
             this.eliminarBtn = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
+            this.candadoEliminado = new System.Windows.Forms.PictureBox();
             this.accederBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoBox)).BeginInit();
             this.registroBox.SuspendLayout();
@@ -77,6 +78,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ConectadosGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.invitadosGridView)).BeginInit();
             this.eliminarBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.candadoEliminado)).BeginInit();
             this.SuspendLayout();
             // 
             // PasswordBox
@@ -502,6 +504,7 @@
             // eliminarBox
             // 
             this.eliminarBox.BackColor = System.Drawing.Color.Transparent;
+            this.eliminarBox.Controls.Add(this.candadoEliminado);
             this.eliminarBox.Controls.Add(this.volverLbl);
             this.eliminarBox.Controls.Add(this.contrasenyaEliminado);
             this.eliminarBox.Controls.Add(this.label9);
@@ -532,8 +535,10 @@
             // 
             this.contrasenyaEliminado.Location = new System.Drawing.Point(47, 130);
             this.contrasenyaEliminado.Name = "contrasenyaEliminado";
+            this.contrasenyaEliminado.PasswordChar = '●';
             this.contrasenyaEliminado.Size = new System.Drawing.Size(128, 22);
             this.contrasenyaEliminado.TabIndex = 12;
+            this.contrasenyaEliminado.UseSystemPasswordChar = true;
             // 
             // label9
             // 
@@ -561,7 +566,7 @@
             this.eliminarBtn.ForeColor = System.Drawing.Color.White;
             this.eliminarBtn.Location = new System.Drawing.Point(40, 188);
             this.eliminarBtn.Name = "eliminarBtn";
-            this.eliminarBtn.Size = new System.Drawing.Size(195, 55);
+            this.eliminarBtn.Size = new System.Drawing.Size(195, 60);
             this.eliminarBtn.TabIndex = 14;
             this.eliminarBtn.Text = "Eliminar Cuenta";
             this.eliminarBtn.UseVisualStyleBackColor = false;
@@ -578,6 +583,16 @@
             this.label10.Size = new System.Drawing.Size(170, 21);
             this.label10.TabIndex = 15;
             this.label10.Text = "Nombre usuario";
+            // 
+            // candadoEliminado
+            // 
+            this.candadoEliminado.BackColor = System.Drawing.Color.White;
+            this.candadoEliminado.Location = new System.Drawing.Point(191, 122);
+            this.candadoEliminado.Name = "candadoEliminado";
+            this.candadoEliminado.Size = new System.Drawing.Size(44, 43);
+            this.candadoEliminado.TabIndex = 26;
+            this.candadoEliminado.TabStop = false;
+            this.candadoEliminado.Click += new System.EventHandler(this.candadoEliminado_Click);
             // 
             // Acceso
             // 
@@ -620,6 +635,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.invitadosGridView)).EndInit();
             this.eliminarBox.ResumeLayout(false);
             this.eliminarBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.candadoEliminado)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -666,6 +682,7 @@
         private System.Windows.Forms.TextBox usuarioEliminado;
         private System.Windows.Forms.Button eliminarBtn;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.PictureBox candadoEliminado;
     }
 }
 
