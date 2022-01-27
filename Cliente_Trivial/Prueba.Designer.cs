@@ -60,7 +60,7 @@
             this.opcion0.ForeColor = System.Drawing.Color.White;
             this.opcion0.Location = new System.Drawing.Point(197, 177);
             this.opcion0.Name = "opcion0";
-            this.opcion0.Size = new System.Drawing.Size(97, 23);
+            this.opcion0.Size = new System.Drawing.Size(103, 23);
             this.opcion0.TabIndex = 1;
             this.opcion0.TabStop = true;
             this.opcion0.Text = "OpcionA";
@@ -74,7 +74,7 @@
             this.opcion1.ForeColor = System.Drawing.Color.White;
             this.opcion1.Location = new System.Drawing.Point(197, 237);
             this.opcion1.Name = "opcion1";
-            this.opcion1.Size = new System.Drawing.Size(96, 23);
+            this.opcion1.Size = new System.Drawing.Size(101, 23);
             this.opcion1.TabIndex = 2;
             this.opcion1.TabStop = true;
             this.opcion1.Text = "OpcionB";
@@ -88,7 +88,7 @@
             this.opcion2.ForeColor = System.Drawing.Color.White;
             this.opcion2.Location = new System.Drawing.Point(197, 293);
             this.opcion2.Name = "opcion2";
-            this.opcion2.Size = new System.Drawing.Size(95, 23);
+            this.opcion2.Size = new System.Drawing.Size(100, 23);
             this.opcion2.TabIndex = 3;
             this.opcion2.TabStop = true;
             this.opcion2.Text = "OpcionC";
@@ -102,7 +102,7 @@
             this.opcion3.ForeColor = System.Drawing.Color.White;
             this.opcion3.Location = new System.Drawing.Point(197, 348);
             this.opcion3.Name = "opcion3";
-            this.opcion3.Size = new System.Drawing.Size(96, 23);
+            this.opcion3.Size = new System.Drawing.Size(102, 23);
             this.opcion3.TabIndex = 4;
             this.opcion3.TabStop = true;
             this.opcion3.Text = "OpcionD";
@@ -114,9 +114,10 @@
             this.pregunta_label.BackColor = System.Drawing.Color.Transparent;
             this.pregunta_label.Font = new System.Drawing.Font("Ravie", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pregunta_label.ForeColor = System.Drawing.Color.White;
-            this.pregunta_label.Location = new System.Drawing.Point(285, 106);
+            this.pregunta_label.Location = new System.Drawing.Point(193, 119);
+            this.pregunta_label.MaximumSize = new System.Drawing.Size(600, 0);
             this.pregunta_label.Name = "pregunta_label";
-            this.pregunta_label.Size = new System.Drawing.Size(206, 24);
+            this.pregunta_label.Size = new System.Drawing.Size(221, 26);
             this.pregunta_label.TabIndex = 5;
             this.pregunta_label.Text = "PREGUNTA_label";
             // 
@@ -128,7 +129,7 @@
             this.cat_label.ForeColor = System.Drawing.Color.White;
             this.cat_label.Location = new System.Drawing.Point(193, 37);
             this.cat_label.Name = "cat_label";
-            this.cat_label.Size = new System.Drawing.Size(230, 24);
+            this.cat_label.Size = new System.Drawing.Size(245, 26);
             this.cat_label.TabIndex = 6;
             this.cat_label.Text = "CATEGORIA_label";
             // 

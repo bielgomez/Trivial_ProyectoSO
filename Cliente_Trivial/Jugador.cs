@@ -29,15 +29,15 @@ namespace Trivial
                     this.rolnum = 0;
                     break;
                 case "jug2":
-                    this.bitmap =  new Bitmap(Application.StartupPath + @"\ubicacion.png");
+                    this.bitmap =  new Bitmap(Application.StartupPath + @"\JugRojo.png");
                     this.rolnum = 1;
                     break;
                 case "jug3":
-                    this.bitmap = new Bitmap(Application.StartupPath + @"\ubicacion.png");
+                    this.bitmap = new Bitmap(Application.StartupPath + @"\JugLila.png");
                     this.rolnum = 2;
                     break;
                 case "jug4":
-                    this.bitmap = new Bitmap(Application.StartupPath + @"\ubicacion.png");
+                    this.bitmap = new Bitmap(Application.StartupPath + @"\JugVerde.png");
                     this.rolnum = 3;
                     break;
             }

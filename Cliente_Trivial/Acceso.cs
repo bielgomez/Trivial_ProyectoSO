@@ -43,6 +43,19 @@ namespace Trivial
             Bitmap portada = new Bitmap(Application.StartupPath + @"\fondo1.png");
             this.BackgroundImage = portada;
             this.BackgroundImageLayout = ImageLayout.Stretch;
+
+            Bitmap host = new Bitmap(Application.StartupPath + @"\JugAzul.png");
+            Bitmap jug1 = new Bitmap(Application.StartupPath + @"\JugLila.png");
+            Bitmap jug2 = new Bitmap(Application.StartupPath + @"\JugVerde.png");
+            Bitmap jug3 = new Bitmap(Application.StartupPath + @"\JugRojo.png");
+
+            List<Bitmap> piezasbit = new List<Bitmap>();
+            Bitmap[] bitlist = new Bitmap[] { host, jug1, jug2, jug3 };
+            piezasbit.AddRange(bitlist);
+
+            pictureBox1.Image = (Image)host;
+            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox1.BackColor = Color.Transparent;
         }
 
         //Funcion para que un thread pueda modificar objetos del formulario
@@ -874,6 +887,7 @@ namespace Trivial
                 candadoEliminado.Image = Image.FromFile(".\\candadoCerrado.jpg");
             }
         }
+
     }
     
 }

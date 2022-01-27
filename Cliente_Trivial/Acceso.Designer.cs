@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.PasswordBox = new System.Windows.Forms.TextBox();
             this.NameBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -64,13 +64,14 @@
             this.eliminarLbl = new System.Windows.Forms.Label();
             this.eliminarCuenta = new System.Windows.Forms.Button();
             this.eliminarBox = new System.Windows.Forms.GroupBox();
+            this.candadoEliminado = new System.Windows.Forms.PictureBox();
             this.volverLbl = new System.Windows.Forms.Label();
             this.contrasenyaEliminado = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.usuarioEliminado = new System.Windows.Forms.TextBox();
             this.eliminarBtn = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.candadoEliminado = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.accederBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoBox)).BeginInit();
             this.registroBox.SuspendLayout();
@@ -79,6 +80,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.invitadosGridView)).BeginInit();
             this.eliminarBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoEliminado)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // PasswordBox
@@ -367,14 +369,14 @@
             this.ConectadosGridView.AllowUserToAddRows = false;
             this.ConectadosGridView.AllowUserToDeleteRows = false;
             this.ConectadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle1;
             this.ConectadosGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.ConectadosGridView.GridColor = System.Drawing.SystemColors.Control;
             this.ConectadosGridView.Location = new System.Drawing.Point(12, 331);
@@ -422,14 +424,14 @@
             this.invitadosGridView.AllowUserToAddRows = false;
             this.invitadosGridView.AllowUserToDeleteRows = false;
             this.invitadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.invitadosGridView.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.invitadosGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.invitadosGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.invitadosGridView.GridColor = System.Drawing.SystemColors.Control;
             this.invitadosGridView.Location = new System.Drawing.Point(248, 331);
@@ -518,6 +520,16 @@
             this.eliminarBox.TabIndex = 27;
             this.eliminarBox.TabStop = false;
             // 
+            // candadoEliminado
+            // 
+            this.candadoEliminado.BackColor = System.Drawing.Color.White;
+            this.candadoEliminado.Location = new System.Drawing.Point(191, 122);
+            this.candadoEliminado.Name = "candadoEliminado";
+            this.candadoEliminado.Size = new System.Drawing.Size(44, 43);
+            this.candadoEliminado.TabIndex = 26;
+            this.candadoEliminado.TabStop = false;
+            this.candadoEliminado.Click += new System.EventHandler(this.candadoEliminado_Click);
+            // 
             // volverLbl
             // 
             this.volverLbl.AutoSize = true;
@@ -584,15 +596,13 @@
             this.label10.TabIndex = 15;
             this.label10.Text = "Nombre usuario";
             // 
-            // candadoEliminado
+            // pictureBox1
             // 
-            this.candadoEliminado.BackColor = System.Drawing.Color.White;
-            this.candadoEliminado.Location = new System.Drawing.Point(191, 122);
-            this.candadoEliminado.Name = "candadoEliminado";
-            this.candadoEliminado.Size = new System.Drawing.Size(44, 43);
-            this.candadoEliminado.TabIndex = 26;
-            this.candadoEliminado.TabStop = false;
-            this.candadoEliminado.Click += new System.EventHandler(this.candadoEliminado_Click);
+            this.pictureBox1.Location = new System.Drawing.Point(563, 145);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox1.TabIndex = 40;
+            this.pictureBox1.TabStop = false;
             // 
             // Acceso
             // 
@@ -601,6 +611,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1398, 662);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.eliminarBox);
             this.Controls.Add(this.eliminarCuenta);
             this.Controls.Add(this.eliminarLbl);
@@ -636,6 +647,7 @@
             this.eliminarBox.ResumeLayout(false);
             this.eliminarBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoEliminado)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -683,6 +695,7 @@
         private System.Windows.Forms.Button eliminarBtn;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.PictureBox candadoEliminado;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

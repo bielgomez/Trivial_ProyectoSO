@@ -35,6 +35,7 @@ namespace Trivial
         ListaCasillas casillas;   //Casillas tablero
         List<PictureBox> ubicaciones;  //Indicaciones posibles movimientos
         List<PictureBox> piezas;       //Pieza de cada jugador. En el mismo orden que "jugadors"
+        List<Bitmap> piezasbit;
 
         // Quesitos
         Bitmap qV; 
@@ -153,15 +154,24 @@ namespace Trivial
             PictureBox[] emlist = new PictureBox[] { hostBox, jug2Box, jug3Box, jug4Box };
             piezas.AddRange(emlist);
 
+            // Fichas
+            //Bitmap host = new Bitmap(Application.StartupPath + @"\ubicacion.png");
+            //Bitmap jug1 = new Bitmap(Application.StartupPath + @"\JugLila.png");
+            //Bitmap jug2 = new Bitmap(Application.StartupPath + @"\JugVerde.png");
+            //Bitmap jug3 = new Bitmap(Application.StartupPath + @"\JugRojo.png");
+            
+            //this.piezasbit = new List<Bitmap>();
+            //Bitmap[] bitlist = new Bitmap[] { host, jug1, jug2, jug3 };
+            //piezasbit.AddRange(bitlist);
+
             int i = 0;
             while (i<piezas.Count)
             {
                 if(i < jugadors.Count)
                 {
-                    Bitmap bitmap = MakeNewImage(jugadors[i]);
-                    piezas[i].Image = (Image)bitmap;
-                    piezas[i].SizeMode = PictureBoxSizeMode.StretchImage;
-                    //piezas[i].BackColor = Color.Transparent;
+                    piezas[i].Image = MakeNewImage(jugadors[i]);
+                    piezas[i].SizeMode = PictureBoxSizeMode.CenterImage;
+                    piezas[i].BackColor = Color.Transparent;
                     piezas[i].Visible = true;
                     piezas[i].Location = new Point(Convert.ToInt32(xorigen - hostBox.Size.Width / 2), Convert.ToInt32(xorigen - hostBox.Size.Height / 2));
                 }                
@@ -482,12 +492,7 @@ namespace Trivial
         private Bitmap MakeNewImage(Jugador jug)        
         {
             List<Bitmap> listBit = new List<Bitmap>();
-
-
-
             listBit.Add(jug.GetEmboltorioBitmap());
-
-            pictureBox1.Image = (Image)listBit[0];
 
             int p = 0;
             while(p < jug.GetQuesitos().Length)
@@ -505,11 +510,9 @@ namespace Trivial
                 {
                     Graphics g = Graphics.FromImage(listBit[0]);
                     g.DrawImage(listBit[i], new Point(0, 0));
-                }
-                
+                }                
                 i++;
-            }
-            
+            }            
             return listBit[0];
         }
         private void tableroBox_Click(object sender, EventArgs e)

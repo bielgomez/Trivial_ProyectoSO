@@ -53,7 +53,6 @@ namespace Trivial
             this.jug4Box = new System.Windows.Forms.PictureBox();
             this.notLbl = new System.Windows.Forms.Label();
             this.notificacionLbl = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tableroBox)).BeginInit();
@@ -68,7 +67,6 @@ namespace Trivial
             ((System.ComponentModel.ISupportInitialize)(this.jug2Box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jug3Box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jug4Box)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // playersGridView
@@ -304,20 +302,11 @@ namespace Trivial
             this.notificacionLbl.TabIndex = 38;
             this.notificacionLbl.Text = "Notificaciones";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(395, 164);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(40, 40);
-            this.pictureBox1.TabIndex = 39;
-            this.pictureBox1.TabStop = false;
-            // 
             // Tablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1351, 891);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.notificacionLbl);
             this.Controls.Add(this.notLbl);
             this.Controls.Add(this.jug4Box);
@@ -360,7 +349,6 @@ namespace Trivial
             ((System.ComponentModel.ISupportInitialize)(this.jug2Box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.jug3Box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.jug4Box)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -392,6 +380,5 @@ namespace Trivial
         private System.Windows.Forms.PictureBox jug4Box;
         private System.Windows.Forms.Label notLbl;
         private System.Windows.Forms.Label notificacionLbl;
-        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

@@ -76,7 +76,7 @@ namespace Trivial
                         if (encontrado == false)
                         {
                             List<int> lilas = new List<int>();
-                            int[] clila = new int[] { 4, 13, 15, 24, 35, 103, 112, 120, 144, 153 };
+                            int[] clila = new int[] { 4, 13, 15, 24, 35, 102, 111, 120, 144, 153 };
                             lilas.AddRange(clila);
                             foreach (int i in lilas)
                             {
