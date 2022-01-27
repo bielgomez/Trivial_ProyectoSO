@@ -125,7 +125,7 @@ namespace Trivial
                 totalRowHeight += playersGridView.Rows[q].Height;
             }
             playersGridView.Height = totalRowHeight;
-            playersGridView.Height = playersGridView.Height + 100;
+            playersGridView.Height = playersGridView.Height + 5;
 
             playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Yellow;
             playersGridView.ClearSelection();
@@ -161,7 +161,7 @@ namespace Trivial
                     Bitmap bitmap = MakeNewImage(jugadors[i]);
                     piezas[i].Image = (Image)bitmap;
                     piezas[i].SizeMode = PictureBoxSizeMode.StretchImage;
-                    piezas[i].BackColor = Color.Transparent;
+                    //piezas[i].BackColor = Color.Transparent;
                     piezas[i].Visible = true;
                     piezas[i].Location = new Point(Convert.ToInt32(xorigen - hostBox.Size.Width / 2), Convert.ToInt32(xorigen - hostBox.Size.Height / 2));
                 }                
@@ -281,8 +281,7 @@ namespace Trivial
                             q++;
                     }
                     // 2.1 Modificar el vector quesitos del jugador
-                    jugadors[q].SetQuesito(trozos[4]);
-                    //jugadors[q].SetQuesitoCat(trozos[4]);
+                    jugadors[q].SetQuesitoCat(trozos[4]);
                     // 2.2.Crear la pieza como siempre
                     Bitmap bitmap = MakeNewImage(jugadors[q]);
                     // 2.3. Colocar el bitmap creado en piezas(numrol)
@@ -483,8 +482,13 @@ namespace Trivial
         private Bitmap MakeNewImage(Jugador jug)        
         {
             List<Bitmap> listBit = new List<Bitmap>();
+
+
+
             listBit.Add(jug.GetEmboltorioBitmap());
-            
+
+            pictureBox1.Image = (Image)listBit[0];
+
             int p = 0;
             while(p < jug.GetQuesitos().Length)
             {
@@ -740,7 +744,7 @@ namespace Trivial
 
                            
                             // 2.1 Modificar el vector quesitos del jugador
-                            miJugador.SetQuesito(categoria);
+                            miJugador.SetQuesitoCat(categoria);
                             // 2.2.Crear la pieza como siempre
                             Bitmap bitmap2 = MakeNewImage(miJugador);
                             // 2.3. Colocar el bitmap creado en piezas(numrol)
@@ -762,6 +766,18 @@ namespace Trivial
                         else
                         {
                             miTurno = false;
+                            dadoClick = false;
+                            
+                            //for (int i = 0; i < playersGridView.RowCount; i++)
+                            //{
+                            //    playersGridView.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                            //}
+                            
+                            //if (miJugador.GetRolNum()==jugadors.Count-1)
+                            //    playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Yellow;
+                            //else
+                            //    playersGridView.Rows[miJugador.GetRolNum()+1].DefaultCellStyle.BackColor = Color.Yellow;
+                            
                             notificacionLbl.Text = "Has perdido el turno";
 
                         }

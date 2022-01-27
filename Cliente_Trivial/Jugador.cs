@@ -29,15 +29,15 @@ namespace Trivial
                     this.rolnum = 0;
                     break;
                 case "jug2":
-                    this.bitmap =  new Bitmap(Application.StartupPath + @"\JugLila.png");
+                    this.bitmap =  new Bitmap(Application.StartupPath + @"\ubicacion.png");
                     this.rolnum = 1;
                     break;
                 case "jug3":
-                    this.bitmap = new Bitmap(Application.StartupPath + @"\JugRojo.png");
+                    this.bitmap = new Bitmap(Application.StartupPath + @"\ubicacion.png");
                     this.rolnum = 2;
                     break;
                 case "jug4":
-                    this.bitmap = new Bitmap(Application.StartupPath + @"\JugVerde.png");
+                    this.bitmap = new Bitmap(Application.StartupPath + @"\ubicacion.png");
                     this.rolnum = 3;
                     break;
             }
@@ -94,6 +94,30 @@ namespace Trivial
                     this.quesitos[4] = 1;
                     break;
                 case "Rojo":
+                    this.quesitos[5] = 1;
+                    break;
+            }
+        }
+        public void SetQuesitoCat(string cat)
+        {
+            switch (cat)
+            {
+                case "Ciencia":
+                    this.quesitos[0] = 1;
+                    break;
+                case "Geografía":
+                    this.quesitos[1] = 1;
+                    break;
+                case "Historia":
+                    this.quesitos[2] = 1;
+                    break;
+                case "Entretenimiento":
+                    this.quesitos[3] = 1;
+                    break;
+                case "Deportes":
+                    this.quesitos[4] = 1;
+                    break;
+                case "Tecnología":
                     this.quesitos[5] = 1;
                     break;
             }

@@ -56,17 +56,22 @@ namespace Trivial
             ConectadosGridView.RowCount = conectados.Length;
             ConectadosGridView.ColumnHeadersVisible = false;
             ConectadosGridView.RowHeadersVisible = false;
-            ConectadosGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            ConectadosGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             ConectadosGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            ConectadosGridView.BackgroundColor = Color.White;
+            
             ConectadosGridView.SelectAll();
 
+            int totalRowHeight = ConectadosGridView.ColumnHeadersHeight;
             //Introduccion de los datos
             for (int i = 0; i < conectados.Length; i++)
             {
                 ConectadosGridView.Rows[i].DefaultCellStyle.BackColor = Color.Orange;
                 ConectadosGridView.Rows[i].Cells[0].Value = conectados[i];
+                totalRowHeight += ConectadosGridView.Rows[i].Height;
             }
-                ConectadosGridView.Show();
+            ConectadosGridView.Height = totalRowHeight;
+            ConectadosGridView.Show();
         }
 
         //Funcion para obtener la posicion en la lista de tableros de un id de partida
@@ -443,6 +448,8 @@ namespace Trivial
                     regVisible.Visible = true;
                     eliminarLbl.Visible = true;
                     eliminarCuenta.Visible = true;
+                    invitadosGridView.Visible = false;
+                    label6.Visible = false;
 
                     //Vaciamos las casillas por si habian quedado rellenadas
                     NameBox.Clear();
@@ -709,13 +716,20 @@ namespace Trivial
             invitadosGridView.RowCount = invitados.Count;
             invitadosGridView.ColumnHeadersVisible = false;
             invitadosGridView.RowHeadersVisible = false;
-            invitadosGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            invitadosGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             invitadosGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             invitadosGridView.SelectAll();
+            invitadosGridView.BackgroundColor = Color.White;
 
+            int totalRowHeight = invitadosGridView.ColumnHeadersHeight;
             for (int i = 0; i < invitados.Count; i++)
+            {
                 invitadosGridView.Rows[i].Cells[0].Value = invitados[i];
-                
+                totalRowHeight += invitadosGridView.Rows[i].Height;
+            }
+            invitadosGridView.Height = totalRowHeight;
+            invitadosGridView.Height = invitadosGridView.Height + 5;
+
         }
         private void invitarButton_Click(object sender, EventArgs e)
         {
