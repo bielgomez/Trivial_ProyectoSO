@@ -18,8 +18,10 @@ namespace Trivial
         int partida; 
         int miCasilla;
         int numDado;
+        bool finalizada;
 
         Jugador miJugador;
+
         // Para perimtir y bloquear la manipulacion de cada funcion
         bool miTurno;
         bool dadoClick;
@@ -64,6 +66,7 @@ namespace Trivial
             tableroBox.SizeMode = PictureBoxSizeMode.AutoSize;
             tableroBox.Location = new Point(0, 0);
             this.Size = tableroBox.Size;
+
             // Imagenes para mostrar posibles movimientos
             Bitmap ubi = new Bitmap(Application.StartupPath + @"\ubicacion.png");
             this.ubicaciones = new List<PictureBox>();
@@ -75,6 +78,7 @@ namespace Trivial
                 pBox.SizeMode = PictureBoxSizeMode.StretchImage;
                 pBox.Visible = false;
             }
+
             // Fichas
             qV = new Bitmap(Application.StartupPath + @"\quesitoVerde.png");
             qB = new Bitmap(Application.StartupPath + @"\quesitoAzul.png");
@@ -94,6 +98,8 @@ namespace Trivial
 
             ChatBox.Multiline = true;
             chat = new Queue<string>();
+
+            finalizada = false;
         }
 
         private void Tablero_Load(object sender, EventArgs e)
@@ -105,60 +111,64 @@ namespace Trivial
             playersGridView.RowCount = this.jugadors.Count;
             playersGridView.ColumnHeadersVisible = true;
             playersGridView.Columns[0].HeaderText = "Jugador";
-            playersGridView.Columns[1].HeaderText = "Puntos";
+            playersGridView.Columns[1].HeaderText = "Quesitos";
             playersGridView.RowHeadersVisible = false;
             playersGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             playersGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
+            int totalRowHeight = playersGridView.ColumnHeadersHeight;       
             playersGridView.RowsDefaultCellStyle.BackColor = Color.White;
             for (int q = 0; q < this.jugadors.Count; q++)
             {
                 playersGridView.Rows[q].Cells[0].Value = jugadors[q].GetNombre();
                 playersGridView.Rows[q].Cells[1].Value = "0";
+                totalRowHeight += playersGridView.Rows[q].Height;
             }
-            playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Blue;
-            playersGridView.Show();
+            playersGridView.Height = totalRowHeight;
+            playersGridView.Height = playersGridView.Height + 100;
+
+            playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Yellow;
+            playersGridView.ClearSelection();
+            //playersGridView.Show();
 
             //Establecemos el turno inicial
             if (miJugador.GetRol() == "host")
             {
                 miTurno = true;
                 dadoClick = true;
+                notificacionLbl.Text = "Es tu turno";
             }
             else
             {
                 miTurno = false;
                 dadoClick = false;
+                notificacionLbl.Text = "Es el turno de " + jugadors[0].GetNombre();
             }
             tableroClick = false;
             //Empezamos en la casilla central
             miCasilla = 1000;
-            // Colocar las piezas de todos los jugadores
 
+            // Colocar las piezas de todos los jugadores
             this.piezas = new List<PictureBox>();
             PictureBox[] emlist = new PictureBox[] { hostBox, jug2Box, jug3Box, jug4Box };
             piezas.AddRange(emlist);
+
             int i = 0;
-            Bitmap bitmap = MakeNewImage(jugadors[i]);
             while (i<piezas.Count)
             {
-                piezas[i].Image = (Image)bitmap;
-                piezas[i].SizeMode = PictureBoxSizeMode.CenterImage;
-                piezas[i].Visible = true;
-                piezas[i].BackColor = Color.Transparent;
-                piezas[i].Location = new Point(Convert.ToInt32(xorigen - hostBox.Size.Width / 2), Convert.ToInt32(yorigen - hostBox.Size.Height / 2));
-                //if(i < jugadors.Count)
-                //{
-                //    Bitmap bitmap = MakeNewImage(jugadors[i]);
-                //    piezas[i].Image = (Image)bitmap;
-                //    piezas[i].SizeMode = PictureBoxSizeMode.StretchImage;
-                //    piezas[i].Visible = true;
-                //    piezas[i].Location = new Point(Convert.ToInt32(0 - hostBox.Size.Width / 2), Convert.ToInt32(0 - hostBox.Size.Height / 2));
-                //}                
-                //else
-                //{
-                //    piezas[i].Visible = false;
-                //}
+                if(i < jugadors.Count)
+                {
+                    Bitmap bitmap = MakeNewImage(jugadors[i]);
+                    piezas[i].Image = (Image)bitmap;
+                    piezas[i].SizeMode = PictureBoxSizeMode.StretchImage;
+                    piezas[i].BackColor = Color.Transparent;
+                    piezas[i].Visible = true;
+                    piezas[i].Location = new Point(Convert.ToInt32(xorigen - hostBox.Size.Width / 2), Convert.ToInt32(xorigen - hostBox.Size.Height / 2));
+                }                
+                else
+                {
+                    piezas[i].Visible = false;
+                }
                 i++;
             }
         }        
@@ -181,6 +191,11 @@ namespace Trivial
             this.server = server;
         }
 
+        public void FinalizarPartida()
+        {
+            this.finalizada = true;
+        }
+
         //Recibimos un nuevo movimiento (el codigo nos indica el tipo de movimiento)
         public void NuevoMovimiento(string mensaje) //"idPartida*resDado*nombreTirador"
         {
@@ -201,6 +216,7 @@ namespace Trivial
             {
                 if (jugadors[j].GetRol() == trozos[2])
                     jugadors[j].SetCasilla(Convert.ToInt32(trozos[3]));
+                j++;
             }
             moverCasillaJugadores();
 
@@ -237,12 +253,43 @@ namespace Trivial
             if (trozos[1] != miJugador.GetNombre())
             {
                 if (trozos[2] == "0")
-                    MessageBox.Show(trozos[1] + " ha contestado mal");
+                    notificacionLbl.Text = trozos[1] + " ha contestado mal";
                 else if (trozos[2] == "1")
-                    MessageBox.Show(trozos[1] + " ha contestado bien, sigue tirando");
+                    notificacionLbl.Text = trozos[1] + " ha contestado bien, sigue tirando";
                 else
                 {
-                    MessageBox.Show(trozos[1] + " ha ganado un quesito!"); //////////////////////////////////////////// ponerle un quesito al compa
+                    notificacionLbl.Text = trozos[1] + " ha ganado un quesito!"; 
+                    int q = 0;
+                    bool f = false;
+
+                    // Cambiar la pieza de dicho jugador. Pasos:
+                    // 1. Encontrar el numrol del jugador que ha ganado un quesito == la posicion de su pieza en "piezas"
+                    // 2. Modificar piezas(numrol)
+                    // 2.1. Modificar el vector quesitos del jugador (ORDEN: Verde, Azul, Amarillo, Lila, Naranja, Rojo)
+                    /////////////Preguntar quesito què és?1 com diria que és categroria... és modificar la funció set quesito
+                    // 2.2. Crear la pieza como siempre
+                    // 2.3. Colocar el bitmap creado en piezas(numrol)
+                    q = 0;
+                    f = false;
+                    while ((q<jugadors.Count)&&(f == false))
+                    {
+                        if (trozos[1] == jugadors[q].GetNombre())
+                        {
+                            f = true;
+                        }
+                        else
+                            q++;
+                    }
+                    // 2.1 Modificar el vector quesitos del jugador
+                    jugadors[q].SetQuesito(trozos[4]);
+                    //jugadors[q].SetQuesitoCat(trozos[4]);
+                    // 2.2.Crear la pieza como siempre
+                    Bitmap bitmap = MakeNewImage(jugadors[q]);
+                    // 2.3. Colocar el bitmap creado en piezas(numrol)
+                    piezas[jugadors[q].GetRolNum()].Image = (Image)bitmap;
+
+                    //Actualizamos el numero de quesitos de playersGridView
+                    playersGridView.Rows[jugadors[q].GetRolNum()].Cells[1].Value = Convert.ToInt32(playersGridView.Rows[jugadors[q].GetRolNum()].Cells[1].Value) + 1;
                 }
             }
             if (((trozos[2] == "0")|| (trozos[2] == "2")))
@@ -255,36 +302,47 @@ namespace Trivial
                 switch (siguienteTurno)
                 {
                     case "host":
-                        playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Blue;
+                        playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Yellow;
                         break;
                     case "jug2":
-                        playersGridView.Rows[1].DefaultCellStyle.BackColor = Color.Blue;
+                        playersGridView.Rows[1].DefaultCellStyle.BackColor = Color.Yellow;
                         break;
                     case "jug3":
-                        playersGridView.Rows[2].DefaultCellStyle.BackColor = Color.Blue;
+                        playersGridView.Rows[2].DefaultCellStyle.BackColor = Color.Yellow;
                         break;
                     case "jug4":
-                        playersGridView.Rows[3].DefaultCellStyle.BackColor = Color.Blue;
+                        playersGridView.Rows[3].DefaultCellStyle.BackColor = Color.Yellow;
                         break;
                 }
+                playersGridView.ClearSelection();
                 if (trozos[3] == miJugador.GetRol())
                 {
                     miTurno = true;
                     dadoClick = true;
                     MessageBox.Show("ES TU TURNO");
+                    if (trozos[2]!="2")
+                        notificacionLbl.Text = "Es tu turno";
                 }
                 else
                 {
                     miTurno = false;
                     dadoClick = false;
-                    MessageBox.Show("Es el turno de " + trozos[3]);
+                    //MessageBox.Show("Es el turno de " + trozos[3]);
                 }
             }
             else
             {
-                miTurno = false;
-                dadoClick = false;
-                MessageBox.Show("Es el turno de " + trozos[1]);
+                if (trozos[1] == miJugador.GetNombre())
+                {
+                    miTurno = true;
+                    dadoClick = true;
+                    notificacionLbl.Text = "Es tu turno";
+                }
+                else
+                {
+                    miTurno = false;
+                    dadoClick = false;
+                }
             }
         }
 
@@ -349,9 +407,12 @@ namespace Trivial
 
         private void Tablero_FormClosing(object sender, FormClosingEventArgs e)
         {
-            string finpartida = "9/" + partida;
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(finpartida);
-            server.Send(msg);
+            if (finalizada == false)
+            {
+                string finpartida = "9/" + partida;
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(finpartida);
+                server.Send(msg);
+            }
         }
 
         //Enviar mensajes al chat
@@ -654,6 +715,7 @@ namespace Trivial
                                     break;
                             }
                         }
+                        MessageBox.Show("COMPROVACIÓ CASELLES LILES: Estás en la casilla: "+miCasilla);
                         Prueba formPrueba = new Prueba();
                         formPrueba.SetCategory(categoria);
                         formPrueba.ShowDialog();
@@ -663,8 +725,26 @@ namespace Trivial
                         {
                             acierto = 2;
                             MessageBox.Show("Amazing! Has ganado un quesito");
-                            /////////////// AÑADO QUESITO
-                            ////////////// SE CAMBIA TU DATAGRIDVIEW
+                            /////////////////////////////7//////////////////////////////////////////////////////////// AÑADO QUESITO
+
+                           
+                            // Cambio del playersGridView
+                            playersGridView.Rows[miJugador.GetRolNum()].Cells[1].Value = Convert.ToInt32(playersGridView.Rows[miJugador.GetRolNum()].Cells[1].Value) + 1;
+
+                            // Cambiar la pieza de dicho jugador. Pasos:
+                            // 1. Encontrar el numrol del jugador que ha ganado un quesito == la posicion de su pieza en "piezas"
+                            // 2. Modificar piezas(numrol)
+                            // 2.1. Modificar el vector quesitos del jugador (ORDEN: Verde, Azul, Amarillo, Lila, Naranja, Rojo)
+                            // 2.2. Crear la pieza como siempre
+                            // 2.3. Colocar el bitmap creado en piezas(numrol)
+
+                           
+                            // 2.1 Modificar el vector quesitos del jugador
+                            miJugador.SetQuesito(categoria);
+                            // 2.2.Crear la pieza como siempre
+                            Bitmap bitmap2 = MakeNewImage(miJugador);
+                            // 2.3. Colocar el bitmap creado en piezas(numrol)
+                            piezas[miJugador.GetRolNum()].Image = (Image)bitmap2;
                         }
 
                         // Se envía el resultado
@@ -677,12 +757,12 @@ namespace Trivial
                         if (acierto == 1)
                         {
                             dadoClick = true;
-                            MessageBox.Show("Puedes volver a tirar");
+                            notificacionLbl.Text = "Puedes volver a tirar";
                         }
                         else
                         {
                             miTurno = false;
-                            MessageBox.Show("Has perdido el turno");
+                            notificacionLbl.Text = "Has perdido el turno";
 
                         }
                     }

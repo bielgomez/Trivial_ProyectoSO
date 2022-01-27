@@ -624,7 +624,6 @@ int DameJugadoresPartida(int partida, char jugadores[500]){
 //Retorna los id de las partidas en las que participa el jugador recibido como parámetro
 void DamePartidasJugador(char nombre[25], char partidas[100]){
 	int i=0;
-	partidas[0]='\0';
 	while(i<len_tablaP)
 	{
 		if((strcmp(nombre,tablaP[i].host)==0)||(strcmp(nombre,tablaP[i].jug2)==0)||(strcmp(nombre,tablaP[i].jug3)==0)||(strcmp(nombre,tablaP[i].jug4)==0))
@@ -1029,12 +1028,13 @@ int EliminarJugadorBBDD(char nombre[25]){
 	
 	//Eliminamos al jugador (i los registros de registros)
 	sprintf(consulta,"DELETE FROM jugadores WHERE jugadores.nombre='%s';",nombre);
-	err=mysql_query (conn, consulta);
+	err=mysql_query(conn, consulta);
 	if (err!=0){
 		return -1;
 	}
 	else{
 		//Eliminamos las partidas donde participa este jugador
+		printf("%s\n",partidas);
 		char *p = strtok(partidas,"/");
 		while (p != NULL){
 			int partida = atoi(p);
@@ -1061,7 +1061,6 @@ int *AtenderCliente(void *socket){
 	//Datos de este cliente
 	char nombre[25];
 	char contrasenya[20];
-	char mail[100];
 	
 	//Variable para saber si se tiene que desconectar
 	int terminar = 0;
@@ -1096,13 +1095,14 @@ int *AtenderCliente(void *socket){
 			RetirarDeListaConectados(nombre,sock_conn);
 			
 			
-			if(strcmp(nombre,"0")!=0){
+			if((strcmp(nombre,"0")!=0) && (strcmp(nombre,"\0")!=0)){
 				printf("[%d]\n",sock_conn);
 				NotificarNuevaListaConectados();
 				printf("-------\n");
 				
 				char partidas[100];
 				DamePartidasJugador(nombre,partidas);
+				printf("Nombre: %s ; Partidas: %s\n",nombre,partidas);
 				char *p=strtok(partidas,"/");
 				while(p!=NULL)
 				{	
@@ -1156,10 +1156,14 @@ int *AtenderCliente(void *socket){
 				//Mensaje en buff: 2/username/contrasenya/mail
 				//Return en buff2: 0--> Todo OK ; 1 --> Usuario ya existente ; -1 --> Error de consulta
 				
+				char nom[25];
+				char password[20];
+				char mail[100];
+				
 				p = strtok(NULL, "/");
-				strcpy(nombre, p);
+				strcpy(nom, p);
 				p = strtok (NULL, "/");
-				strcpy (contrasenya, p);
+				strcpy (password, p);
 				p = strtok(NULL,"/");
 				strcpy(mail, p);
 				
@@ -1224,8 +1228,7 @@ int *AtenderCliente(void *socket){
 				printf("---------\n");
 				if (partida==-1)
 					sprintf(buff2,"7/-1");
-				else
-					{
+				else{
 					printf("[%d]\n",sock_conn);
 					int res = Invitar(invitados, nombre, noDisponibles,partida);
 					printf("----------\n");
@@ -1351,7 +1354,7 @@ int *AtenderCliente(void *socket){
 						sprintf(notificacion,"%s*%s",notificacion,quesito);
 					}
 				}
-				EnviaNotificacion(notificacion,partida,sock_conn); //Enviamos a todos (tambien al usuario del thread)
+				EnviaNotificacion(notificacion,partida,-1); //Enviamos a todos (tambien al usuario del thread)
 
 				//Sumamos quesito (1 punto) en el caso de recibir un 2
 				//En el caso que alguien llegeue a 6 puntos (6 quesitos) se acaba la partida porque

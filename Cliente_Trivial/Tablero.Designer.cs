@@ -52,6 +52,8 @@ namespace Trivial
             this.jug3Box = new System.Windows.Forms.PictureBox();
             this.jug4Box = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.notLbl = new System.Windows.Forms.Label();
+            this.notificacionLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.playersGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tableroBox)).BeginInit();
@@ -77,8 +79,10 @@ namespace Trivial
             this.playersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.playersGridView.Location = new System.Drawing.Point(40, 154);
             this.playersGridView.Name = "playersGridView";
+            this.playersGridView.ReadOnly = true;
             this.playersGridView.RowHeadersWidth = 51;
             this.playersGridView.RowTemplate.Height = 24;
+            this.playersGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.playersGridView.Size = new System.Drawing.Size(198, 150);
             this.playersGridView.TabIndex = 0;
             // 
@@ -286,11 +290,37 @@ namespace Trivial
             this.pictureBox1.TabIndex = 36;
             this.pictureBox1.TabStop = false;
             // 
+            // notLbl
+            // 
+            this.notLbl.AutoSize = true;
+            this.notLbl.BackColor = System.Drawing.Color.Transparent;
+            this.notLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notLbl.ForeColor = System.Drawing.Color.White;
+            this.notLbl.Location = new System.Drawing.Point(1089, 737);
+            this.notLbl.Name = "notLbl";
+            this.notLbl.Size = new System.Drawing.Size(154, 25);
+            this.notLbl.TabIndex = 37;
+            this.notLbl.Text = "Notificaciones:";
+            // 
+            // notificacionLbl
+            // 
+            this.notificacionLbl.AutoSize = true;
+            this.notificacionLbl.BackColor = System.Drawing.Color.Transparent;
+            this.notificacionLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notificacionLbl.ForeColor = System.Drawing.Color.White;
+            this.notificacionLbl.Location = new System.Drawing.Point(1089, 773);
+            this.notificacionLbl.Name = "notificacionLbl";
+            this.notificacionLbl.Size = new System.Drawing.Size(147, 25);
+            this.notificacionLbl.TabIndex = 38;
+            this.notificacionLbl.Text = "Notificaciones";
+            // 
             // Tablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1351, 891);
+            this.Controls.Add(this.notificacionLbl);
+            this.Controls.Add(this.notLbl);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.jug4Box);
             this.Controls.Add(this.jug3Box);
@@ -363,5 +393,7 @@ namespace Trivial
         private System.Windows.Forms.PictureBox jug3Box;
         private System.Windows.Forms.PictureBox jug4Box;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label notLbl;
+        private System.Windows.Forms.Label notificacionLbl;
     }
 }

@@ -259,9 +259,13 @@ namespace Trivial
                         case 10://Notificación de fin de partida "idPartida*nombreFinalizador"
                             //Enviar esta notificacion al Tablero correspondiente
                             int numTablero = DamePosicionLista(tableros, Convert.ToInt32(mensaje.Split('*')[0]));
-                            if(numTablero>=0)
+                            if (numTablero >= 0)
+                            {
+                                tableros[numTablero].FinalizarPartida();
                                 tableros[numTablero].Close();
-                            MessageBox.Show(mensaje.Split('*')[1] + " ha finalizado \nla partida " + mensaje.Split('*')[0]);
+                            }
+                            if (mensaje.Split('*')[1] != userName)
+                                MessageBox.Show(mensaje.Split('*')[1] + " ha finalizado \nla partida " + mensaje.Split('*')[0]);
                             break;
 
                         case 11: //Notificación del resultado del dado de un jugador "idPartida*resDado*nombreTirador"
@@ -272,9 +276,9 @@ namespace Trivial
                             break;
                         case 12: //Notificación del movimiento de otro jugador "idPartida*nombreJugador*rolJugador*nuevaCasilla"
                             //Enviar al tablero correspondiente 
-                            //idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
-                            //numTablero = DamePosicionLista(tableros, idPartida);
-                            //tableros[numTablero].setCasillaJugador(mensaje);
+                            idPartida = Convert.ToInt32(mensaje.Split('*')[0]);
+                            numTablero = DamePosicionLista(tableros, idPartida);
+                            tableros[numTablero].setCasillaJugador(mensaje);
                             break;
 
                         case 13: //Notificacion del resultado de un jugador "idPartida*nombreJugador*resultado(0,1,2)*(siguienteTurno*quesito)"
