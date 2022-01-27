@@ -87,7 +87,7 @@ namespace Trivial
                                     this.color = "Lila";
                                 }
                             }
-                            if (encontrado==false)
+                            if (encontrado == false)
                             {
                                 List<int> naranjas = new List<int>();
                                 int[] cnara = new int[] { 6, 8, 17, 28, 39, 101, 110, 134, 143, 152 };
@@ -119,7 +119,7 @@ namespace Trivial
                                     {
                                         this.categoria = "Tira otra vez";
                                         this.color = "Gris";
-                                    }   
+                                    }
                                 }
                             }
                         }
@@ -252,10 +252,12 @@ namespace Trivial
                     {
 						int n = dado - (7-(id % 7));
 						int m = (id + (7 - id % 7)) / 7;
+                        if (m >= 6)
+                            m = 0;
 
 						this.movimientos[dado - 1].Add(100 + m * 10 + (n-1));
 
-						if (((id%7)==4 || (id%7)==5) && (dado > (id % 7)))
+						if (((id%7)==4 || (id%7)==5) && (dado >((id % 7))))
                         {
 							n = dado - (id % 7);
 							m = (id - (7 - id % 7)) / 7;

@@ -53,9 +53,8 @@ namespace Trivial
             Bitmap[] bitlist = new Bitmap[] { host, jug1, jug2, jug3 };
             piezasbit.AddRange(bitlist);
 
-            pictureBox1.Image = (Image)host;
-            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-            pictureBox1.BackColor = Color.Transparent;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         //Funcion para que un thread pueda modificar objetos del formulario
@@ -131,6 +130,10 @@ namespace Trivial
                                 tableros = new List<Tablero>();
 
                                 //Establecemos pantalla del juego
+                                Bitmap portada = new Bitmap(Application.StartupPath + @"\fondo2.jpg");
+                                this.BackgroundImage = portada;
+                                this.BackgroundImageLayout = ImageLayout.Stretch;
+                                inv_lbl.Visible = true;
                                 consultasButton.Visible = true;
                                 accederBox.Visible = false;
                                 registroBox.Visible = false;
@@ -407,6 +410,7 @@ namespace Trivial
             label6.Visible = false;
             inicio.Visible = false;
             eliminarBox.Visible = false;
+            inv_lbl.Visible = false;
 
             //Fondo
             candadoBox.Image = Image.FromFile(".\\candadoCerrado.jpg");
@@ -448,6 +452,9 @@ namespace Trivial
                     this.BackColor = Color.DarkSlateGray;
 
                     //Establecemos pantalla inicial
+                    Bitmap portada = new Bitmap(Application.StartupPath + @"\fondo1.png");
+                    this.BackgroundImage = portada;
+                    this.BackgroundImageLayout = ImageLayout.Stretch;
                     consultaBox.Visible = false;
                     consultasButton.Visible = false;
                     accederBox.Visible = true;
@@ -463,6 +470,8 @@ namespace Trivial
                     eliminarCuenta.Visible = true;
                     invitadosGridView.Visible = false;
                     label6.Visible = false;
+                    inv_lbl.Visible = false;    
+
 
                     //Vaciamos las casillas por si habian quedado rellenadas
                     NameBox.Clear();
@@ -888,6 +897,10 @@ namespace Trivial
             }
         }
 
+        private void consultaBox_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
     
 }

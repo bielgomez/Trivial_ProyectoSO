@@ -61,6 +61,7 @@ namespace Trivial
             this.BackgroundImage = (Image)tablero;
             this.BackgroundImageLayout = ImageLayout.Center;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox= false;
             // Tablero
             tableroBox.Image = (Image)tablero;
             tableroBox.BackColor = Color.Transparent;

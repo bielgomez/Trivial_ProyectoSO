@@ -17,6 +17,10 @@ namespace Trivial
         public Invitacion()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+
+
         }
         public void SetHost(string host)
         {

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.PasswordBox = new System.Windows.Forms.TextBox();
             this.NameBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -71,7 +71,7 @@
             this.usuarioEliminado = new System.Windows.Forms.TextBox();
             this.eliminarBtn = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.inv_lbl = new System.Windows.Forms.Label();
             this.accederBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoBox)).BeginInit();
             this.registroBox.SuspendLayout();
@@ -80,7 +80,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.invitadosGridView)).BeginInit();
             this.eliminarBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoEliminado)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // PasswordBox
@@ -169,7 +168,7 @@
             // 
             this.conexion.AutoSize = true;
             this.conexion.BackColor = System.Drawing.Color.Black;
-            this.conexion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.conexion.Font = new System.Drawing.Font("Ravie", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.conexion.ForeColor = System.Drawing.Color.White;
             this.conexion.Location = new System.Drawing.Point(1186, 528);
             this.conexion.Name = "conexion";
@@ -191,7 +190,7 @@
             this.registroBox.Controls.Add(this.Registrarme);
             this.registroBox.Controls.Add(this.label5);
             this.registroBox.ForeColor = System.Drawing.Color.White;
-            this.registroBox.Location = new System.Drawing.Point(657, 153);
+            this.registroBox.Location = new System.Drawing.Point(754, 250);
             this.registroBox.Name = "registroBox";
             this.registroBox.Size = new System.Drawing.Size(305, 324);
             this.registroBox.TabIndex = 10;
@@ -287,22 +286,24 @@
             this.consultaBox.Controls.Add(this.radioButton2);
             this.consultaBox.Controls.Add(this.duracion);
             this.consultaBox.Controls.Add(this.Contraseña);
+            this.consultaBox.Font = new System.Drawing.Font("Ravie", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consultaBox.ForeColor = System.Drawing.Color.White;
             this.consultaBox.Location = new System.Drawing.Point(12, 12);
             this.consultaBox.Name = "consultaBox";
-            this.consultaBox.Size = new System.Drawing.Size(470, 250);
+            this.consultaBox.Size = new System.Drawing.Size(591, 250);
             this.consultaBox.TabIndex = 11;
             this.consultaBox.TabStop = false;
             this.consultaBox.Text = "¿Qué quieres saber?";
+            this.consultaBox.Enter += new System.EventHandler(this.consultaBox_Enter);
             // 
             // Preguntar
             // 
             this.Preguntar.BackColor = System.Drawing.Color.Black;
-            this.Preguntar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Preguntar.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Preguntar.ForeColor = System.Drawing.Color.White;
-            this.Preguntar.Location = new System.Drawing.Point(315, 95);
+            this.Preguntar.Location = new System.Drawing.Point(396, 105);
             this.Preguntar.Name = "Preguntar";
-            this.Preguntar.Size = new System.Drawing.Size(135, 47);
+            this.Preguntar.Size = new System.Drawing.Size(149, 47);
             this.Preguntar.TabIndex = 17;
             this.Preguntar.Text = "Preguntar";
             this.Preguntar.UseVisualStyleBackColor = false;
@@ -316,7 +317,7 @@
             this.radioButton2.Location = new System.Drawing.Point(31, 184);
             this.radioButton2.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(273, 21);
+            this.radioButton2.Size = new System.Drawing.Size(352, 23);
             this.radioButton2.TabIndex = 16;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "¿Quién es el jugador con más puntos?";
@@ -330,7 +331,7 @@
             this.duracion.Location = new System.Drawing.Point(31, 118);
             this.duracion.Margin = new System.Windows.Forms.Padding(4);
             this.duracion.Name = "duracion";
-            this.duracion.Size = new System.Drawing.Size(221, 21);
+            this.duracion.Size = new System.Drawing.Size(298, 23);
             this.duracion.TabIndex = 15;
             this.duracion.TabStop = true;
             this.duracion.Text = "¿Cuál es la partida más larga?";
@@ -344,7 +345,7 @@
             this.Contraseña.Location = new System.Drawing.Point(31, 47);
             this.Contraseña.Margin = new System.Windows.Forms.Padding(4);
             this.Contraseña.Name = "Contraseña";
-            this.Contraseña.Size = new System.Drawing.Size(185, 21);
+            this.Contraseña.Size = new System.Drawing.Size(241, 23);
             this.Contraseña.TabIndex = 14;
             this.Contraseña.TabStop = true;
             this.Contraseña.Text = "¿Cuál es mi contraseña?";
@@ -354,11 +355,11 @@
             // 
             this.consultasButton.AutoSize = true;
             this.consultasButton.BackColor = System.Drawing.Color.Black;
-            this.consultasButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.consultasButton.Font = new System.Drawing.Font("Ravie", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consultasButton.ForeColor = System.Drawing.Color.White;
             this.consultasButton.Location = new System.Drawing.Point(1186, 590);
             this.consultasButton.Name = "consultasButton";
-            this.consultasButton.Size = new System.Drawing.Size(153, 45);
+            this.consultasButton.Size = new System.Drawing.Size(162, 45);
             this.consultasButton.TabIndex = 13;
             this.consultasButton.Text = "Consultar";
             this.consultasButton.UseVisualStyleBackColor = false;
@@ -369,14 +370,14 @@
             this.ConectadosGridView.AllowUserToAddRows = false;
             this.ConectadosGridView.AllowUserToDeleteRows = false;
             this.ConectadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ConectadosGridView.DefaultCellStyle = dataGridViewCellStyle11;
             this.ConectadosGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.ConectadosGridView.GridColor = System.Drawing.SystemColors.Control;
             this.ConectadosGridView.Location = new System.Drawing.Point(12, 331);
@@ -390,9 +391,10 @@
             // labelConectados
             // 
             this.labelConectados.AutoSize = true;
-            this.labelConectados.Location = new System.Drawing.Point(14, 316);
+            this.labelConectados.Font = new System.Drawing.Font("Ravie", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelConectados.Location = new System.Drawing.Point(12, 315);
             this.labelConectados.Name = "labelConectados";
-            this.labelConectados.Size = new System.Drawing.Size(137, 17);
+            this.labelConectados.Size = new System.Drawing.Size(182, 19);
             this.labelConectados.TabIndex = 17;
             this.labelConectados.Text = "Lista de Conectados";
             // 
@@ -409,7 +411,7 @@
             // invitarButton
             // 
             this.invitarButton.BackColor = System.Drawing.Color.Black;
-            this.invitarButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.invitarButton.Font = new System.Drawing.Font("Ravie", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.invitarButton.ForeColor = System.Drawing.Color.White;
             this.invitarButton.Location = new System.Drawing.Point(488, 567);
             this.invitarButton.Name = "invitarButton";
@@ -424,14 +426,14 @@
             this.invitadosGridView.AllowUserToAddRows = false;
             this.invitadosGridView.AllowUserToDeleteRows = false;
             this.invitadosGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.invitadosGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.invitadosGridView.DefaultCellStyle = dataGridViewCellStyle12;
             this.invitadosGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.invitadosGridView.GridColor = System.Drawing.SystemColors.Control;
             this.invitadosGridView.Location = new System.Drawing.Point(248, 331);
@@ -445,9 +447,10 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Ravie", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(248, 316);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(118, 17);
+            this.label6.Size = new System.Drawing.Size(168, 19);
             this.label6.TabIndex = 22;
             this.label6.Text = "Lista de Invitados";
             // 
@@ -483,7 +486,7 @@
             this.eliminarLbl.BackColor = System.Drawing.Color.Transparent;
             this.eliminarLbl.Font = new System.Drawing.Font("Ravie", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eliminarLbl.ForeColor = System.Drawing.Color.White;
-            this.eliminarLbl.Location = new System.Drawing.Point(750, 557);
+            this.eliminarLbl.Location = new System.Drawing.Point(756, 567);
             this.eliminarLbl.Name = "eliminarLbl";
             this.eliminarLbl.Size = new System.Drawing.Size(280, 21);
             this.eliminarLbl.TabIndex = 25;
@@ -495,7 +498,7 @@
             this.eliminarCuenta.BackColor = System.Drawing.Color.Black;
             this.eliminarCuenta.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eliminarCuenta.ForeColor = System.Drawing.Color.White;
-            this.eliminarCuenta.Location = new System.Drawing.Point(754, 581);
+            this.eliminarCuenta.Location = new System.Drawing.Point(760, 591);
             this.eliminarCuenta.Name = "eliminarCuenta";
             this.eliminarCuenta.Size = new System.Drawing.Size(218, 45);
             this.eliminarCuenta.TabIndex = 26;
@@ -514,7 +517,7 @@
             this.eliminarBox.Controls.Add(this.eliminarBtn);
             this.eliminarBox.Controls.Add(this.label10);
             this.eliminarBox.ForeColor = System.Drawing.Color.White;
-            this.eliminarBox.Location = new System.Drawing.Point(1081, 153);
+            this.eliminarBox.Location = new System.Drawing.Point(1070, 158);
             this.eliminarBox.Name = "eliminarBox";
             this.eliminarBox.Size = new System.Drawing.Size(305, 270);
             this.eliminarBox.TabIndex = 27;
@@ -596,13 +599,17 @@
             this.label10.TabIndex = 15;
             this.label10.Text = "Nombre usuario";
             // 
-            // pictureBox1
+            // inv_lbl
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(563, 145);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(40, 40);
-            this.pictureBox1.TabIndex = 40;
-            this.pictureBox1.TabStop = false;
+            this.inv_lbl.AutoSize = true;
+            this.inv_lbl.BackColor = System.Drawing.Color.Transparent;
+            this.inv_lbl.Font = new System.Drawing.Font("Ravie", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.inv_lbl.ForeColor = System.Drawing.Color.White;
+            this.inv_lbl.Location = new System.Drawing.Point(25, 277);
+            this.inv_lbl.Name = "inv_lbl";
+            this.inv_lbl.Size = new System.Drawing.Size(383, 21);
+            this.inv_lbl.TabIndex = 41;
+            this.inv_lbl.Text = "Pulsa sobre quién quieras invitar";
             // 
             // Acceso
             // 
@@ -611,9 +618,10 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1398, 662);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.inv_lbl);
             this.Controls.Add(this.eliminarBox);
             this.Controls.Add(this.eliminarCuenta);
+            this.Controls.Add(this.registroBox);
             this.Controls.Add(this.eliminarLbl);
             this.Controls.Add(this.regLabel);
             this.Controls.Add(this.regVisible);
@@ -624,12 +632,12 @@
             this.Controls.Add(this.labelConectados);
             this.Controls.Add(this.consultasButton);
             this.Controls.Add(this.consultaBox);
-            this.Controls.Add(this.registroBox);
             this.Controls.Add(this.conexion);
             this.Controls.Add(this.accederBox);
             this.Controls.Add(this.ConectadosGridView);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Acceso";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Acceder";
@@ -647,7 +655,6 @@
             this.eliminarBox.ResumeLayout(false);
             this.eliminarBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.candadoEliminado)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -695,7 +702,7 @@
         private System.Windows.Forms.Button eliminarBtn;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.PictureBox candadoEliminado;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label inv_lbl;
     }
 }
 

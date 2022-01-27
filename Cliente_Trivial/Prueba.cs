@@ -39,6 +39,8 @@ namespace Trivial
             this.BackgroundImageLayout = ImageLayout.Center;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.BackgroundImageLayout = ImageLayout.Stretch;
+            this.MaximizeBox = false;
+            this.ControlBox= false;
 
         }
 
@@ -99,7 +101,7 @@ namespace Trivial
             correcta = pregunta.GetCorrecta();
 
             //Escribimos enunciado y opciones en el formulario.
-            pregunta_label.Text = enunciado;
+            pregunta_lbl.Text = enunciado;
             opcion0.Text = opciones[0];
             opcion1.Text = opciones[1];
             opcion2.Text = opciones[2];
