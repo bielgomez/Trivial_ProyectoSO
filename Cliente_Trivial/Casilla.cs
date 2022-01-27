@@ -209,7 +209,7 @@ namespace Trivial
 				int pos2 = id - dado;
 
 				//Correcciones
-				if (pos1 > 42)
+				if (pos1 >= 42)
 					pos1 = pos1 - 42;
 				if (pos2 < 0)
 					pos2 = 42 + pos2;
@@ -225,7 +225,7 @@ namespace Trivial
 					if (dado == 6)
 						this.movimientos[dado - 1].Add(1000);
 					else
-						this.movimientos[dado - 1].Add(100 + (id / 7) + (dado-1));
+						this.movimientos[dado - 1].Add(100 + (id / 7)*10 + (dado-1));
                 }
 				//Desde casillas mas cercanas al "quesito inferior"
 				else if ((id%7)==1 || (id%7)==2 || (id % 7) == 3)
@@ -302,7 +302,7 @@ namespace Trivial
 					int pos2= (7 * rama) - (dado - (posRama+1));
 
 					//Correcciones
-					if (pos1 > 42)
+					if (pos1 >= 42)
 						pos1 = pos1 - 42;
 					if (pos2 < 0)
 						pos2 = 42 + pos2;

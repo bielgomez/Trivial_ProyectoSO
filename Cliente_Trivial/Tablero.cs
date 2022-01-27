@@ -61,7 +61,7 @@ namespace Trivial
             this.BackgroundImage = (Image)tablero;
             this.BackgroundImageLayout = ImageLayout.Center;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox= false;
+            this.MaximizeBox = false;
             // Tablero
             tableroBox.Image = (Image)tablero;
             tableroBox.BackColor = Color.Transparent;
@@ -147,41 +147,7 @@ namespace Trivial
                 notificacionLbl.Text = "Es el turno de " + jugadors[0].GetNombre();
             }
             tableroClick = false;
-            //Empezamos en la casilla central
-            miCasilla = 1000;
-
-            // Colocar las piezas de todos los jugadores
-            this.piezas = new List<PictureBox>();
-            PictureBox[] emlist = new PictureBox[] { hostBox, jug2Box, jug3Box, jug4Box };
-            piezas.AddRange(emlist);
-
-            // Fichas
-            //Bitmap host = new Bitmap(Application.StartupPath + @"\ubicacion.png");
-            //Bitmap jug1 = new Bitmap(Application.StartupPath + @"\JugLila.png");
-            //Bitmap jug2 = new Bitmap(Application.StartupPath + @"\JugVerde.png");
-            //Bitmap jug3 = new Bitmap(Application.StartupPath + @"\JugRojo.png");
             
-            //this.piezasbit = new List<Bitmap>();
-            //Bitmap[] bitlist = new Bitmap[] { host, jug1, jug2, jug3 };
-            //piezasbit.AddRange(bitlist);
-
-            int i = 0;
-            while (i<piezas.Count)
-            {
-                if(i < jugadors.Count)
-                {
-                    piezas[i].Image = MakeNewImage(jugadors[i]);
-                    piezas[i].SizeMode = PictureBoxSizeMode.CenterImage;
-                    piezas[i].BackColor = Color.Transparent;
-                    piezas[i].Visible = true;
-                    piezas[i].Location = new Point(Convert.ToInt32(xorigen - hostBox.Size.Width / 2), Convert.ToInt32(xorigen - hostBox.Size.Height / 2));
-                }                
-                else
-                {
-                    piezas[i].Visible = false;
-                }
-                i++;
-            }
         }        
         public void SetPartida(string mensaje, Socket server, string userName)
         {
@@ -197,8 +163,33 @@ namespace Trivial
                 Jugador j = new Jugador(trozos[i], roles[i - 1]);
                 jugadors.Add(j);
             }
-            miJugador = new Jugador(userName, trozos[trozos.Length - 1]);    
-            
+            miJugador = new Jugador(userName, trozos[trozos.Length - 1]);
+            //Empezamos en la casilla central
+            miCasilla = 1000;
+
+            // Colocar las piezas de todos los jugadores
+            this.piezas = new List<PictureBox>();
+            PictureBox[] emlist = new PictureBox[] { hostBox, jug2Box, jug3Box, jug4Box };
+            piezas.AddRange(emlist);
+
+            int k = 0;
+            while (k < piezas.Count)
+            {
+                if (k < jugadors.Count)
+                {
+                    piezas[k].Image = MakeNewImage(jugadors[k]);
+                    piezas[k].SizeMode = PictureBoxSizeMode.CenterImage;
+                    piezas[k].BackColor = Color.Transparent;
+                    piezas[k].Visible = true;
+                    piezas[k].Location = new Point(Convert.ToInt32(xorigen - hostBox.Size.Width / 2), Convert.ToInt32(yorigen - hostBox.Size.Height / 2));
+                }
+                else
+                {
+                    piezas[k].Visible = false;
+                }
+                k++;
+            }
+
             this.server = server;
         }
 
@@ -247,11 +238,14 @@ namespace Trivial
         {            
             foreach(Jugador j in this.jugadors)
             {
-                int idc = j.GetCasilla();
-                int x = this.casillas.DameCasilla(idc).GetX();
-                int y = this.casillas.DameCasilla(idc).GetY();
-                Bitmap bitmap = MakeNewImage(j);
-                piezas[j.GetRolNum()].Location = new Point(Convert.ToInt32(x - hostBox.Size.Width / 2), Convert.ToInt32(y - hostBox.Size.Height / 2));
+                if (j.GetNombre()!=miJugador.GetNombre())
+                {
+                    int idc = j.GetCasilla();
+                    int x = this.casillas.DameCasilla(idc).GetX();
+                    int y = this.casillas.DameCasilla(idc).GetY();
+                    Bitmap bitmap = MakeNewImage(j);
+                    piezas[j.GetRolNum()].Location = new Point(Convert.ToInt32(x - hostBox.Size.Width / 2), Convert.ToInt32(y - hostBox.Size.Height / 2));
+                }
             }
         }
         //Actualizar turno: una vez se ha respondido, se notifica el resultado
@@ -276,12 +270,12 @@ namespace Trivial
                     // Cambiar la pieza de dicho jugador. Pasos:
                     // 1. Encontrar el numrol del jugador que ha ganado un quesito == la posicion de su pieza en "piezas"
                     // 2. Modificar piezas(numrol)
-                    // 2.1. Modificar el vector quesitos del jugador (ORDEN: Verde, Azul, Amarillo, Lila, Naranja, Rojo)
-                    /////////////Preguntar quesito què és?1 com diria que és categroria... és modificar la funció set quesito
-                    // 2.2. Crear la pieza como siempre
+                    // 2.1. Modificar el vector quesitos del jugador 
+                    // 2.2. Crear la pieza
                     // 2.3. Colocar el bitmap creado en piezas(numrol)
                     q = 0;
                     f = false;
+                    // 1. Encontrar el numrol del jugador que ha ganado un quesito == la posicion de su pieza en "piezas"
                     while ((q<jugadors.Count)&&(f == false))
                     {
                         if (trozos[1] == jugadors[q].GetNombre())
@@ -723,7 +717,6 @@ namespace Trivial
                                     break;
                             }
                         }
-                        MessageBox.Show("COMPROVACIÓ CASELLES LILES: Estás en la casilla: "+miCasilla);
                         Prueba formPrueba = new Prueba();
                         formPrueba.SetCategory(categoria);
                         formPrueba.ShowDialog();
@@ -733,25 +726,17 @@ namespace Trivial
                         {
                             acierto = 2;
                             MessageBox.Show("Amazing! Has ganado un quesito");
-                            /////////////////////////////7//////////////////////////////////////////////////////////// AÑADO QUESITO
-
-                           
+                                                       
                             // Cambio del playersGridView
                             playersGridView.Rows[miJugador.GetRolNum()].Cells[1].Value = Convert.ToInt32(playersGridView.Rows[miJugador.GetRolNum()].Cells[1].Value) + 1;
 
                             // Cambiar la pieza de dicho jugador. Pasos:
-                            // 1. Encontrar el numrol del jugador que ha ganado un quesito == la posicion de su pieza en "piezas"
-                            // 2. Modificar piezas(numrol)
-                            // 2.1. Modificar el vector quesitos del jugador (ORDEN: Verde, Azul, Amarillo, Lila, Naranja, Rojo)
-                            // 2.2. Crear la pieza como siempre
-                            // 2.3. Colocar el bitmap creado en piezas(numrol)
-
-                           
-                            // 2.1 Modificar el vector quesitos del jugador
+                            
+                            // 1. Modificar el vector quesitos del jugador
                             miJugador.SetQuesitoCat(categoria);
-                            // 2.2.Crear la pieza como siempre
+                            // 2. Crear la pieza nueva
                             Bitmap bitmap2 = MakeNewImage(miJugador);
-                            // 2.3. Colocar el bitmap creado en piezas(numrol)
+                            // 3. Colocar el bitmap creado en piezas(numrol)
                             piezas[miJugador.GetRolNum()].Image = (Image)bitmap2;
                         }
 
