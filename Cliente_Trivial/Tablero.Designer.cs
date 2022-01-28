@@ -97,13 +97,15 @@ namespace Trivial
             // 
             this.dadolbl.AutoSize = true;
             this.dadolbl.BackColor = System.Drawing.Color.Transparent;
-            this.dadolbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dadolbl.Location = new System.Drawing.Point(1179, 118);
+            this.dadolbl.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dadolbl.ForeColor = System.Drawing.Color.White;
+            this.dadolbl.Location = new System.Drawing.Point(1171, 114);
             this.dadolbl.MaximumSize = new System.Drawing.Size(120, 0);
             this.dadolbl.Name = "dadolbl";
-            this.dadolbl.Size = new System.Drawing.Size(113, 18);
+            this.dadolbl.Size = new System.Drawing.Size(112, 44);
             this.dadolbl.TabIndex = 15;
             this.dadolbl.Text = "Lanza el dado";
+            this.dadolbl.Click += new System.EventHandler(this.dadolbl_Click);
             // 
             // username_lbl
             // 
@@ -287,7 +289,8 @@ namespace Trivial
             this.notificacionLbl.BackColor = System.Drawing.Color.Transparent;
             this.notificacionLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.notificacionLbl.ForeColor = System.Drawing.Color.White;
-            this.notificacionLbl.Location = new System.Drawing.Point(1089, 773);
+            this.notificacionLbl.Location = new System.Drawing.Point(1002, 774);
+            this.notificacionLbl.MaximumSize = new System.Drawing.Size(250, 0);
             this.notificacionLbl.Name = "notificacionLbl";
             this.notificacionLbl.Size = new System.Drawing.Size(147, 25);
             this.notificacionLbl.TabIndex = 38;

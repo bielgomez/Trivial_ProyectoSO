@@ -41,9 +41,8 @@ namespace Trivial
             this.infoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.infoLabel.Location = new System.Drawing.Point(40, 74);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(77, 20);
+            this.infoLabel.Size = new System.Drawing.Size(0, 20);
             this.infoLabel.TabIndex = 0;
-            this.infoLabel.Text = "infoLabel";
             // 
             // infoGridView
             // 

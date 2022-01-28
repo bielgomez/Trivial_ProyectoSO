@@ -104,7 +104,7 @@ namespace Trivial
                                 if (encontrado == false)
                                 {
                                     List<int> verdes = new List<int>();
-                                    int[] cverde = new int[] { 7, 18, 20, 22, 38, 104, 113, 122, 131, 140 };
+                                    int[] cverde = new int[] { 7, 18, 20, 22, 29, 27, 38, 104, 113, 122, 131, 140 };
                                     verdes.AddRange(cverde);
                                     foreach (int i in verdes)
                                     {
@@ -241,6 +241,8 @@ namespace Trivial
                         {
 							n = dado - (7 - (id % 7));
 							m = (id + (7 - (id % 7))) / 7;
+                            if (m >= 6)
+                                m = 0;
                             this.movimientos[dado - 1].Add(100 + m * 10 + (n-1));
                         }
 					}

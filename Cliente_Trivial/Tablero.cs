@@ -783,5 +783,9 @@ namespace Trivial
 
         }
 
+        private void dadolbl_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

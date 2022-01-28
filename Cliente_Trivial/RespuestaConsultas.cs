@@ -111,7 +111,6 @@ namespace Trivial
                 }
                 else
                 {
-                    MessageBox.Show(mensaje);
                     infoLabel.Text = "El jugador con más puntos es: " + mensaje.Split('*')[0] + "\nTiene la friolera cantidad de "+ mensaje.Split('*')[1] + " puntos! \n¿A qué estás esperando para superarlo?";
                 }
             }

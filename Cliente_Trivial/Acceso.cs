@@ -615,7 +615,10 @@ namespace Trivial
                 }
                 else //Construimos el mensaje y lo enviamos ( "14/fecha dia/mes/año == 28/01/22" ) Partidas durante un día en concreto
                 {
-                    string mensaje = "14/" + dateTimePicker.Value.ToString().Split(' ')[0];
+                    string fecha = dateTimePicker.Value.ToString().Split(' ')[0];
+                    string[] fechas = fecha.Split('/');
+                    int año = Convert.ToInt32(fechas[2]) - 2000;
+                    string mensaje = "14/" + fechas[0] + "/" + fechas[1] + "/" + año.ToString();
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
