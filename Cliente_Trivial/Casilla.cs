@@ -69,7 +69,7 @@ namespace Trivial
                             if (i == this.id)
                             {
                                 encontrado = true;
-                                this.categoria = "Tecnología";
+                                this.categoria = "Tecnologia";
                                 this.color = "Rojo";
                             }
                         }

@@ -386,21 +386,18 @@ namespace Trivial
                     dado.Image = Image.FromFile("dado6.png");
 
                 List<int> movimientos = casillas.DameMovimientosPosibles(miCasilla, numDado);
-                string texto = " ";
+                
                 int m = 0;
                 double xm = ubicaciones[m].Size.Width / 2;
                 double ym = ubicaciones[m].Size.Height;
                 while (m<movimientos.Count)
                 {
-                    texto = texto + movimientos[m] + ",";
                     Casilla c = casillas.DameCasilla(movimientos[m]); 
                     ubicaciones[m].Location = new Point(Convert.ToInt32(c.GetX() - xm), Convert.ToInt32(c.GetY() - ym));
                     ubicaciones[m].Visible = true;
                     ubicaciones[m].BackColor = Color.Transparent;
                    m++;
                 }
-                texto.Remove(texto.Length - 1);
-                movimientosLbl.Text = "Posibles movimientos: " + texto;
 
                 dadoClick = false;  // No puedes clickar en el dado
                 tableroClick = true; // Pero ya puedes clickar en el tablero
@@ -716,7 +713,7 @@ namespace Trivial
                                     categoria = "Geografia";
                                     break;
                                 case 4:
-                                    categoria = "Tecnología";
+                                    categoria = "Tecnologia";
                                     break;
                                 case 5:
                                     categoria = "Entretenimiento";

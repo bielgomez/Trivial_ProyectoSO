@@ -34,7 +34,6 @@ namespace Trivial
             this.dadolbl = new System.Windows.Forms.Label();
             this.username_lbl = new System.Windows.Forms.Label();
             this.partida_lbl = new System.Windows.Forms.Label();
-            this.movimientosLbl = new System.Windows.Forms.Label();
             this.ChatTxt = new System.Windows.Forms.TextBox();
             this.ChatBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -75,7 +74,7 @@ namespace Trivial
             this.playersGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.playersGridView.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.playersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.playersGridView.Location = new System.Drawing.Point(40, 154);
+            this.playersGridView.Location = new System.Drawing.Point(40, 118);
             this.playersGridView.Name = "playersGridView";
             this.playersGridView.ReadOnly = true;
             this.playersGridView.RowHeadersWidth = 51;
@@ -99,7 +98,8 @@ namespace Trivial
             this.dadolbl.AutoSize = true;
             this.dadolbl.BackColor = System.Drawing.Color.Transparent;
             this.dadolbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dadolbl.Location = new System.Drawing.Point(1170, 118);
+            this.dadolbl.Location = new System.Drawing.Point(1179, 118);
+            this.dadolbl.MaximumSize = new System.Drawing.Size(120, 0);
             this.dadolbl.Name = "dadolbl";
             this.dadolbl.Size = new System.Drawing.Size(113, 18);
             this.dadolbl.TabIndex = 15;
@@ -109,11 +109,11 @@ namespace Trivial
             // 
             this.username_lbl.AutoSize = true;
             this.username_lbl.BackColor = System.Drawing.Color.Transparent;
-            this.username_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.username_lbl.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.username_lbl.ForeColor = System.Drawing.Color.White;
-            this.username_lbl.Location = new System.Drawing.Point(37, 22);
+            this.username_lbl.Location = new System.Drawing.Point(37, 29);
             this.username_lbl.Name = "username_lbl";
-            this.username_lbl.Size = new System.Drawing.Size(90, 18);
+            this.username_lbl.Size = new System.Drawing.Size(129, 22);
             this.username_lbl.TabIndex = 16;
             this.username_lbl.Text = "Username:";
             // 
@@ -121,51 +121,42 @@ namespace Trivial
             // 
             this.partida_lbl.AutoSize = true;
             this.partida_lbl.BackColor = System.Drawing.Color.Transparent;
-            this.partida_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.partida_lbl.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.partida_lbl.ForeColor = System.Drawing.Color.White;
-            this.partida_lbl.Location = new System.Drawing.Point(37, 60);
+            this.partida_lbl.Location = new System.Drawing.Point(37, 67);
             this.partida_lbl.Name = "partida_lbl";
-            this.partida_lbl.Size = new System.Drawing.Size(66, 18);
+            this.partida_lbl.Size = new System.Drawing.Size(106, 22);
             this.partida_lbl.TabIndex = 17;
             this.partida_lbl.Text = "Partida:";
-            // 
-            // movimientosLbl
-            // 
-            this.movimientosLbl.AutoSize = true;
-            this.movimientosLbl.BackColor = System.Drawing.Color.Transparent;
-            this.movimientosLbl.ForeColor = System.Drawing.Color.White;
-            this.movimientosLbl.Location = new System.Drawing.Point(37, 107);
-            this.movimientosLbl.Name = "movimientosLbl";
-            this.movimientosLbl.Size = new System.Drawing.Size(154, 17);
-            this.movimientosLbl.TabIndex = 18;
-            this.movimientosLbl.Text = "Possibles movimientos:";
             // 
             // ChatTxt
             // 
             this.ChatTxt.Location = new System.Drawing.Point(40, 854);
             this.ChatTxt.Name = "ChatTxt";
-            this.ChatTxt.Size = new System.Drawing.Size(151, 22);
+            this.ChatTxt.Size = new System.Drawing.Size(164, 22);
             this.ChatTxt.TabIndex = 19;
             // 
             // ChatBtn
             // 
-            this.ChatBtn.Location = new System.Drawing.Point(210, 854);
+            this.ChatBtn.BackColor = System.Drawing.Color.White;
+            this.ChatBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.ChatBtn.Location = new System.Drawing.Point(210, 851);
             this.ChatBtn.Name = "ChatBtn";
-            this.ChatBtn.Size = new System.Drawing.Size(70, 23);
+            this.ChatBtn.Size = new System.Drawing.Size(70, 25);
             this.ChatBtn.TabIndex = 20;
             this.ChatBtn.Text = "Enviar";
-            this.ChatBtn.UseVisualStyleBackColor = true;
+            this.ChatBtn.UseVisualStyleBackColor = false;
             this.ChatBtn.Click += new System.EventHandler(this.ChatBtn_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(37, 660);
+            this.label1.Location = new System.Drawing.Point(36, 651);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 18);
+            this.label1.Size = new System.Drawing.Size(69, 22);
             this.label1.TabIndex = 22;
             this.label1.Text = "CHAT";
             // 
@@ -282,11 +273,11 @@ namespace Trivial
             // 
             this.notLbl.AutoSize = true;
             this.notLbl.BackColor = System.Drawing.Color.Transparent;
-            this.notLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notLbl.Font = new System.Drawing.Font("Ravie", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.notLbl.ForeColor = System.Drawing.Color.White;
-            this.notLbl.Location = new System.Drawing.Point(1089, 737);
+            this.notLbl.Location = new System.Drawing.Point(1074, 725);
             this.notLbl.Name = "notLbl";
-            this.notLbl.Size = new System.Drawing.Size(154, 25);
+            this.notLbl.Size = new System.Drawing.Size(218, 27);
             this.notLbl.TabIndex = 37;
             this.notLbl.Text = "Notificaciones:";
             // 
@@ -324,7 +315,6 @@ namespace Trivial
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ChatBtn);
             this.Controls.Add(this.ChatTxt);
-            this.Controls.Add(this.movimientosLbl);
             this.Controls.Add(this.partida_lbl);
             this.Controls.Add(this.username_lbl);
             this.Controls.Add(this.dadolbl);
@@ -361,7 +351,6 @@ namespace Trivial
         private System.Windows.Forms.Label dadolbl;
         private System.Windows.Forms.Label username_lbl;
         private System.Windows.Forms.Label partida_lbl;
-        private System.Windows.Forms.Label movimientosLbl;
         private System.Windows.Forms.TextBox ChatTxt;
         private System.Windows.Forms.Button ChatBtn;
         private System.Windows.Forms.Label label1;

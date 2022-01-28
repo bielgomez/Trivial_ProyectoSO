@@ -36,6 +36,8 @@ namespace Trivial
 
         List<Tablero> tableros;
 
+        RespuestaConsultas formConsultas;
+
         public Acceso()
         {
             InitializeComponent();
@@ -204,20 +206,19 @@ namespace Trivial
                             adios = true;
                             break;
 
-                        case 3: //Recuperación de la contrasenya
-                            if (mensaje == "-1")
-                                MessageBox.Show("Error de consulta. Prueba otra vez.");
-                            else
-                                MessageBox.Show("Tu contraseña es: " + mensaje);
+                        case 3: // Recibe jugadores con los que has jugado. 0 si no has jugado con ninguno
+                            this.formConsultas = new RespuestaConsultas();
+                            this.formConsultas.SetQuestion(Contraseña.Text);
+                            this.formConsultas.SetDataGrid(codigo, mensaje);
+                            this.formConsultas.ShowDialog();
                             break;
 
-                        case 4: //Partida más larga
-                            if (mensaje == "-1")
-                                MessageBox.Show("Error de consulta. Prueba otra vez.");
-                            else if (mensaje == "-2")
-                                MessageBox.Show("No se ha encontrado ninguna partida en la base de datos");
-                            else
-                                MessageBox.Show("La partida más larga ha sido la número " + mensaje + ".");
+                        case 4: //Resultados de las partidas que jugué con un jugador (o jugadores) determinado.
+                            this.formConsultas = new RespuestaConsultas();
+                            this.formConsultas.SetQuestion(duracion.Text);
+                            this.formConsultas.SetDataGrid(codigo, mensaje);
+                            this.formConsultas.ShowDialog();
+                            
                             break;
 
                         case 5: //Jugador con más puntos
@@ -568,29 +569,34 @@ namespace Trivial
         {
             try
             {
-                //Queremos saber nuestra contraseña
                 if (Contraseña.Checked) 
                 {
-                    //Construimos el mensaje y lo enviamos (Codigo 3/ --> Dame Contraseña)
+                    //Construimos el mensaje y lo enviamos (Codigo 3/ --> Dame Jugadores)
+                    // "SELECT jugadores.nombre FROM (registro, jugadores) WHERE (iPd = 'namebox.text') or (iP = 'namebox.text') WHERE (ipd = jugadores.idorO"
+                    // 
                     string mensaje = "3/" + NameBox.Text;
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
                 }
-
-                //Queremos saber cuanto dura la partida mas larga
                 else if (duracion.Checked)
                 {
-                    //Construimos el mensaje y lo enviamos (Codigo 4/ --> Dame partida + larga)
-                    string mensaje = "4/";
+                    //Construimos el mensaje y lo enviamos (Codigo 4/ --> Dame partidas con x/y/z...)
+                    string mensaje = "4/"+nombresBox.Text;
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
                 }
                 //Queremos saber el jugador con mas puntos
-                else
+                else if (jugMaxBtn.Checked)
                 {
                     //Construimos el mensaje y lo enviamos (Codigo 5/ --> Dame jugador con + puntos)
                     string mensaje = "5/";
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                }
+                else //Partidas durante un día
+                {
+                    string mensaje = "/////////////////////////////////////////////////////////fecha***";
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
@@ -896,9 +902,15 @@ namespace Trivial
             }
         }
 
-        private void consultaBox_Enter(object sender, EventArgs e)
+        private void duracion_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            
         }
     }
     

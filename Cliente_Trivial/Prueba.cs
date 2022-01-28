@@ -88,7 +88,7 @@ namespace Trivial
                 pregunta = entretenimiento.DamePregunta(num);
                 cat_label.Text = "ENTRETENIMIENTO";
             }
-            if (categoria == "Tecnología")
+            if (categoria == "Tecnologia")
             {
                 int num = number.Next(1, tecnologia.DameLongitud());
                 pregunta = tecnologia.DamePregunta(num);
