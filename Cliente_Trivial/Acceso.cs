@@ -718,7 +718,7 @@ namespace Trivial
                         }
                     }
                     else
-                        MessageBox.Show("El numero maximo de invitados es 3");
+                        MessageBox.Show("El numero máximo de invitados es 3");
                 }
                 ConectadosGridView.SelectAll();
 
@@ -730,7 +730,6 @@ namespace Trivial
             }   
             
         }
-
 
         private void CrearInvitadosGridView(List<string> invitados)
         {

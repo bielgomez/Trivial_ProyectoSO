@@ -713,7 +713,7 @@ namespace Trivial
                                     categoria = "Historia";
                                     break;
                                 case 3:
-                                    categoria = "Geografía";
+                                    categoria = "Geografia";
                                     break;
                                 case 4:
                                     categoria = "Tecnología";

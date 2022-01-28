@@ -70,7 +70,7 @@ namespace Trivial
                 pregunta = historia.DamePregunta(num);
                 cat_label.Text = "HISTORIA";
             }
-            else if (categoria == "Geografía")
+            else if (categoria == "Geografia")
             {
                 int num = number.Next(1, geografia.DameLongitud());
                 pregunta = geografia.DamePregunta(num);

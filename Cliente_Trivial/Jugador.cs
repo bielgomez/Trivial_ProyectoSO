@@ -111,7 +111,7 @@ namespace Trivial
                             yahabia = 1;
                     }
                     break;
-                case "Geografía":
+                case "Geograf?a":
                     {
                         if (this.quesitos[1] == 0)
                             this.quesitos[1] = 1;
@@ -143,7 +143,7 @@ namespace Trivial
                             yahabia = 1;
                     }
                     break;
-                case "Tecnología":
+                case "Tecnolog?a":
                     {
                         if (this.quesitos[5] == 0)
                             this.quesitos[5] = 1;

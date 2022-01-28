@@ -55,7 +55,7 @@ namespace Trivial
                         if (i == this.id)
                         {
                             encontrado = true;
-                            this.categoria = "Geografía";
+                            this.categoria = "Geografia";
                             this.color = "Azul";
                         }
                     }
