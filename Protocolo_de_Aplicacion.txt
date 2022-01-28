@@ -6,9 +6,9 @@ PROTOCOLO DE APLICACIÓN
     "0/" (Desconectar)                                           				->                                            -
     "1/usuario/contraseña" (LogIn)                               				->    "1/0 o 1 o 2 o -1" (Login Correcto o Usuario no existe o Error de consulta)
     "2/usuario/contraseña/mail" (Registrarse)                    				->    "2/0 o 1 o -1" (Registro correcto o Usuario ya existe o Error de consulta)
-    "3/usuario" (Dame mi contraseña)                             				->    "3/contraseña o 1 o -1" (Dame contraseña o No hay usuario o Error de Consulta)
-    "4/" (Dame la partida más larga)                             				->    "4/idPartidaLarga o -1 o -2" (Id Partida más larga o Error de consulta o No hay partidas en la BBDD)
-    "5/" (Dame jugador con más punto)                            				->    "5/nombreJugador o -1 o -2" (nombre del jugador con más puntos o Error de consulta o No hay jugadores en la BBDD)
+    "3/usuario" (Dame mis contrincantes)                             				->    "3/0 o jugador1*jugador2*..." (0-No ha jugado con nadie, lista contrincantes)
+    "4/nombre1(/nombre2/nombre3/...)" (Dame partidas jugadas con nombre1,nombre2...)            ->    "4/0 o nombre1,idPartida,ganadorPartida*nombre2,idPartida,ganadorParida*..." (Resultados Partidas con jugadores)
+    "5/" (Dame jugador con más punto)                            				->    "5/nombreJugador/másPuntos o -1 o -2" (nombre del jugador con más puntos o Error de consulta o No hay jugadores en la BBDD)
                             -                                    				<-    "6/conectado1*conectado2*..." (Notificar nueva lista de conectados)
     "6/invitado1*invitado2*..." (Invitar a una partida)          				->    "7/0 o noDisponible1*noDisponible2... o -1" (Invitaciones enviadas correctamente o invitaciones no enviadas a no disponibles o no se ha creado la partida)
     "7/SI o NO/idPartida" (Aceptar o Declinar una invitación)    				<-    "8/host*idPartida" (Notificar invitacion a una partida)
@@ -28,3 +28,4 @@ PROTOCOLO DE APLICACIÓN
 			    - 									<-    "15/idPartida*nombre*mensaje" (Notificación de mensaje nuevo en el chat)
 			    -  									<-    "16/idPartida*rechazador" (Notifica que la partida no se inicia porque nombre ha rechazado)
     "13/usuario/contraseña" (Darse de baja de la BBDD) 						->    "17/X" X->int (Respuesta a petición de retirada de la BBDD) [0-OK,1-Usuario no existe,2-Contrasenya Incorrecta,3-Usuario conectado,-1-Error BBDD]
+    "14/fecha" (Dame partidas jugadas en esta fecha) 						->    "18/0 o idPartida1,duraion1*idPartida2,duracion2*..." (retorna las partidas jugadas en la fecha y su duración)[0->si no encuentra nada]

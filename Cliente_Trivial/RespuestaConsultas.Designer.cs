@@ -52,7 +52,7 @@ namespace Trivial
             this.infoGridView.Name = "infoGridView";
             this.infoGridView.RowHeadersWidth = 51;
             this.infoGridView.RowTemplate.Height = 24;
-            this.infoGridView.Size = new System.Drawing.Size(240, 150);
+            this.infoGridView.Size = new System.Drawing.Size(479, 196);
             this.infoGridView.TabIndex = 1;
             // 
             // askLbl
@@ -75,7 +75,6 @@ namespace Trivial
             this.Controls.Add(this.infoLabel);
             this.Name = "RespuestaConsultas";
             this.Text = "RespuestaConsultas";
-            this.Load += new System.EventHandler(this.RespuestaConsultas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.infoGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

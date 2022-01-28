@@ -17,6 +17,7 @@ using System.Net.Sockets;
 using System.Threading;
 
 
+
 namespace Trivial
 {
     public partial class Acceso : Form
@@ -135,15 +136,15 @@ namespace Trivial
                                 Bitmap portada = new Bitmap(Application.StartupPath + @"\fondo2.jpg");
                                 this.BackgroundImage = portada;
                                 this.BackgroundImageLayout = ImageLayout.Stretch;
+
                                 inv_lbl.Visible = true;
+                                inv_lbl.Text = userName + ", pulsa sobre quién quieras invitar";
                                 consultasButton.Visible = true;
                                 accederBox.Visible = false;
                                 registroBox.Visible = false;
-                                nameUserTxt.Visible = true;
                                 ConectadosGridView.Visible = true;
                                 labelConectados.Visible = true;
                                 
-                                nameUserTxt.Text = "Username: " + userName;
 
                                 conexion.Text = "Desconectar";
                                 conexion.Visible = true;
@@ -206,28 +207,39 @@ namespace Trivial
                             adios = true;
                             break;
 
-                        case 3: // Recibe jugadores con los que has jugado. 0 si no has jugado con ninguno
-                            this.formConsultas = new RespuestaConsultas();
-                            this.formConsultas.SetQuestion(Contraseña.Text);
-                            this.formConsultas.SetDataGrid(codigo, mensaje);
-                            this.formConsultas.ShowDialog();
-                            break;
-
-                        case 4: //Resultados de las partidas que jugué con un jugador (o jugadores) determinado.
-                            this.formConsultas = new RespuestaConsultas();
-                            this.formConsultas.SetQuestion(duracion.Text);
-                            this.formConsultas.SetDataGrid(codigo, mensaje);
-                            this.formConsultas.ShowDialog();
-                            
-                            break;
-
-                        case 5: //Jugador con más puntos
+                        case 3: //"3/0 o jugador1*jugador2*..." (0-No ha jugado con nadie, lista contrincantes)
                             if (mensaje == "-1")
                                 MessageBox.Show("Error de consulta. Prueba otra vez");
-                            else if (mensaje == "-2")
-                                MessageBox.Show("No se ha encontrado ningún jugador en la base de datos.");
                             else
-                                MessageBox.Show("El jugador con más puntos es: " + mensaje + ".");
+                            {
+                                this.formConsultas = new RespuestaConsultas();
+                                this.formConsultas.SetQuestion(ConQuienLbl.Text);
+                                this.formConsultas.SetDataGrid(codigo, mensaje);
+                                this.formConsultas.ShowDialog();
+                            }
+                                break;
+
+                        case 4: //"4/0 o nombre1,idPartida,ganadorPartida*nombre2,idPartida,ganadorParida*..." (Resultados Partidas con jugadores)
+                            if (mensaje == "-1")
+                                MessageBox.Show("Error de consulta. Prueba otra vez");
+                            else
+                            {
+                                this.formConsultas = new RespuestaConsultas();
+                                this.formConsultas.SetQuestion(companyia.Text);
+                                this.formConsultas.SetDataGrid(codigo, mensaje);
+                                this.formConsultas.ShowDialog();
+                            }
+                            break;
+
+                        case 5: //"5/nombreJugador/puntos o -1 o -2" (nombre del jugador con más puntos o Error de consulta o No hay jugadores en la BBDD)
+                            if (mensaje == "-1")
+                                MessageBox.Show("Error de consulta. Prueba otra vez");
+                            else {
+                                this.formConsultas = new RespuestaConsultas();
+                                this.formConsultas.SetQuestion(jugMaxBtn.Text);
+                                this.formConsultas.SetDataGrid(codigo, mensaje);
+                                this.formConsultas.ShowDialog();
+                            }
                             break;
 
                         case 6: //Notificación de actualización de la lista de conectados
@@ -366,6 +378,18 @@ namespace Trivial
                             } 
                             adios = true;
                             break;
+                        case 18: //18/idPartida1,duraion1*idPartida2,duracion2*..." (retorna las partidas jugadas en la fecha y su duración)
+                            if (mensaje == "-1")
+                                MessageBox.Show("Error de consulta. Prueba otra vez");
+                            else
+                            {
+                                this.formConsultas = new RespuestaConsultas();
+                                this.formConsultas.SetQuestion(fechaBtn.Text);
+                                this.formConsultas.SetDataGrid(codigo, mensaje);
+                                this.formConsultas.ShowDialog();
+                            }
+                            
+                            break;
                     }
                 }
                 catch (SocketException)
@@ -404,7 +428,6 @@ namespace Trivial
             consultasButton.Visible = false;
             ConectadosGridView.Visible = false;
             labelConectados.Visible = false;
-            nameUserTxt.Visible = false;
             invitarButton.Visible = false;
             conexion.Visible = false;
             invitadosGridView.Visible = false;
@@ -462,7 +485,6 @@ namespace Trivial
                     registroBox.Visible = false;
                     ConectadosGridView.Visible = false;
                     labelConectados.Visible = false;
-                    nameUserTxt.Visible = false;
                     invitarButton.Text = "Invitar";
                     invitarButton.Visible = false;
                     regLabel.Visible = true;
@@ -569,34 +591,31 @@ namespace Trivial
         {
             try
             {
-                if (Contraseña.Checked) 
+                if (ConQuienLbl.Checked) 
                 {
-                    //Construimos el mensaje y lo enviamos (Codigo 3/ --> Dame Jugadores)
-                    // "SELECT jugadores.nombre FROM (registro, jugadores) WHERE (iPd = 'namebox.text') or (iP = 'namebox.text') WHERE (ipd = jugadores.idorO"
-                    // 
+                    //Construimos el mensaje y lo enviamos ( "3/miNombre" ) para saber con quien he jugado
                     string mensaje = "3/" + NameBox.Text;
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
                 }
-                else if (duracion.Checked)
+                else if (companyia.Checked)
                 {
-                    //Construimos el mensaje y lo enviamos (Codigo 4/ --> Dame partidas con x/y/z...)
+                    //Construimos el mensaje y lo enviamos ( "4/x/y/z..." ) para saber qué partidas he jugado con ellos
                     string mensaje = "4/"+nombresBox.Text;
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
                 }
-                //Queremos saber el jugador con mas puntos
                 else if (jugMaxBtn.Checked)
                 {
-                    //Construimos el mensaje y lo enviamos (Codigo 5/ --> Dame jugador con + puntos)
+                    //Construimos el mensaje y lo enviamos ( "5/" ) Queremos saber el jugador con mas puntos
                     string mensaje = "5/";
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
                 }
-                else //Partidas durante un día
+                else //Construimos el mensaje y lo enviamos ( "14/fecha dia/mes/año == 28/01/22" ) Partidas durante un día en concreto
                 {
-                    string mensaje = "/////////////////////////////////////////////////////////fecha***";
+                    string mensaje = "14/" + dateTimePicker.Value.ToString().Split(' ')[0];
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
@@ -797,11 +816,6 @@ namespace Trivial
             }
         }
 
-        private void accederBox_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void regVisible_Click(object sender, EventArgs e)
         {
             registroBox.Visible = true;
@@ -901,17 +915,7 @@ namespace Trivial
                 candadoEliminado.Image = Image.FromFile(".\\candadoCerrado.jpg");
             }
         }
-
-        private void duracion_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            
-        }
+               
     }
     
 }
