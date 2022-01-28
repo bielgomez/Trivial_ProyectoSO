@@ -34,3 +34,12 @@ En la serie The Big Bang Theory, ¿qué condición tiene Sheldon?/Daltonismo/Asp
 ¿Cuántos actores diferentes han personificado el personajed de 'El Doctor' en la serie Doctor Who?/10/13/12/11/1
 ¿Cuál es el idioma más hablado del planeta?/Español/Inglés/Francés/Chino mandarín/3
 ¿Quién es el autor de Tirant Lo Blanc?/Ausiás March/Joanot Martorell/Salvador Espriu/Joan Salvat-Papasseit/1
+¿Quién es el autor de Don Quijote de la Mancha?/Federico García Lorca/Antonio Machado/Miguel de Cervantes/Es anónimo/2
+¿Quién es el autor del Lazarillo de Tormes?/Lope de Rueda/Juan de Ortega/Alfonso de Valdés/Es anónimo/3
+¿Quién es el autor de La Celestina?/Fernando de Rojas/Alfonso Velázquez/Francisco de Rioja/Es anónimo/0
+¿Quién pintó La última cena?/Miguel Ángel/Vicent van Gogh/Leonardo da Vinci/Rafael Sanzio/2
+¿Cuál de estos renacentistas no forma parte del grupo que pintó la Capilla Sixtina?/Sandro Botichelli/Pietro Perugino/Luca Signorelli/Enrico Castellani/3
+¿Quién pintó La Gioconda?/Vicent van Gogh/Miguel Ángel/Leonardo da Vinci/Sandro Botichelli/2
+¿Quién pintó el Guernica?/Salvador Dalí/Pablo Picasso/Ramón Casas/Joan Miró/1
+¿Quién pintó La joven de la perla?/Louise Abbéma/Johannes Vermeer/Raymond Abner/Tony Agostini/1
+¿Cuál de estas obras no es de Bukowski?/Cartero/Mujeres/Casandra/Pulp/2

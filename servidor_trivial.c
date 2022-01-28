@@ -147,19 +147,21 @@ int Registro(char nombre[25], char contrasenya[20], char mail[100]){
 	}
 }
 
-//Recuperar contrasenya --> Codigo 3
-int RecuperarContrasenya(char nombre[25], char contrasenya[20]){
-	//Retorna 0 --> Todo OK (+ la contrasenya en la variable contrasenya); 1--> No hay usuario (+ '\0' en la variable contrasenya); -1 --> Error de consulta (+ '\0' en la variable contrasenya)
+//Contra quien he jugado --> Codigo 3
+int DameContrincantes(char nombre[25], char contrincantes[500]){
+	//Retorna en contrincantes contrincante1*contrincante2... (0 en caso de no encontrar a nadie)
+	//Resultado de la funcion: 1-> TODO OK; -1->Error BBDD ; 0 -> No has jugado contra nadie
 	
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
 	int err;
 	
-	char consulta[80];
-	strcpy(consulta,"SELECT contrasenya FROM jugadores WHERE nombre='");
-	strcat(consulta,nombre);
-	strcat(consulta,"'");
+	strcpy(contrincantes,"");
 	
+	char consulta[500];
+	char consulta1[500];
+	sprintf(consulta1,"SELECT registro.idP FROM (jugadores,registro) WHERE jugadores.nombre='%s' AND jugadores.id=registro.idJ",nombre);
+	sprintf(consulta,"SELECT DISTINCT jugadores.nombre FROM (jugadores,registro) WHERE jugadores.id=registro.idJ AND registro.idP IN (%s) AND jugadores.nombre!='%s'",consulta1,nombre);
 	err=mysql_query(conn,consulta);
 	if (err!=0)
 		return -1;
@@ -168,38 +170,76 @@ int RecuperarContrasenya(char nombre[25], char contrasenya[20]){
 		row = mysql_fetch_row(resultado);
 		
 		if (row == NULL){
-			strcpy(contrasenya,"\0");
-			return 1;
+			strcpy(contrincantes,"0");
+			return 0;
 		}
 		else{
-			strcpy(contrasenya,row[0]);
-			return 0;
+			while(row!=NULL){
+				sprintf(contrincantes,"%s%s*",contrincantes,row[0]);
+				row = mysql_fetch_row(resultado);
+			}
+			contrincantes[strlen(contrincantes)-1]='\0';
+			return 1;
 		}
 	}
 }
 
-//Partida mas larga --> Codigo 4
-int DamePartidaLarga(){
-	//Retorna idP partida mas larga --> Todo OK ; -1 --> Error de consulta ; -2 --> No hay partidas en BBDD
+//Infrmacion partidas jugadas con los contrincantes indicados --> Codigo 4
+int DamePartidasContrincantes(char nombre[25], char contrincantes[500],char respuesta[1000]){
+	//Retorna en respuesta nombre1,idPartida1,ganadorPartida1*nombre2,idPartida2,ganadorPartida2*... (0 en cas de nno encontrar ninguna informacion)
+	//Resultado de la función: 0-> TODO OK ; -1 -> Error BBDD
 	
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
 	int err;
 	
-	err=mysql_query (conn, "SELECT partidas.id FROM partidas WHERE partidas.duracion = (SELECT MAX(partidas.duracion) FROM partidas)");
-	if (err!=0)
-		return -1;
-	else{
-		resultado = mysql_store_result(conn);
-		row = mysql_fetch_row(resultado);
-		
-		if (row == NULL)
-			return -2;
+	strcpy(respuesta,"");
+	int entra = 0;
+	int contr = 0;
+	
+	char *p = strtok(contrincantes,"/");
+	while(p!=NULL){
+		char contrincante[25];
+		strcpy(contrincante,p);
+		char consulta[500];
+		char consulta1[500];
+		sprintf(consulta1,"SELECT registro.idP FROM (registro,jugadores) WHERE jugadores.nombre='%s' AND jugadores.id = registro.idJ",nombre);
+		sprintf(consulta,"SELECT partidas.id,partidas.ganador FROM (partidas,registro,jugadores) WHERE jugadores.nombre='%s' AND jugadores.id=registro.idJ AND registro.idP IN (%s) AND registro.idP=partidas.id",contrincante,consulta1);
+		err=mysql_query (conn,consulta);
+		if(err!=0)
+			return -1;
 		else{
-			int idP = atoi(row[0]);
-			return idP; 
+			resultado = mysql_store_result(conn);
+			row = mysql_fetch_row(resultado);
+			if(row==NULL)
+				entra = entra + 1;
+			else if (row!=NULL){				
+				while(row!=NULL){
+					if(strcmp(respuesta,"0")==0){
+						sprintf(respuesta,"%s,%s,%s*",contrincante,row[0],row[1]);
+					}
+					else{
+						sprintf(respuesta,"%s%s,%s,%s*",respuesta,contrincante,row[0],row[1]);
+					}
+					row=mysql_fetch_row(resultado);
+				}
+			}				
 		}
+		contr=contr+1;
+		
+		p=strtok(NULL,"/");
 	}
+	if (entra==contr)
+		strcpy(respuesta,"0");
+	
+	if(strcmp(respuesta,"")!=0){
+		respuesta[strlen(respuesta)-1]='\0';
+	}
+	else{
+		strcpy(respuesta,"0");
+	}
+	return 0;
+	
 }
 
 //Jugador con mas puntos --> Codigo 5
@@ -209,6 +249,7 @@ int DameJugadorMasPuntos(char nombre[25]){
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
 	int err;
+	char consulta[200];
 	
 	err=mysql_query (conn, "SELECT jugadores.nombre FROM (jugadores, registro) WHERE registro.puntos=(SELECT MAX(registro.puntos) FROM registro) AND registro.idJ=jugadores.id");
 	if (err!=0){
@@ -225,7 +266,16 @@ int DameJugadorMasPuntos(char nombre[25]){
 		}
 		else{
 			strcpy(nombre,row[0]); 
-			return 0;
+			sprintf(consulta,"SELECT SUM(registro.puntos) FROM (registro, jugadores) WHERE registro.idJ=jugadores.id AND jugadores.nombre='%s'",nombre);
+			err=mysql_query(conn,consulta);
+			if(err!=0){
+				return -1;
+			}
+			else{
+				resultado = mysql_store_result(conn);
+				row = mysql_fetch_row(resultado);
+				return atoi(row[0]);
+			}
 		}
 	}
 	
@@ -248,12 +298,12 @@ int DameListaConectados(char lista[512]){
 	
 }
 //Retorna la fecha y hora actuales
-int DameTiempo(char fecha[10],char hora[10]){
+int DameTiempo(char fecha[12],char hora[10]){
 	//Retorna la hora en segundos
 	
 	time_t tiempo = time(0);
 	struct tm *tlocal = localtime(&tiempo);
-	strftime(fecha,10,"%d/%m/%y",tlocal);
+	strftime(fecha,10,"%d/%m/%Y",tlocal);
 	strftime(hora,10,"%H:%M:%S",tlocal);
 	//printf("%s %s\n",fecha,hora);
 	
@@ -680,33 +730,27 @@ int SumaPuntos(int idPartida, char rol[10],char categoria[100]){
 	//Sumamos el punto a la categoria correspondiente
 	if (strcmp(rol,"host")==0){
 		if (strcmp(categoria,"Ciencia")==0){
-			tablaP[idPartida].puntosHost[0] = 1;
-			printf("Quesito en ciencia\n");
+			tablaP[idPartida].puntosHost[0] = 1;			
 		}
 		
-		else if (strcmp(categoria,"Geograf?a")==0){
+		else if (strcmp(categoria,"Geografia")==0){
 			tablaP[idPartida].puntosHost[1] = 1;
-			printf("Quesito en geografía\n");
 		}
 		
 		else if (strcmp(categoria,"Historia")==0){
 			tablaP[idPartida].puntosHost[2] = 1;
-			printf("Quesito en historia\n");
 		}
 
 		else if (strcmp(categoria,"Entretenimiento")==0){
 			tablaP[idPartida].puntosHost[3] = 1;
-			printf("Quesito en entretenimiento\n");
 		}
 
 		else if (strcmp(categoria,"Deportes")==0){
 			tablaP[idPartida].puntosHost[4] = 1;
-			printf("Quesito en deportes\n");
 		}
 		
 		else{
 			tablaP[idPartida].puntosHost[5] = 1;
-			printf("Quesito en tecnologia\n");
 		}
 		
 		int suma= TotalPuntos(tablaP[idPartida].puntosHost);
@@ -717,7 +761,7 @@ int SumaPuntos(int idPartida, char rol[10],char categoria[100]){
 		if (strcmp(categoria,"Ciencia")==0)
 			tablaP[idPartida].puntosJug2[0] = 1;
 		
-		else if (strcmp(categoria,"Geografía")==0)
+		else if (strcmp(categoria,"Geografia")==0)
 			tablaP[idPartida].puntosJug2[1] = 1;
 		
 		else if (strcmp(categoria,"Historia")==0)
@@ -741,7 +785,7 @@ int SumaPuntos(int idPartida, char rol[10],char categoria[100]){
 		if (strcmp(categoria,"Ciencia")==0)
 			tablaP[idPartida].puntosJug3[0] = 1;
 		
-		else if (strcmp(categoria,"Geografía")==0)
+		else if (strcmp(categoria,"Geografia")==0)
 			tablaP[idPartida].puntosJug3[1] = 1;
 		
 		else if (strcmp(categoria,"Historia")==0)
@@ -765,7 +809,7 @@ int SumaPuntos(int idPartida, char rol[10],char categoria[100]){
 		if (strcmp(categoria,"Ciencia")==0)
 			tablaP[idPartida].puntosJug4[0] = 1;
 		
-		else if (strcmp(categoria,"Geografía")==0)
+		else if (strcmp(categoria,"Geografia")==0)
 			tablaP[idPartida].puntosJug4[1] = 1;
 		
 		else if (strcmp(categoria,"Historia")==0)
@@ -824,7 +868,6 @@ int GuardarRegistros(int idPartida, int idHistorico){
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
 	int err;
-	printf("Voy a guardar registros\n");
 	//Añadimos los resultados de los jugadores a la tabla registros
 	char consulta[500];
 	
@@ -832,7 +875,6 @@ int GuardarRegistros(int idPartida, int idHistorico){
 	sprintf(consulta,"SELECT id FROM jugadores WHERE nombre='%s';",tablaP[idPartida].host);
 	err=mysql_query (conn, consulta);
 	if (err!=0){
-		printf("ERROR SELECT\n");
 		return -1;		
 	}
 	else{
@@ -844,10 +886,8 @@ int GuardarRegistros(int idPartida, int idHistorico){
 		printf("%s\n",consulta);
 		err=mysql_query (conn, consulta);
 		if (err!=0){
-			printf("ERROR INSERT\n");
 			return -1;
 		}
-		printf("Añadido con éxito champion\n");
 	}
 	
 	//Jug2
@@ -909,7 +949,7 @@ int GuardarRegistros(int idPartida, int idHistorico){
 //Retorna la duracion de una partida en minutos
 int DameDuracion(int horaInicial){
 	//Retorna la duracion de la partida en minutos
-	char fecha[10]; //unused
+	char fecha[12]; //unused
 	char hora[10]; //unused
 	int horaFinal = DameTiempo(fecha,hora);
 	int duracion;
@@ -929,27 +969,24 @@ int DameDuracion(int horaInicial){
 //Guardar datos partida
 int GuardarPartida(int idTabla, int idHistorico, int duracion ,char ganador[25]){
 	//Retorna 0-> Todo ok : -1 -> Error BBDD
-	printf("Has entrado en guardar partida\n");
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
 	int err;
 	
 	//Llenamos la fila correspondiente al idHistorico
 	//Obtenemos la fecha de la partida
-	char fecha[10];
+	char fecha[12];
 	char hora[10];
 	char winner[25];
 	strcpy(winner,"");
 	int winnerfound=0;
 	int segundos = DameTiempo(fecha,hora);	
-	printf("Pasado dame tiempo\n");
 	//Comprovamos que el ganador no sea NULL (la partida se ha terminado antes de tiempo)
 	if (strcmp(ganador,"0")==0){
 		//Buscamos al jugador con mas puntos
 		//En caso de empate se anotaran todos los ganadores separados por barras
 		//Para considerarse ganador hay que conseguir almenos un quesito
 		//Si nadie consigue un quesito el ganador sera '-'
-		printf("Comparacion hecha bro\n");
 		int max = 1;
 		int puntos=TotalPuntos(tablaP[idTabla].puntosHost);
 		printf("Puntos host: %d\n",puntos);
@@ -1017,11 +1054,9 @@ int GuardarPartida(int idTabla, int idHistorico, int duracion ,char ganador[25])
 	printf("%s\n",consulta);
 	err=mysql_query (conn, consulta);
 	if (err!=0){
-		printf("ERROR INSERT partida\n");
 		return -1;
 	}
 	else{
-		printf("Añadido miniño\n");
 		return 0;
 	}
 	
@@ -1062,7 +1097,29 @@ int EliminarJugadorBBDD(char nombre[25]){
 	//Buscamos las partidas donde este jugador ha jugado 
 	char consulta[1000];
 	char partidas[500];
-	DamePartidasJugador(nombre,partidas);
+	sprintf(consulta,"SELECT partidas.id FROM (partidas, registro, jugadores) WHERE jugadores.nombre='%s' AND jugadores.id=registro.idJ AND registro.idP=partidas.id",nombre);
+	err=mysql_query (conn, consulta);
+	if (err!=0){
+		printf("ERROR SELECT");
+		return -1;
+	}
+	else{
+		resultado = mysql_store_result(conn);
+		row = mysql_fetch_row(resultado);
+		while(row!=NULL)
+		{	
+			sprintf(consulta,"DELETE FROM partidas WHERE partidas.id=%d",atoi(row[0]));
+			err=mysql_query(conn, consulta);
+			if (err!=0){
+				printf("ERROR DELETE");
+				return -1;
+			}
+			else{
+				row=mysql_fetch_row(resultado);
+			}	
+		
+		}
+	}
 	
 	//Eliminamos al jugador (i los registros de registros)
 	sprintf(consulta,"DELETE FROM jugadores WHERE jugadores.nombre='%s';",nombre);
@@ -1071,19 +1128,40 @@ int EliminarJugadorBBDD(char nombre[25]){
 		return -1;
 	}
 	else{
-		//Eliminamos las partidas donde participa este jugador
-		printf("%s\n",partidas);
-		char *p = strtok(partidas,"/");
-		while (p != NULL){
-			int partida = atoi(p);
-			sprintf(consulta,"DELETE FROM partidas WHERE partidas.id=%d;",partida);
-			err=mysql_query (conn, consulta);
-			if (err!=0){
-				return -1;
-			}
-			p = strtok(NULL,"/");
-		}
 		return 0;
+	}
+}
+//Para obtener las partidas que se han jugado en una fecha determinada
+int DamePartidasFecha(char fecha[10], char respuesta[500]){
+	//Retorna en respuesta idPartida1,duracion1*idPartida2,duracion2 (0 si no hay partidas)
+	//Resultado de la función: -1-> Error BBDD, 0->No hay partidas esa fecha; 1-> Partidas entregadas en respuesta
+	MYSQL_RES *resultado;
+	MYSQL_ROW row;
+	int err;
+	strcpy(respuesta,"");
+	
+	char consulta[1000];
+	sprintf(consulta,"SELECT id,duracion FROM partidas WHERE fecha='%s';",fecha);
+	err=mysql_query(conn, consulta);
+	if (err!=0){
+		return -1;
+	}
+	else{
+		resultado = mysql_store_result(conn);
+		row = mysql_fetch_row(resultado);
+		if(row==NULL){
+			strcpy(respuesta,"0");
+			return 0;
+		}
+		else{
+			while(row!=NULL){
+				sprintf(respuesta,"%s%s,%s*",respuesta,row[0],row[1]);
+				row = mysql_fetch_row(resultado);
+			}
+			respuesta[strlen(respuesta)-1]='\0';
+			return 1;
+		}
+		
 	}
 }
 
@@ -1211,29 +1289,40 @@ int *AtenderCliente(void *socket){
 			}
 			
 			
-			//Codigo 3 --> Recuperar contraseña 
+			//Codigo 3 --> Dame mis contrincantes 
 			else if (codigo == 3){
 				//Mensaje en buff: 3/usuario
-				//Return en buff2: contrasenya --> Todo OK ; 1--> No hay usuario ; -1 --> Error de consulta
+				//Return en buff2: 3/0 -> No hay contrincantes ; 3/contrincante1*contrincante2*....
 				
 				p = strtok(NULL,"/");
-				strcpy(nombre,p);
+				char usuario[25];
+				strcpy(usuario,p);
+				char contrincantes[500];
 				
-				int res = RecuperarContrasenya(nombre,contrasenya);
-				if (res ==0)
-					sprintf(buff2,"3/%s",contrasenya);
+				int res = DameContrincantes(usuario,contrincantes);
+				if (res ==1)
+					sprintf(buff2,"3/%s",contrincantes);
 				else
-					sprintf(buff2,"3/%d",res);
+					strcpy(buff2,"3/0");
 				
 			}
 			
-			//Codigo 4 --> Obtener la partida mas larga 
+			//Codigo 4 --> Dame Información partidas con contrincantes como parametro
 			else if (codigo == 4){
-				//Mensaje en buff: 4/
-				//Return en buff2: idP partida mas larga --> Todo OK ; -1 --> Error de consulta ; -2 --> No hay partidas en BBDD
-				
-				int res = DamePartidaLarga();
-				sprintf(buff2,"4/%d",res);
+				//Mensaje en buff: 4/nombre1(/nombre2/nombre3/...)
+				//Return en buff2: 4/0 -> Ningun resultado; 4/nombre1,idPartida1,ganadorPartida1*nombre2,idPartida2,ganadorPartida2*...
+				char contrincantes[500];
+				p = strtok(NULL,"/");
+				while(p!=NULL){
+					sprintf(contrincantes,"%s%s/",contrincantes,p);
+					p = strtok(NULL,"/");
+				}
+				char respuesta[1000];
+				int res = DamePartidasContrincantes(nombre,contrincantes,respuesta);
+				if (res==0)
+					sprintf(buff2,"4/%s",respuesta);
+				else
+					strcpy(buff2,"4/0");
 				
 			}
 			
@@ -1242,11 +1331,11 @@ int *AtenderCliente(void *socket){
 				//Mensaje en buff: 5/
 				//Return en buff 2: nombre jugador con mas puntos --> Todo OK ; -1 --> Error de consulta ; -2 --> No hay jugadores en BBDD
 				
-				int res = DameJugadorMasPuntos(nombre);
-				if (res == 0)
-					sprintf(buff2,"5/%s",nombre);
+				int puntos = DameJugadorMasPuntos(nombre);
+				if (puntos >= 0)
+					sprintf(buff2,"5/%s*%d",nombre,puntos);
 				else
-					sprintf(buff2,"5/%d",res);
+					sprintf(buff2,"5/%d",puntos);
 				
 			}
 			
@@ -1459,6 +1548,28 @@ int *AtenderCliente(void *socket){
 					//Procedemos a eliminar de la BBDD
 					res = EliminarJugadorBBDD(usuario);
 					sprintf(buff2,"17/%d",res);
+				}
+			}
+			//Codigo 14-> Solicitud de las partidas en una determinada fecha
+			else if(codigo==14){
+				//Mensaje en buff: 14/fecha
+				//Mensaje en buff2: 18/idPartida1,duracion1*idPartida2,duracion2*....
+				
+				p = strtok(NULL,"/");
+				char fecha[15];
+				while (p!=NULL){
+					sprintf(fecha,"%s%s/",fecha,p);
+					p=strtok(NULL,"/");
+				}
+				fecha[strlen(fecha)-1]='\0';
+				
+				char respuesta[500];
+				int res = DamePartidasFecha(fecha,respuesta);
+				if (res==1){
+					sprintf(buff2,"18/%s",respuesta);
+				}
+				else{
+					strcpy(buff2,"18/0");
 				}
 			}
 

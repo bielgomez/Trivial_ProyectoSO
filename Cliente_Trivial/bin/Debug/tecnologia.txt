@@ -21,3 +21,17 @@
 ¿Qué es un hacker?/Un delincuente informático/Un experto en tecnología/Un virus muy peligroso/Alguien que suplanta la identidad/1
 ¿Qué es un malware?/Un código de software con objetivo malicioso/Un hardware en mal estado/Un virus de móvil/Un mal hacker/0
 ¿Qué es el Internet de las cosas?/Las cosas que se consiguen en Internet/El Internet que se utiliza para vender cosas/Posibilidad de que cualquier cosa se conecte a Internet/El corazón de Internet/2
+¿Cuál de estos materiales no se utiliza para hacer teléfonos móviles?/Aluminio/Cobre/Tungsteno/Titanio/3
+¿Cuál fue el primer móvil que se vendió al público?/Motorola StarTAC/Nokia 6160/Nokia 5110/Motorola DynaTAC 8000x/3
+¿Cuál de los siguientes es el primer modelo de ordenador personal vendido nivel mundial?/HP9830A/Datapoint 2200/Micral N/Xerox Alto/1
+¿Qué año empezaron a comercializarse los ordenadores personales?/1969/1968/1970/1972/2
+¿Qué año se empezaron a vender los primeros ordenadores Apple?/1976/1978/1980/1982/0
+¿Cuál es el teléfono móvil más caro jamás vendido?/Vertu Signature Cobra/Dior Reveries Haute Couture/Jackpot Gresso Luxor Las Vegas/Kustom Ego/2
+¿Cuál de los siguientes es el ordenador más caro del mundo, vendido por un millón de dólares?/MacBook Pro Gold de 24K/Ordenador portátil IBM 5100/Otazu Ego Diamond/Luvaglio/3
+¿Cuál de los siguientes es el producto de Apple más caro?/Apple Watch Edition (2015)/Mac Pro (2017)/Macintosh IIfx (1990)/Apple Lisa (1983)/0
+¿Cuál fue la aplicación más descargada en 2021?/Instagram/Telegram/TikTok/Zoom/2
+¿En qué año fue creada la plataforma Netflix?/1990/1997/2006/2003/1
+¿Cuál de los siguientes logró el primer lanzamiento y aterrizaje de un cohete reutilizado?/CNSA/NASA/SpaceX/ESA/2
+¿Cuántos satélites se pretenden lanzar para completar el proyecto Starlink?/Menos de 10000/12000/16000/Más de 20000/1
+¿Cuál ha sido la empresa de telecomunicaciones más valiosa del mundo, en 2021?/AT&T (EEUU)/China Telecom/Deutsche Telekom/Verizon/3
+¿Cuál ha sido la plataforma de streaming con más subscripciones a parte de Neflix, en 2021?/HBO Max/Disney+/Amazon Prime/Hulu/2
