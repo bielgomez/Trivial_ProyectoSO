@@ -98,29 +98,61 @@ namespace Trivial
                     break;
             }
         }
-        public void SetQuesitoCat(string cat)
-        {
+        public int SetQuesitoCat(string cat)
+        {//Cambia el vector quesitos. Devuelve 0 si no se habia ganado ese quesito. Retorna 1 si ya se tenía ese quesito
+            int yahabia = 0;
             switch (cat)
             {
                 case "Ciencia":
-                    this.quesitos[0] = 1;
+                    {
+                        if (this.quesitos[0] == 0)
+                            this.quesitos[0] = 1;
+                        else
+                            yahabia = 1;
+                    }
                     break;
                 case "Geografía":
-                    this.quesitos[1] = 1;
+                    {
+                        if (this.quesitos[1] == 0)
+                            this.quesitos[1] = 1;
+                        else
+                            yahabia = 1;
+                    }
                     break;
                 case "Historia":
-                    this.quesitos[2] = 1;
+                    {
+                        if (this.quesitos[2] == 0)
+                            this.quesitos[2] = 1;
+                        else
+                            yahabia = 1;
+                    }
                     break;
                 case "Entretenimiento":
-                    this.quesitos[3] = 1;
+                    {
+                        if (this.quesitos[3] == 0)
+                            this.quesitos[3] = 1;
+                        else
+                            yahabia = 1;
+                    }
                     break;
                 case "Deportes":
-                    this.quesitos[4] = 1;
+                    {
+                        if (this.quesitos[4] == 0)
+                            this.quesitos[4] = 1;
+                        else
+                            yahabia = 1;
+                    }
                     break;
                 case "Tecnología":
-                    this.quesitos[5] = 1;
+                    {
+                        if (this.quesitos[5] == 0)
+                            this.quesitos[5] = 1;
+                        else
+                            yahabia = 1;
+                    }
                     break;
             }
+            return yahabia;
         }
 
     }

@@ -95,7 +95,6 @@ namespace Trivial
                 else
                     m++;
             }
-            int a = 2;
             return lista[m];
         }
     }

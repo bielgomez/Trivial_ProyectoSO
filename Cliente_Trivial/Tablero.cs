@@ -129,7 +129,7 @@ namespace Trivial
             playersGridView.Height = totalRowHeight;
             playersGridView.Height = playersGridView.Height + 5;
 
-            playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Yellow;
+            playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.RoyalBlue;
             playersGridView.ClearSelection();
             //playersGridView.Show();
 
@@ -286,14 +286,16 @@ namespace Trivial
                             q++;
                     }
                     // 2.1 Modificar el vector quesitos del jugador
-                    jugadors[q].SetQuesitoCat(trozos[4]);
+                    int res = jugadors[q].SetQuesitoCat(trozos[4]);
                     // 2.2.Crear la pieza como siempre
                     Bitmap bitmap = MakeNewImage(jugadors[q]);
                     // 2.3. Colocar el bitmap creado en piezas(numrol)
                     piezas[jugadors[q].GetRolNum()].Image = (Image)bitmap;
 
                     //Actualizamos el numero de quesitos de playersGridView
-                    playersGridView.Rows[jugadors[q].GetRolNum()].Cells[1].Value = Convert.ToInt32(playersGridView.Rows[jugadors[q].GetRolNum()].Cells[1].Value) + 1;
+                    if (res == 0)
+                        playersGridView.Rows[jugadors[q].GetRolNum()].Cells[1].Value = Convert.ToInt32(playersGridView.Rows[jugadors[q].GetRolNum()].Cells[1].Value) + 1;
+
                 }
             }
             if (((trozos[2] == "0")|| (trozos[2] == "2")))
@@ -302,20 +304,27 @@ namespace Trivial
                 for (int i = 0; i < playersGridView.RowCount; i++)
                 {
                     playersGridView.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                    playersGridView.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
                 }
                 switch (siguienteTurno)
                 {
                     case "host":
-                        playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.Yellow;
+                        playersGridView.Rows[0].DefaultCellStyle.BackColor = Color.RoyalBlue;
+                        playersGridView.Rows[0].DefaultCellStyle.ForeColor = Color.White;
+
                         break;
                     case "jug2":
-                        playersGridView.Rows[1].DefaultCellStyle.BackColor = Color.Yellow;
+                        playersGridView.Rows[1].DefaultCellStyle.BackColor = Color.LightPink;
+                        playersGridView.Rows[1].DefaultCellStyle.ForeColor = Color.White;
                         break;
                     case "jug3":
-                        playersGridView.Rows[2].DefaultCellStyle.BackColor = Color.Yellow;
+                        playersGridView.Rows[2].DefaultCellStyle.BackColor = Color.DarkViolet;
+                        playersGridView.Rows[2].DefaultCellStyle.ForeColor = Color.White;
+
                         break;
                     case "jug4":
-                        playersGridView.Rows[3].DefaultCellStyle.BackColor = Color.Yellow;
+                        playersGridView.Rows[3].DefaultCellStyle.BackColor = Color.SeaGreen;
+                        playersGridView.Rows[3].DefaultCellStyle.ForeColor = Color.White;
                         break;
                 }
                 playersGridView.ClearSelection();
@@ -726,18 +735,18 @@ namespace Trivial
                         {
                             acierto = 2;
                             MessageBox.Show("Amazing! Has ganado un quesito");
-                                                       
-                            // Cambio del playersGridView
-                            playersGridView.Rows[miJugador.GetRolNum()].Cells[1].Value = Convert.ToInt32(playersGridView.Rows[miJugador.GetRolNum()].Cells[1].Value) + 1;
 
                             // Cambiar la pieza de dicho jugador. Pasos:
-                            
                             // 1. Modificar el vector quesitos del jugador
-                            miJugador.SetQuesitoCat(categoria);
+                            int res = miJugador.SetQuesitoCat(categoria);
                             // 2. Crear la pieza nueva
                             Bitmap bitmap2 = MakeNewImage(miJugador);
                             // 3. Colocar el bitmap creado en piezas(numrol)
                             piezas[miJugador.GetRolNum()].Image = (Image)bitmap2;
+
+                            // Cambio del playersGridView
+                            if (res == 0)
+                                playersGridView.Rows[miJugador.GetRolNum()].Cells[1].Value = Convert.ToInt32(playersGridView.Rows[miJugador.GetRolNum()].Cells[1].Value) + 1;
                         }
 
                         // Se envía el resultado

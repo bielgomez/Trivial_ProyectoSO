@@ -225,7 +225,7 @@ namespace Trivial
 					if (dado == 6)
 						this.movimientos[dado - 1].Add(1000);
 					else
-						this.movimientos[dado - 1].Add(100 + (id / 7)*10 + (dado-1));
+						this.movimientos[dado - 1].Add(100 + (id/7)*10 + (dado-1));
                 }
 				//Desde casillas mas cercanas al "quesito inferior"
 				else if ((id%7)==1 || (id%7)==2 || (id % 7) == 3)
@@ -240,7 +240,7 @@ namespace Trivial
 						if (((id%7)==2 || (id % 7) == 3) && (dado>(7-(id%7))))
                         {
 							n = dado - (7 - (id % 7));
-							m = (id + (7 - (id % 7)) / 7);
+							m = (id + (7 - (id % 7))) / 7;
                             this.movimientos[dado - 1].Add(100 + m * 10 + (n-1));
                         }
 					}
