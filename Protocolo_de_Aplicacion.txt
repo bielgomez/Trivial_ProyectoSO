@@ -28,4 +28,4 @@ PROTOCOLO DE APLICACIÓN
 			    - 									<-    "15/idPartida*nombre*mensaje" (Notificación de mensaje nuevo en el chat)
 			    -  									<-    "16/idPartida*rechazador" (Notifica que la partida no se inicia porque nombre ha rechazado)
     "13/usuario/contraseña" (Darse de baja de la BBDD) 						->    "17/X" X->int (Respuesta a petición de retirada de la BBDD) [0-OK,1-Usuario no existe,2-Contrasenya Incorrecta,3-Usuario conectado,-1-Error BBDD]
-    "14/fecha" (Dame partidas jugadas en esta fecha) 						->    "18/0 o idPartida1,duraion1*idPartida2,duracion2*..." (retorna las partidas jugadas en la fecha y su duración)[0->si no encuentra nada]
+    "14/fecha" (Dame partidas jugadas en esta fecha) 						->    "18/0 o idPartida1,duraion1*idPartida2,duracion2*..." (retorna las partidas jugadas en la fecha y su duración)[0-si no encuentra nada]

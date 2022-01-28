@@ -103,3 +103,4 @@ C:\Users\msi\Documents\UNI\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.
 C:\Users\msi\Documents\UNI\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.exe
 C:\Users\msi\Documents\UNI\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.pdb
 C:\Users\Inmaculada\Documents\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.RespuestaConsultas.resources
+C:\Users\bielg\OneDrive\Escriptori\3A\SO\Trivial_ProyectoSO\Cliente_Trivial\obj\Debug\Trivial.RespuestaConsultas.resources
