@@ -35,3 +35,7 @@ Multipartida y cross-threading.
   	Comunicador: Laia Costa
 URL: https://drive.google.com/drive/folders/1--QJ76HBz05wQNCdk-BXKvInKBu2iLxd
 
+VERSIÓN FINAL:
+URL Video Youtube: https://youtu.be/qykYfHKmAhY
+
+

@@ -206,19 +206,25 @@ int DamePartidasContrincantes(char nombre[25], char contrincantes[500],char resp
 		sprintf(consulta1,"SELECT registro.idP FROM (registro,jugadores) WHERE jugadores.nombre='%s' AND jugadores.id = registro.idJ",nombre);
 		sprintf(consulta,"SELECT partidas.id,partidas.ganador FROM (partidas,registro,jugadores) WHERE jugadores.nombre='%s' AND jugadores.id=registro.idJ AND registro.idP IN (%s) AND registro.idP=partidas.id",contrincante,consulta1);
 		err=mysql_query (conn,consulta);
-		if(err!=0)
+		if(err!=0){
+			printf("No hago consulta\n");
 			return -1;
+		}
 		else{
 			resultado = mysql_store_result(conn);
 			row = mysql_fetch_row(resultado);
-			if(row==NULL)
+			if(row==NULL){
 				entra = entra + 1;
+				printf("Soy null\n");
+			}
 			else if (row!=NULL){				
 				while(row!=NULL){
-					if(strcmp(respuesta,"0")==0){
+					if(strcmp(respuesta,"")==0){
+						printf("Contrincante: %s ; IdPartida: %s ; GanadorPartida: %s\n",contrincante,row[0],row[1]);
 						sprintf(respuesta,"%s,%s,%s*",contrincante,row[0],row[1]);
 					}
 					else{
+						printf("Contrincante: %s ; IdPartida: %s ; GanadorPartida: %s (else)\n",contrincante,row[0],row[1]);
 						sprintf(respuesta,"%s%s,%s,%s*",respuesta,contrincante,row[0],row[1]);
 					}
 					row=mysql_fetch_row(resultado);
@@ -231,12 +237,8 @@ int DamePartidasContrincantes(char nombre[25], char contrincantes[500],char resp
 	}
 	if (entra==contr)
 		strcpy(respuesta,"0");
-	
-	if(strcmp(respuesta,"")!=0){
-		respuesta[strlen(respuesta)-1]='\0';
-	}
 	else{
-		strcpy(respuesta,"0");
+		respuesta[strlen(respuesta)-1]='\0';
 	}
 	return 0;
 	
@@ -303,7 +305,7 @@ int DameTiempo(char fecha[12],char hora[10]){
 	
 	time_t tiempo = time(0);
 	struct tm *tlocal = localtime(&tiempo);
-	strftime(fecha,10,"%d/%m/%Y",tlocal);
+	strftime(fecha,10,"%d/%m/%y",tlocal);
 	strftime(hora,10,"%H:%M:%S",tlocal);
 	//printf("%s %s\n",fecha,hora);
 	
@@ -991,7 +993,7 @@ int GuardarPartida(int idTabla, int idHistorico, int duracion ,char ganador[25])
 		int puntos=TotalPuntos(tablaP[idTabla].puntosHost);
 		printf("Puntos host: %d\n",puntos);
 		if(puntos>max){
-			strcpy(winner,tablaP[idTabla].host);
+			sprintf(winner,"%s/",tablaP[idTabla].host);
 			max = puntos;
 			winnerfound=1;
 		}
@@ -1002,7 +1004,7 @@ int GuardarPartida(int idTabla, int idHistorico, int duracion ,char ganador[25])
 		puntos=TotalPuntos(tablaP[idTabla].puntosJug2);
 		printf("Puntos jug2: %d\n",puntos);
 		if(puntos>max){
-			strcpy(winner,tablaP[idTabla].jug2);
+			sprintf(winner,"%s/",tablaP[idTabla].jug2);
 			max = puntos;
 			winnerfound=1;
 		}
@@ -1014,7 +1016,7 @@ int GuardarPartida(int idTabla, int idHistorico, int duracion ,char ganador[25])
 			puntos=TotalPuntos(tablaP[idTabla].puntosJug3);
 			printf("Puntos jug3: %d\n",puntos);
 			if(puntos>max){
-				strcpy(winner,tablaP[idTabla].jug3);
+				sprintf(winner,"%s/",tablaP[idTabla].jug3);
 				max = puntos;
 				winnerfound=1;
 			}
@@ -1027,7 +1029,7 @@ int GuardarPartida(int idTabla, int idHistorico, int duracion ,char ganador[25])
 				puntos=TotalPuntos(tablaP[idTabla].puntosJug4);
 				printf("Puntos jug4: %d\n",puntos);
 				if(puntos>max){
-					strcpy(winner,tablaP[idTabla].jug4);
+					sprintf(winner,"%s/",tablaP[idTabla].jug4);
 					max = puntos;
 					winnerfound=1;
 				}
@@ -1037,17 +1039,15 @@ int GuardarPartida(int idTabla, int idHistorico, int duracion ,char ganador[25])
 				}
 			}
 		}
-		printf("Ganador antes %s\n",winner);		
 		if(winnerfound==0){
 			strcpy(winner,"-");
 		}
+		winner[strlen(winner)-1]='\0';
 	}
 	else{
 		strcpy(winner,ganador);
 	}
 	printf("%s\n",winner);
-	if(winner[strlen(winner)-1]=="/")
-		winner[strlen(winner)-1]='\0';
 	//Insertamos los datos
 	char consulta[500];
 	sprintf(consulta,"INSERT INTO partidas VALUES (%d,'%s','%s',%d);",idHistorico,fecha,winner,duracion);
@@ -1132,7 +1132,7 @@ int EliminarJugadorBBDD(char nombre[25]){
 	}
 }
 //Para obtener las partidas que se han jugado en una fecha determinada
-int DamePartidasFecha(char fecha[10], char respuesta[500]){
+int DamePartidasFecha(char fecha[12], char respuesta[500]){
 	//Retorna en respuesta idPartida1,duracion1*idPartida2,duracion2 (0 si no hay partidas)
 	//Resultado de la función: -1-> Error BBDD, 0->No hay partidas esa fecha; 1-> Partidas entregadas en respuesta
 	MYSQL_RES *resultado;
@@ -1312,12 +1312,14 @@ int *AtenderCliente(void *socket){
 				//Mensaje en buff: 4/nombre1(/nombre2/nombre3/...)
 				//Return en buff2: 4/0 -> Ningun resultado; 4/nombre1,idPartida1,ganadorPartida1*nombre2,idPartida2,ganadorPartida2*...
 				char contrincantes[500];
+				strcpy(contrincantes,"");
 				p = strtok(NULL,"/");
 				while(p!=NULL){
 					sprintf(contrincantes,"%s%s/",contrincantes,p);
 					p = strtok(NULL,"/");
 				}
 				char respuesta[1000];
+				strcpy(respuesta,"");
 				int res = DamePartidasContrincantes(nombre,contrincantes,respuesta);
 				if (res==0)
 					sprintf(buff2,"4/%s",respuesta);
@@ -1557,12 +1559,13 @@ int *AtenderCliente(void *socket){
 				
 				p = strtok(NULL,"/");
 				char fecha[15];
+				strcpy(fecha,"");
 				while (p!=NULL){
 					sprintf(fecha,"%s%s/",fecha,p);
 					p=strtok(NULL,"/");
 				}
 				fecha[strlen(fecha)-1]='\0';
-				
+				printf("Fecha: %s\n",fecha);
 				char respuesta[500];
 				int res = DamePartidasFecha(fecha,respuesta);
 				if (res==1){
@@ -1610,8 +1613,8 @@ int main(int argc, char *argv[]) {
 	// asocia el socket a cualquiera de las IP de la maquina. 
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
-	// escucharemos en el port 50051
-	serv_adr.sin_port = htons(50051);
+	// escucharemos en el port 9080
+	serv_adr.sin_port = htons(9080);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0){
 		printf ("Error al bind\n");
 	}
@@ -1627,7 +1630,7 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 	
-	conn = mysql_real_connect(conn,"shiva2.upc.es","root","mysql","T1_BBDD",0,NULL,0);
+	conn = mysql_real_connect(conn,"localhost","root","mysql","T1_BBDD",0,NULL,0);
 	if (conn==NULL){
 		printf("Error al crear la connexión: %u %s\n",mysql_errno(conn),mysql_error(conn));
 		exit(1);
